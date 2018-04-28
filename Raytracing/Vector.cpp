@@ -1,6 +1,33 @@
 #include "Vector.h"
-#include <stdlib.h> /*malloc, free*/
+#include <iostream>
+Vector::Vector()
+{
+	this->dimension = 3;
+	this->components = new double[3];
+	/*Null everything*/
+	for (size_t i = 0; i < 3; i++)
+	{
+		this->components[i] = 0;
+	}
 
+	return;
+}
+
+Vector::Vector(Vector& vector) 
+{
+	
+	this->dimension = vector.GetDimension(); 
+	this->components = new double[this->dimension];
+	for (size_t i = 0; i < this->dimension; i++)
+	{
+		this->components[i] = vector.components[i];
+	}
+}
+
+unsigned int Vector::GetDimension() 
+{
+	return this->dimension;
+}
 
 Vector::Vector(unsigned int _dimension)
 {
@@ -9,7 +36,7 @@ Vector::Vector(unsigned int _dimension)
 	/*Null everything*/
 	for (size_t i = 0; i < _dimension; i++)
 	{
-		this->components[i] = NULL;
+		this->components[i] = 0;
 	}
 	
 	return;
@@ -29,17 +56,18 @@ Vector::Vector(unsigned int _dimension, double* _components)
 	return;
 }
 
-Vector Vector::operator+(Vector &right)
+Vector Vector::operator+(const Vector &right)
 {	
 	Vector d = Vector(this->dimension);
 	for (size_t i = 0; i < this->dimension; i++)
 	{
 		d.components[i] = this->components[i] + right.components[i];
 	}
+
 	return d;
 }
 
-void Vector::operator+=(Vector &right)
+void Vector::operator+=(const Vector &right)
 {
 	for (size_t i = 0; i < this->dimension; i++)
 	{
@@ -48,7 +76,7 @@ void Vector::operator+=(Vector &right)
 	return;
 }
 
-Vector Vector::operator-(Vector &right)
+Vector Vector::operator-(const Vector &right)
 {
 	Vector d = Vector(this->dimension);
 	for (size_t i = 0; i < this->dimension; i++)
@@ -58,7 +86,7 @@ Vector Vector::operator-(Vector &right)
 	return d;
 }
 
-void Vector::operator-=(Vector &right)
+void Vector::operator-=(const Vector &right)
 {
 	for (size_t i = 0; i < this->dimension; i++)
 	{
@@ -67,7 +95,7 @@ void Vector::operator-=(Vector &right)
 	return;
 }
 
-Vector Vector::operator*(double right)
+Vector Vector::operator*(const double& right)
 {
 	Vector d = Vector(this->dimension);
 	for (size_t i = 0; i < this->dimension; i++)
@@ -77,7 +105,7 @@ Vector Vector::operator*(double right)
 	return d;
 }
 
-void Vector::operator*=(double right)
+void Vector::operator*=(const double& right)
 {
 	for (size_t i = 0; i < this->dimension; i++)
 	{
@@ -85,7 +113,6 @@ void Vector::operator*=(double right)
 	}
 	return;
 }
-
 
 Vector::~Vector() 
 {

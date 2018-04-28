@@ -5,14 +5,16 @@ private:
 	unsigned int dimension;
 public:
 	double* components;
-	unsigned int getDimension();
+	unsigned int GetDimension();
+	Vector();
+	Vector(Vector& vector);
 	Vector(unsigned int dimension);
 	Vector(unsigned int dimension, double* components);
 	~Vector();
-	Vector operator+(Vector& right);
-	void operator+=(Vector& right);
-	Vector operator-(Vector& right);
-	void operator-=(Vector& right);
-	Vector operator*(double right);
-	void operator*=(double right);
+	Vector operator+(const Vector& right);
+	void operator+=(const Vector& right);
+	Vector operator-(const Vector& right);
+	void operator-=(const Vector& right);
+	Vector operator*(const double& right);
+	void operator*=(const double& right);
 }; 
