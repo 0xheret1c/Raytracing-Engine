@@ -5,7 +5,7 @@
 Vector::Vector(unsigned int _dimension)
 {
 	this->dimension = _dimension;
-	this->components = (double*)malloc(sizeof(double) * _dimension);
+	this->components = new double[_dimension];
 	/*Null everything*/
 	for (size_t i = 0; i < _dimension; i++)
 	{
@@ -18,7 +18,7 @@ Vector::Vector(unsigned int _dimension)
 Vector::Vector(unsigned int _dimension, double* _components)
 {
 	this->dimension = _dimension;
-	this->components = (double*)malloc(sizeof(double) * _dimension);
+	this->components = new double[_dimension];
 
 	/*Copy "_components" into components*/
 	for (size_t i = 0; i < _dimension; i++)
@@ -89,7 +89,6 @@ void Vector::operator*=(double right)
 
 Vector::~Vector() 
 {
-	free(this->components);
-
+	delete[] this->components;
 	return;
 }
