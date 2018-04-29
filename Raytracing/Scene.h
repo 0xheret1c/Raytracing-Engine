@@ -1,12 +1,12 @@
 #pragma once
 #include <stdlib.h>
 #include <list>
-#include "./Object.h"
+#include "./Polygon.h"
 
 class Scene
 {
 private:
-	std::list<Object> objects;
+	std::list<Polygon> objects;
 public:
 
 };

@@ -1,16 +1,18 @@
 #pragma once
 class Vector
 {
-private:
-	unsigned int dimension;
 public:
-	double* components;
-	unsigned int GetDimension();
-	Vector();
+	/*Vars*/
+	double x;
+	double y;
+	double z;
+	/*Functions*/
+	void print();
+	/*Constructor*/
 	Vector(Vector& vector);
-	Vector(unsigned int dimension);
-	Vector(unsigned int dimension, double* components);
-	~Vector();
+	Vector();
+	Vector(double components[3]);
+	/*Operators*/
 	Vector operator+(const Vector& right);
 	void operator+=(const Vector& right);
 	Vector operator-(const Vector& right);
