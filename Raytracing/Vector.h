@@ -12,6 +12,7 @@ public:
 	Vector(Vector& vector);
 	Vector();
 	Vector(double components[3]);
+	Vector(double x, double y, double z);
 	/*Operators*/
 	Vector operator+(const Vector& right);
 	void operator+=(const Vector& right);

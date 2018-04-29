@@ -3,7 +3,6 @@
 #include "./Polygon.h"
 class Camera 
 {
-	Polygon plane[2];
 	Vector pos;
 	double fov;
 	double pitch;

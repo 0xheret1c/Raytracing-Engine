@@ -19,6 +19,15 @@ Vector::Vector(double components[3])
 
 	return;
 }
+Vector::Vector(double x, double y, double z)
+{
+
+	this->x = x;
+	this->y = y;
+	this->z = z;
+
+	return;
+}
 
 Vector::Vector(Vector& vector) 
 {
@@ -30,7 +39,7 @@ Vector::Vector(Vector& vector)
 /*Functions*/
 void Vector::print() 
 {
-	std::cout << "(" << this->x << " | " << this->y << " | " << this->z << ")" << std::endl;
+	std::cout << "(" << this->x << "|" << this->y << "|" << this->z << ")" << std::endl;
 }
 
 /*Operators*/

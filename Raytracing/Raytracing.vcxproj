@@ -112,15 +112,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
-    <ClInclude Include="Core.h" />
     <ClInclude Include="Math.h" />
+    <ClInclude Include="Mesh.h" />
     <ClInclude Include="Polygon.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Vector.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="Core.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Polygon.cpp" />
     <ClCompile Include="Scene.cpp" />
