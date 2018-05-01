@@ -13,7 +13,6 @@ Matrix::Matrix(const unsigned int _height, const unsigned int _width, double** v
 	{
 		for (size_t x = 0;x < _width; x++)
 		{
-			std::cout << "x: " << x << " y: " << y << std::endl;
 			this->setValue(y, x, values[y][x]);
 		}
 	}

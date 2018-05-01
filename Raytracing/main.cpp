@@ -27,19 +27,17 @@ int main()
 	a[11] = Polygon(Vector(20, -10, 10), Vector(10, -10, 10), Vector(20, 0, 10));
 
 	
-	double vals[3][3];
-	vals[0][0] = 1;
-	vals[0][1] = 2;
-	vals[0][2] = 3;
-
-	vals[1][0] = 4;
-	vals[1][1] = 5;
-	vals[1][2] = 6;
-
-	vals[2][0] = 7;
-	vals[2][1] = 8;
-	vals[2][2] = 9;
-	Matrix matrix = Matrix(3, 3, (double**)vals);
+	
+	Matrix matrix = Matrix(3, 3);
+	matrix.setValue(0, 0, 1);
+	matrix.setValue(0, 1, 2);
+	matrix.setValue(0, 2, 3);
+	matrix.setValue(1, 0, 4);
+	matrix.setValue(1, 1, 5);
+	matrix.setValue(1, 2, 6);
+	matrix.setValue(2, 0, 7);
+	matrix.setValue(2, 1, 8);
+	matrix.setValue(2, 2, 9);
 	matrix.print();
 	s.addMesh(Mesh(a, 12));
 	s.print();
