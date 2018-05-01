@@ -8,6 +8,7 @@ private:
 	Vector b;
 	Vector c;
 public:
+	Polygon();
 	Polygon(const Polygon& polygon);
 	Polygon(double a[3], double b[3], double c[3]);
 	Polygon(Vector verts[3]);

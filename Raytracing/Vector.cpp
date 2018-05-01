@@ -4,12 +4,13 @@
 Vector::Vector()
 {
 
-	this->x = 0;
-	this->y = 0;
-	this->z = 0;
+	this->x = NULL;
+	this->y = NULL;
+	this->z = NULL;
 
 	return;
 }
+
 Vector::Vector(double components[3])
 {
 
@@ -19,6 +20,7 @@ Vector::Vector(double components[3])
 
 	return;
 }
+
 Vector::Vector(double x, double y, double z)
 {
 
