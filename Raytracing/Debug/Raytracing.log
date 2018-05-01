@@ -1,3 +1,4 @@
-﻿  main.cpp
+﻿  Matrix.cpp
+d:\dropbox\dropbox\projects\c++\raytracing\raytracing\raytracing\matrix.cpp(24): warning C4018: "<": Konflikt zwischen "signed" und "unsigned"
   Raytracing.vcxproj -> D:\Dropbox\Dropbox\Projects\C++\RayTracing\Raytracing\Debug\Raytracing.exe
   Raytracing.vcxproj -> D:\Dropbox\Dropbox\Projects\C++\RayTracing\Raytracing\Debug\Raytracing.pdb (Partial PDB)

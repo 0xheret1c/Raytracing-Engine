@@ -1,12 +1,15 @@
 #pragma once
 #include <list>
 #include "Vector.h"
+#include "Material.h"
 class Polygon
 {
 private:
 	Vector a;
 	Vector b;
 	Vector c;
+	Material material;
+
 public:
 	Polygon();
 	Polygon(const Polygon& polygon);
