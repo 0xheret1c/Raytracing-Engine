@@ -7,7 +7,7 @@ int main()
 {
 	Scene s;
 	Polygon a[12];
-	/*w‹RFEL*/
+	/*W‹RFEL*/
 	a[0] = Polygon(Vector(10, 0, 0), Vector(1, -10, 0), Vector(10, -10, 10));
 	a[1] = Polygon(Vector(10, 0, 0), Vector(10, 0, 10), Vector(10, -10, 10));
 

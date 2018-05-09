@@ -19,6 +19,17 @@ Mesh::Mesh(Polygon* polygons, size_t polyCount)
 		this->polygons.push_back(polygons[i]);
 	}
 }
+
+Polygon* Mesh::toArray()
+{
+	size_t size = polygons.size();
+	Polygon* ret = new Polygon[size];
+	for(size_t i = 0; i < size; i++)
+	{
+		
+	}
+}
+
 static Mesh fromRTM(char* path, Vector pos, double scale) 
 {
 

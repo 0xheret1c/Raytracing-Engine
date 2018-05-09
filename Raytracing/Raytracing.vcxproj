@@ -119,6 +119,7 @@
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Polygon.h" />
     <ClInclude Include="Scene.h" />
+    <ClInclude Include="Utils.h" />
     <ClInclude Include="Vector.h" />
   </ItemGroup>
   <ItemGroup>

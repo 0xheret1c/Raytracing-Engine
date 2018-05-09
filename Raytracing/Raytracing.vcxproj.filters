@@ -42,6 +42,9 @@
     <ClInclude Include="Core.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="Utils.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Vector.cpp">
