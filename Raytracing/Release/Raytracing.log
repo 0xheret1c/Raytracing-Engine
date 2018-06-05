@@ -1,0 +1,10 @@
+﻿  Camera.cpp
+  main.cpp
+main.cpp(5): fatal error C1083: Datei (Include) kann nicht geöffnet werden: "SDL.h": No such file or directory
+  Material.cpp
+  Matrix.cpp
+Matrix.cpp(23): warning C4018: "<": Konflikt zwischen "signed" und "unsigned"
+  Mesh.cpp
+  Polygon.cpp
+  Scene.cpp
+  Vector.cpp

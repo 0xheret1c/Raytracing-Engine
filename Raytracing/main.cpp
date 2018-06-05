@@ -1,10 +1,14 @@
+
 #include <stdio.h>
 #include <iostream>
 #include "./Core.h"
+#include "SDL.h"
 
-
-int main()
+int main(int argc, char* argv[])
 {
+
+
+
 	Scene s;
 	Polygon a[12];
 	/*WÜRFEL*/
@@ -42,7 +46,7 @@ int main()
 	s.addMesh(Mesh(a, 12));
 	s.print();
 
-
+	SDL_Init(SDL_INIT_EVERYTHING);
 	system("pause");
 	return 0;
 }

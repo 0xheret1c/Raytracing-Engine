@@ -28,6 +28,7 @@ Polygon* Mesh::toArray()
 	{
 		
 	}
+	return nullptr;
 }
 
 static Mesh fromRTM(char* path, Vector pos, double scale) 
