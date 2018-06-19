@@ -6,7 +6,6 @@ Camera::Camera(double pos[3], double fov, double distance, double pitchYaw[2])
 	this->pos.x = pos[0];
 	this->pos.y = pos[1];
 	this->pos.z = pos[2];
-	this->pitch = pitchYaw[0];
 	this->yaw = pitchYaw[1];
 	this->distance;
 }
