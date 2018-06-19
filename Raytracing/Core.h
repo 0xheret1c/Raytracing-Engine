@@ -1,15 +1,15 @@
 #pragma once
-#include "./Vector.h"
-#include "./Scene.h"
-#include "./Camera.h"
-#include "./Polygon.h"
-#include "Matrix.h"
+/*Eigen*/
+#include <Eigen\Core>
+#include <Eigen\Geometry>
+
+/*Our stuff*/
+#include "Our_math.h"
+#include "Utils.h"
 #include "GFXOutput.h"
 
-class Core 
-{
-private:
-
-public:
-
-};
+/*Geometry n stuff*/
+#include "_Transform.h"
+#include "RaycastHit.h"
+#include "Mesh.h"
+#include "Triangle.h"

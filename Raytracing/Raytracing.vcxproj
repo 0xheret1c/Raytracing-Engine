@@ -79,7 +79,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>D:\Dropbox\Dropbox\Projects\C++\RayTracing\Raytracing\SDL2-2.0.8\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Dropbox\Dropbox\Projects\C++\RayTracing\Raytracing\SDL2-2.0.8\include;D:\Dropbox\Dropbox\Projects\C++\RayTracing\Raytracing\Raytracing;D:\Dropbox\Dropbox\Projects\C++\RayTracing\Raytracing\Raytracing\Eigen;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>D:\Dropbox\Dropbox\Projects\C++\RayTracing\Raytracing\SDL2-2.0.8\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -92,12 +92,12 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>D:\Dropbox\Dropbox\Projects\C++\RayTracing\Raytracing\libs\SDL2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Dropbox\Dropbox\Projects\C++\RayTracing\Raytracing\SDL2-2.0.8\include;D:\Dropbox\Dropbox\Projects\C++\RayTracing\Raytracing\Raytracing;D:\Dropbox\Dropbox\Projects\C++\RayTracing\Raytracing\Raytracing\Eigen;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
-      <SubSystem>NotSet</SubSystem>
-      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SubSystem>Console</SubSystem>
+      <AdditionalLibraryDirectories>D:\Dropbox\Dropbox\Projects\C++\RayTracing\Raytracing\SDL2-2.0.8\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -107,7 +107,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>D:\Dropbox\Dropbox\Projects\C++\RayTracing\Raytracing\SDL2-2.0.8\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Dropbox\Dropbox\Projects\C++\RayTracing\Raytracing\SDL2-2.0.8\include;D:\Dropbox\Dropbox\Projects\C++\RayTracing\Raytracing\Raytracing;D:\Dropbox\Dropbox\Projects\C++\RayTracing\Raytracing\Raytracing\Eigen;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -124,35 +124,29 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>D:\Dropbox\Dropbox\Projects\C++\RayTracing\Raytracing\SDL2-2.0.8\include;D:\Dropbox\Dropbox\Projects\C++\RayTracing\Raytracing\Raytracing;D:\Dropbox\Dropbox\Projects\C++\RayTracing\Raytracing\Raytracing\Eigen;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>D:\Dropbox\Dropbox\Projects\C++\RayTracing\Raytracing\SDL2-2.0.8\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SubSystem>Console</SubSystem>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Core.h" />
-    <ClInclude Include="Material.h" />
-    <ClInclude Include="Math.h" />
-    <ClInclude Include="Matrix.h" />
     <ClInclude Include="Mesh.h" />
-    <ClInclude Include="Polygon.h" />
-    <ClInclude Include="Scene.h" />
+    <ClInclude Include="Our_math.h" />
+    <ClInclude Include="RaycastHit.h" />
+    <ClInclude Include="Triangle.h" />
+    <ClInclude Include="_Transform.h" />
     <ClInclude Include="Utils.h" />
-    <ClInclude Include="Vector.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="GFXOutput.cpp" />
     <ClCompile Include="GFXOutput.h" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Material.cpp" />
-    <ClCompile Include="Matrix.cpp" />
-    <ClCompile Include="Mesh.cpp" />
-    <ClCompile Include="Polygon.cpp" />
-    <ClCompile Include="Scene.cpp" />
-    <ClCompile Include="Vector.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
