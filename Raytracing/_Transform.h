@@ -1,36 +1,39 @@
 #pragma once
-#include "core.h"
-
-using namespace Eigen; // :'(
+#include "Core.h"
 
 class _Transform 
 {
 private:
 
 public:
-	Vector3d position;
-	Vector3d scale;
-	Quaterniond rotation;
+	Eigen::Vector3d position;
+	Eigen::Vector3d scale;
+	Eigen::Quaterniond rotation;
 	
+	Eigen::Vector3d forward()
+	{
+		return rotation.toRotationMatrix() * Eigen::Vector3d::UnitZ();
+ 	}
+
 	_Transform()
 	{
-		position = Vector3d(0, 0, 0);
-		scale = Vector3d(1, 1, 1);
+		position = Eigen::Vector3d(0, 0, 0);
+		scale = Eigen::Vector3d(1, 1, 1);
 
 		//Just to be safe.
 		this->rotation =
-			  AngleAxisd(0, Vector3d::UnitX())
-			* AngleAxisd(0, Vector3d::UnitY())
-			* AngleAxisd(0, Vector3d::UnitZ());
+			Eigen::AngleAxisd(0, Eigen::Vector3d::UnitX())
+			* Eigen::AngleAxisd(0, Eigen::Vector3d::UnitY())
+			* Eigen::AngleAxisd(0, Eigen::Vector3d::UnitZ());
 	}
 
-	_Transform(Vector3d position, Vector3d rotation, Vector3d scale)
+	_Transform(Eigen::Vector3d position, Eigen::Vector3d rotation, Eigen::Vector3d scale)
 	{
 		this->position = position;
 		this->scale = scale;
 		
-		this->rotation =  AngleAxisd(rotation.x() * M_PI, Vector3d::UnitX())
-						* AngleAxisd(rotation.y() * M_PI, Vector3d::UnitY())
-						* AngleAxisd(rotation.z() * M_PI, Vector3d::UnitZ());
+		this->rotation =  Eigen::AngleAxisd(rotation.x() * (M_PI) / 180, Eigen::Vector3d::UnitX())
+						* Eigen::AngleAxisd(rotation.y() * (M_PI) / 180, Eigen::Vector3d::UnitY())
+						* Eigen::AngleAxisd(rotation.z() * (M_PI) / 180, Eigen::Vector3d::UnitZ());
 	}
 };

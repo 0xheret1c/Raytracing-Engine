@@ -1,6 +1,7 @@
 #pragma once
 #include <cstdlib>
 #include <time.h>  
+#include <iostream>
 #define DEBUG 1
 class Utils
 {
@@ -12,7 +13,6 @@ public:
 		std::cout << message << std::endl;
 #endif // DEBUG
 	}
-
 	static double** allocate2DArray(unsigned int width, unsigned int height)
 	{
 		double** ret = new double*[height];

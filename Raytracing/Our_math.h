@@ -1,7 +1,7 @@
 #pragma once
-#pragma once
 #include <cstdlib>
 #include <time.h>  
+#include "Core.h"
 class Our_math
 {
 public:
@@ -11,6 +11,11 @@ public:
 		n = (n << 13) ^ n;
 		int nn = (n *(n * n * 60493 + 19990303) + 1376312589) & 0x7fffffff;
 		return 1.0 - ((double)nn / 1073741824.0);
+	}
+
+	static inline double clamp01(double val)
+	{
+		return (val < 0.0 ? 0.0 : (val > 1.0 ? 1.0 : val));
 	}
 
 };

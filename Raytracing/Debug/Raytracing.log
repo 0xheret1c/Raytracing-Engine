@@ -1,6 +1,59 @@
 ﻿  main.cpp
-  Code wird generiert...
-  Überspringen... (keine relevanten Änderungen gefunden)
-  GFXOutput.h
-  Raytracing.vcxproj -> D:\Dropbox\Dropbox\Projects\C++\RayTracing\Raytracing\Debug\Raytracing.exe
-  Raytracing.vcxproj -> D:\Dropbox\Dropbox\Projects\C++\RayTracing\Raytracing\Debug\Raytracing.pdb (Partial PDB)
+d:\dropbox\dropbox\projects\c++\raytracing\raytracing\raytracing\core.h(11): error C2061: Syntaxfehler: Bezeichner "Triangle"
+d:\dropbox\dropbox\projects\c++\raytracing\raytracing\raytracing\core.h(16): error C2061: Syntaxfehler: Bezeichner "Ray"
+d:\dropbox\dropbox\projects\c++\raytracing\raytracing\raytracing\core.h(21): error C2653: "Eigen": Keine Klasse oder Namespace
+d:\dropbox\dropbox\projects\c++\raytracing\raytracing\raytracing\core.h(21): error C2061: Syntaxfehler: Bezeichner "Vector3d"
+d:\dropbox\dropbox\projects\c++\raytracing\raytracing\raytracing\core.h(22): error C2535: "Ray::Ray(void)": Memberfunktion bereits definiert oder deklariert
+  d:\dropbox\dropbox\projects\c++\raytracing\raytracing\raytracing\core.h(21): note: Siehe Deklaration von "Ray::Ray"
+d:\dropbox\dropbox\projects\c++\raytracing\raytracing\raytracing\ray.h(6): error C2011: "Ray": "class" Typneudefinition
+  d:\dropbox\dropbox\projects\c++\raytracing\raytracing\raytracing\core.h(19): note: Siehe Deklaration von "Ray"
+d:\dropbox\dropbox\projects\c++\raytracing\raytracing\raytracing\triangle.h(23): error C2027: Verwendung des undefinierten Typs "Ray"
+  d:\dropbox\dropbox\projects\c++\raytracing\raytracing\raytracing\core.h(19): note: Siehe Deklaration von "Ray"
+d:\dropbox\dropbox\projects\c++\raytracing\raytracing\raytracing\triangle.h(23): error C2228: Links von ".direction" müssen sich in einer Klasse/Struktur/Union befinden
+d:\dropbox\dropbox\projects\c++\raytracing\raytracing\raytracing\triangle.h(23): error C2228: Links von ".cross" müssen sich in einer Klasse/Struktur/Union befinden
+d:\dropbox\dropbox\projects\c++\raytracing\raytracing\raytracing\triangle.h(29): error C2027: Verwendung des undefinierten Typs "Ray"
+  d:\dropbox\dropbox\projects\c++\raytracing\raytracing\raytracing\core.h(19): note: Siehe Deklaration von "Ray"
+d:\dropbox\dropbox\projects\c++\raytracing\raytracing\raytracing\triangle.h(29): error C2228: Links von ".origin" müssen sich in einer Klasse/Struktur/Union befinden
+d:\dropbox\dropbox\projects\c++\raytracing\raytracing\raytracing\triangle.h(36): error C2027: Verwendung des undefinierten Typs "Ray"
+  d:\dropbox\dropbox\projects\c++\raytracing\raytracing\raytracing\core.h(19): note: Siehe Deklaration von "Ray"
+d:\dropbox\dropbox\projects\c++\raytracing\raytracing\raytracing\triangle.h(36): error C2228: Links von ".direction" müssen sich in einer Klasse/Struktur/Union befinden
+d:\dropbox\dropbox\projects\c++\raytracing\raytracing\raytracing\triangle.h(36): error C2228: Links von ".dot" müssen sich in einer Klasse/Struktur/Union befinden
+d:\dropbox\dropbox\projects\c++\raytracing\raytracing\raytracing\triangle.h(41): warning C4244: "Initialisierung": Konvertierung von "double" in "float", möglicher Datenverlust
+d:\dropbox\dropbox\projects\c++\raytracing\raytracing\raytracing\triangle.h(44): error C2027: Verwendung des undefinierten Typs "Ray"
+  d:\dropbox\dropbox\projects\c++\raytracing\raytracing\raytracing\core.h(19): note: Siehe Deklaration von "Ray"
+d:\dropbox\dropbox\projects\c++\raytracing\raytracing\raytracing\triangle.h(44): error C2228: Links von ".origin" müssen sich in einer Klasse/Struktur/Union befinden
+d:\dropbox\dropbox\projects\c++\raytracing\raytracing\raytracing\triangle.h(44): error C2228: Links von ".direction" müssen sich in einer Klasse/Struktur/Union befinden
+d:\dropbox\dropbox\projects\c++\raytracing\raytracing\raytracing\camera.h(18): error C2079: "ray" verwendet undefiniertes class "Ray"
+d:\dropbox\dropbox\projects\c++\raytracing\raytracing\raytracing\camera.h(18): error C2027: Verwendung des undefinierten Typs "Ray"
+  d:\dropbox\dropbox\projects\c++\raytracing\raytracing\raytracing\core.h(19): note: Siehe Deklaration von "Ray"
+d:\dropbox\dropbox\projects\c++\raytracing\raytracing\raytracing\camera.h(19): error C2660: "Scene::intersects": Funktion akzeptiert keine 3 Argumente
+d:\dropbox\dropbox\projects\c++\raytracing\raytracing\raytracing\camera.h(23): error C2039: "lights": Ist kein Element von "Scene"
+  d:\dropbox\dropbox\projects\c++\raytracing\raytracing\raytracing\core.h(15): note: Siehe Deklaration von "Scene"
+d:\dropbox\dropbox\projects\c++\raytracing\raytracing\raytracing\camera.h(23): error C2027: Verwendung des undefinierten Typs "Light"
+  d:\dropbox\dropbox\projects\c++\raytracing\raytracing\raytracing\core.h(3): note: Siehe Deklaration von "Light"
+d:\dropbox\dropbox\projects\c++\raytracing\raytracing\raytracing\camera.h(26): error C2039: "intensity": Ist kein Element von "RaycastHit"
+  d:\dropbox\dropbox\projects\c++\raytracing\raytracing\raytracing\core.h(10): note: Siehe Deklaration von "RaycastHit"
+d:\dropbox\dropbox\projects\c++\raytracing\raytracing\raytracing\camera.h(26): error C2039: "lights": Ist kein Element von "Scene"
+  d:\dropbox\dropbox\projects\c++\raytracing\raytracing\raytracing\core.h(15): note: Siehe Deklaration von "Scene"
+d:\dropbox\dropbox\projects\c++\raytracing\raytracing\raytracing\camera.h(26): error C2228: Links von ".calculateLightIntensity" müssen sich in einer Klasse/Struktur/Union befinden
+d:\dropbox\dropbox\projects\c++\raytracing\raytracing\raytracing\camera.h(26): error C2039: "point": Ist kein Element von "RaycastHit"
+  d:\dropbox\dropbox\projects\c++\raytracing\raytracing\raytracing\core.h(10): note: Siehe Deklaration von "RaycastHit"
+d:\dropbox\dropbox\projects\c++\raytracing\raytracing\raytracing\camera.h(26): error C2039: "triangle": Ist kein Element von "RaycastHit"
+  d:\dropbox\dropbox\projects\c++\raytracing\raytracing\raytracing\core.h(10): note: Siehe Deklaration von "RaycastHit"
+d:\dropbox\dropbox\projects\c++\raytracing\raytracing\raytracing\camera.h(88): warning C4244: "Initialisierung": Konvertierung von "double" in "float", möglicher Datenverlust
+d:\dropbox\dropbox\projects\c++\raytracing\raytracing\raytracing\camera.h(89): warning C4305: "*=": Verkürzung von "double" in "float"
+d:\dropbox\dropbox\projects\c++\raytracing\raytracing\raytracing\camera.h(90): warning C4244: "Initialisierung": Konvertierung von "double" in "float", möglicher Datenverlust
+d:\dropbox\dropbox\projects\c++\raytracing\raytracing\raytracing\camera.h(91): warning C4305: "*=": Verkürzung von "double" in "float"
+d:\dropbox\dropbox\projects\c++\raytracing\raytracing\raytracing\camera.h(94): error C2659: "=": Funktion als linker Operand.
+d:\dropbox\dropbox\projects\c++\raytracing\raytracing\raytracing\camera.h(95): error C2659: "=": Funktion als linker Operand.
+d:\dropbox\dropbox\projects\c++\raytracing\raytracing\raytracing\camera.h(96): error C2659: "=": Funktion als linker Operand.
+d:\dropbox\dropbox\projects\c++\raytracing\raytracing\raytracing\camera.h(100): error C2248: "RaycastHit::RaycastHit": Kein Zugriff auf private Member, dessen Deklaration in der RaycastHit-Klasse erfolgte.
+  d:\dropbox\dropbox\projects\c++\raytracing\raytracing\raytracing\core.h(12): note: Siehe Deklaration von "RaycastHit::RaycastHit"
+  d:\dropbox\dropbox\projects\c++\raytracing\raytracing\raytracing\core.h(10): note: Siehe Deklaration von "RaycastHit"
+d:\dropbox\dropbox\projects\c++\raytracing\raytracing\raytracing\camera.h(104): error C2039: "intensity": Ist kein Element von "RaycastHit"
+  d:\dropbox\dropbox\projects\c++\raytracing\raytracing\raytracing\core.h(10): note: Siehe Deklaration von "RaycastHit"
+d:\dropbox\dropbox\projects\c++\raytracing\raytracing\raytracing\mesh.h(6): error C2011: "Mesh": "class" Typneudefinition
+  d:\dropbox\dropbox\projects\c++\raytracing\raytracing\raytracing\core.h(5): note: Siehe Deklaration von "Mesh"
+d:\dropbox\dropbox\projects\c++\raytracing\raytracing\raytracing\mesh.h(47): error C2059: Syntaxfehler: ")"
+d:\dropbox\dropbox\projects\c++\raytracing\raytracing\raytracing\scene.h(42): error C2059: Syntaxfehler: ")"
+d:\dropbox\dropbox\projects\c++\raytracing\raytracing\raytracing\main.cpp(67): fatal error C1004: Unerwartetes Dateiende gefunden.
