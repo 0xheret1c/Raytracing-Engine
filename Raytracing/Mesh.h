@@ -1,6 +1,14 @@
 #pragma once
-#include "Core.h"
 
+//Forward declarations
+class RaycastHit;
+
+//Includes
+#include "_Transform.h"
+#include "Triangle.h"
+#include "Ray.h"
+
+//Include guards
 #ifndef __MESH_H_INCLUDED__
 #define __MESH_H_INCLUDED__
 
@@ -29,7 +37,7 @@ public:
 	Triangle* triangles;
 	SDL_Color color;
 
-	bool intersects(Ray ray, RaycastHit hit,Triangle* ignore = nullptr)
+	bool intersects(Ray ray, RaycastHit* hit,Triangle* ignore = nullptr)
 	{
 		size_t length = sizeof(triangles) / sizeof(Triangle);
 
@@ -58,9 +66,9 @@ public:
 
 		if(intersected)
 		{
-			hit.point = closestPoint;
-			hit.triangle = closestTriangle;
-			hit.mesh = *this;
+			hit->point = closestPoint;
+			hit->triangle = closestTriangle;
+			hit->mesh = this;
 		}
 		return intersected;
 	}

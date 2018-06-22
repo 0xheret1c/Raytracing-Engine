@@ -1,5 +1,15 @@
 #pragma once
-#include "Core.h"
+//Forward declaration
+class Camera;
+class Light;
+
+#include <Eigen/Core>
+
+#include "Triangle.h"
+#include "RaycastHit.h"
+#include "Mesh.h"
+
+
 
 #ifndef __SCENE_H_INCLUDED__
 #define __SCENE_H_INCLUDED__
@@ -11,13 +21,13 @@ private:
 public:
 	Mesh* meshes;
 	Light* lights;
-	Camera camera;
+	Camera* camera;
 
 	Scene()
 	{
 
 	}
-	Scene(Mesh* _meshes, Light* _lights, Camera _cam)
+	Scene(Mesh* _meshes, Light* _lights, Camera* _cam)
 	{
 		meshes = _meshes;
 		lights = _lights;
@@ -37,7 +47,7 @@ public:
 		for (size_t i = 0; i < length; i++)
 		{
 			RaycastHit closestHit;
-			if(meshes[i].intersects(ray,closestHit,ignore))
+			if(meshes[i].intersects(ray,&closestHit,ignore))
 			{
 				double distance = (closestHit.point - ray.origin).norm();
 				if(distance < closest)

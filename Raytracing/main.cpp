@@ -2,14 +2,14 @@
 #include <stdio.h>
 #include <iostream>
 #include "./Core.h"
-#include "Scene.h"
+
 
 int main(int argc, char* argv[])
 {
 	GFXOutput out = GFXOutput(800, 480);
 	Scene scene = Scene();
-	Camera cam = Camera(_Transform(), scene);
-	scene.camera = cam;
+	Camera cam = Camera(_Transform(), &scene);
+	scene.camera = &cam;
 	Eigen::Vector3d verts[8 * 3] = 
 	{ 
 		Eigen::Vector3d(0.5,-0.5,0.5),
@@ -54,7 +54,7 @@ int main(int argc, char* argv[])
 	scene.meshes = mesh;
 	Light light[1] = 
 	{ 
-		Light(_Transform(Eigen::Vector3d(0, 3, 0), Eigen::Vector3d(0, 0, 0), Eigen::Vector3d(0, 0, 0)),Eigen::Vector3d(1337,1337,1337),scene)
+		Light(_Transform(Eigen::Vector3d(0, 3, 0), Eigen::Vector3d(0, 0, 0), Eigen::Vector3d(0, 0, 0)),Eigen::Vector3d(1337,1337,1337),&scene)
 	};
 	scene.lights = light;
 	

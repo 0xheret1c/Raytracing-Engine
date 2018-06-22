@@ -1,17 +1,20 @@
 #pragma once
-#include "Core.h"
+class Scene;
+
+#include <Eigen/Core>
+
 
 #ifndef __RAY_H_INCLUDED__
 #define __RAY_H_INCLUDED__
 class Ray
 {
 private:
-	Scene scene;
+	Scene* scene;
 public:
 	Eigen::Vector3d origin;
 	Eigen::Vector3d direction;
 
-	Ray(Eigen::Vector3d _origin, Eigen::Vector3d _dir, Scene _scene)
+	Ray(Eigen::Vector3d _origin, Eigen::Vector3d _dir, Scene* _scene)
 	{
 		scene = _scene;
 		origin = _origin;

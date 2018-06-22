@@ -1,5 +1,6 @@
 #pragma once
 #include "Core.h"
+#include "Ray.h"
 
 #ifndef __TRIANGLE_H_INCLUDED__
 #define __TRIANGLE_H_INCLUDED__

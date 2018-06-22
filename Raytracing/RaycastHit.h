@@ -1,13 +1,19 @@
 #pragma once
-#include "Core.h"
+//Forward declarations
+class Mesh;
+//Includes
+#include <Eigen\Core>
+#include "Triangle.h"
 
+
+//include guards
 #ifndef __RAYCASTHIT_H_INCLUDED__
 #define __RAYCASTHIT_H_INCLUDED__
 class RaycastHit
 {
 private:
 public:
-	Mesh mesh;
+	Mesh* mesh;
 	Triangle triangle;
 	Eigen::Vector3d point;
 	double intensity = 0;
@@ -15,7 +21,7 @@ public:
 	RaycastHit()
 	{
 	}
-	RaycastHit(Mesh _mesh, Triangle _triangle, Eigen::Vector3d _point)
+	RaycastHit(Mesh* _mesh, Triangle _triangle, Eigen::Vector3d _point)
 	{
 		mesh = _mesh;
 		triangle = _triangle;

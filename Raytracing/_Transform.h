@@ -1,5 +1,5 @@
 #pragma once
-#include "Core.h"
+#include <Eigen\Core>
 
 #ifndef __TRANSFORM_H_INCLUDED__
 #define __TRANSFORM_H_INCLUDED__

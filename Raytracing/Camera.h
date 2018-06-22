@@ -1,31 +1,43 @@
 #pragma once
-#include "Core.h"
 
+//Foward declaration
+class Ray;
+class Scene;
+
+//Includes
+#include <Eigen\Core>
+#include "_Transform.h"
+#include "RaycastHit.h"
+#include "Light.h"
+
+
+//Include guards
 #ifndef __CAMERA_H_INCLUDED
 #define __CAMERA_H_INCLUDED
 
 class Camera
 {
 private:
-	Scene scene;
+
 	unsigned int width = 800;
 	unsigned int height = 480;
 	unsigned int density = 1;
 	double screenDistance = 0.5;
 	double fov = 60;
 	size_t maxBounces = 0;
+	Scene* scene;
 
 	bool traceRay(Eigen::Vector3d direction, RaycastHit hit,size_t bounces, Triangle* ignore = nullptr)
 	{
 		Ray ray = Ray(transform.position, direction, scene);
-		if(scene.intersects(ray,hit,ignore))
+		if(scene->intersects(ray,hit,ignore))
 		{
 			if(bounces >= maxBounces)
 			{
-				size_t amountLights = sizeof(scene.lights) / sizeof(Light);
+				size_t amountLights = sizeof(scene->lights) / sizeof(Light);
 				for (size_t i = 0; i < amountLights; i++)
 				{
-					hit.intensity += scene.lights[i].calculateLightIntensity(hit.point,&hit.triangle);
+					hit.intensity += scene->lights[i].calculateLightIntensity(hit.point,&hit.triangle);
 				}
 			}
 			return true;
@@ -40,9 +52,9 @@ public:
 	Camera() 
 	{
 		transform = _Transform();
-		scene = Scene();
+		scene = nullptr;
 	}
-	Camera(unsigned int _width, unsigned int _height, unsigned int _density, double _screenDistance, double _fov,Scene _scene)
+	Camera(unsigned int _width, unsigned int _height, unsigned int _density, double _screenDistance, double _fov,Scene* _scene)
 	{
 		transform = _Transform();
 		fov = _fov;
@@ -52,7 +64,7 @@ public:
 		height = _height;
 		scene = _scene;
 	}
-	Camera(unsigned int _width, unsigned int _height, unsigned int _density, double _screenDistance, double _fov,_Transform _transform, Scene _scene)
+	Camera(unsigned int _width, unsigned int _height, unsigned int _density, double _screenDistance, double _fov,_Transform _transform, Scene* _scene)
 	{
 		transform = _transform;
 		fov = _fov;
@@ -62,7 +74,7 @@ public:
 		height = _height;
 		scene = _scene;
 	}
-	Camera(_Transform _transform, Scene _scene)
+	Camera(_Transform _transform, Scene* _scene)
 	{
 		transform = _transform;
 		scene = _scene;
@@ -92,10 +104,12 @@ public:
 					float angleRadY = (fovY / ((height - 1.0) * density)) * ((y*density) + (z / density)) - (fovY / 2.0);
 					angleRadY *= M_PI / 180.0;
 
-					Eigen::Vector3d direction = Eigen::Vector3d(0,0,0);
-					direction.x = tan(angleRadX) * screenDistance;
-					direction.y = tan(angleRadY) * screenDistance;
-					direction.z = screenDistance;
+					double _x = tan(angleRadX) * screenDistance;
+					double _y = tan(angleRadY) * screenDistance;
+					double _z = screenDistance;
+					Eigen::Vector3d direction = Eigen::Vector3d(_x,_y,_z);
+
+	
 
 					direction =  m * direction;
 					
