@@ -1,6 +1,8 @@
 #pragma once
 #include "Core.h"
 
+#ifndef __CAMERA_H_INCLUDED
+#define __CAMERA_H_INCLUDED
 
 class Camera
 {
@@ -113,3 +115,4 @@ public:
 		return returnArray;
 	}
 };
+#endif __CAMERA_H_INCLUDED

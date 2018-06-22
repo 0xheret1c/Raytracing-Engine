@@ -1,6 +1,8 @@
 #pragma once
 #include "Core.h"
 
+#ifndef __MESH_H_INCLUDED__
+#define __MESH_H_INCLUDED__
 
 class Mesh
 {
@@ -82,3 +84,4 @@ public:
 	}
 	
 };
+#endif

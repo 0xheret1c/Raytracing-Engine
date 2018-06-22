@@ -3,6 +3,10 @@
 #include <time.h>  
 #include <iostream>
 #define DEBUG 1
+
+#ifndef __UTILS_H_INCLUDED__
+#define __UTILS_H_INCLUDED__
+
 class Utils
 {
 public:
@@ -37,3 +41,4 @@ public:
 		return random;
 	}
 };
+#endif

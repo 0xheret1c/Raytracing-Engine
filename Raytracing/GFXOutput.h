@@ -3,6 +3,8 @@
 #include "Math.h"
 #include "SDL.h"
 #include <iostream>
+#ifndef __GFXOUTPUT_H_INCLUDED__
+#define __GFXOUTPUT_H_INCLUDED__
 
 class GFXOutput
 {
@@ -95,6 +97,4 @@ public:
 		SDL_RenderPresent(this->renderer);
 	}
 };
-
-
-
+#endif

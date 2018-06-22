@@ -1,7 +1,8 @@
 #pragma once
 #include "Core.h"
 
-
+#ifndef __LIGHT_H_INCLUDED__
+#define __LIGHT_H_INCLUDED__
 class Light
 {
 private:
@@ -30,3 +31,4 @@ public:
 		return 1.0;
 	}
 };
+#endif

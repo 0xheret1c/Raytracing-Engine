@@ -1,7 +1,8 @@
 #pragma once
 #include "Core.h"
 
-
+#ifndef __TRIANGLE_H_INCLUDED__
+#define __TRIANGLE_H_INCLUDED__
 
 class Triangle
 {
@@ -66,3 +67,4 @@ public:
 		n = edge1.cross(edge2).normalized();
 	}
 };
+#endif

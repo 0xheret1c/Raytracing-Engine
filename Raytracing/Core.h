@@ -1,4 +1,4 @@
-class _Transform;
+/*class _Transform;
 class Camera;
 class Light;
 class Mesh 
@@ -21,7 +21,7 @@ class Ray
 	Ray(Eigen::Vector3d, Eigen::Vector3d, Scene);
 	Ray();
 };
-class Triangle;
+class Triangle;*/
 
 
 

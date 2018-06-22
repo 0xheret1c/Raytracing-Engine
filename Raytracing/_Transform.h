@@ -1,6 +1,9 @@
 #pragma once
 #include "Core.h"
 
+#ifndef __TRANSFORM_H_INCLUDED__
+#define __TRANSFORM_H_INCLUDED__
+
 class _Transform 
 {
 private:
@@ -37,3 +40,4 @@ public:
 						* Eigen::AngleAxisd(rotation.z() * (M_PI) / 180, Eigen::Vector3d::UnitZ());
 	}
 };
+#endif 

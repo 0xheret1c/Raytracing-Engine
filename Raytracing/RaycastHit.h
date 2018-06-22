@@ -1,7 +1,8 @@
 #pragma once
 #include "Core.h"
 
-
+#ifndef __RAYCASTHIT_H_INCLUDED__
+#define __RAYCASTHIT_H_INCLUDED__
 class RaycastHit
 {
 private:
@@ -21,3 +22,4 @@ public:
 		point = _point;
 	}
 };
+#endif
