@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <iostream>
 #include "./Core.h"
-
+#define __DEBUG 1
 
 int main(int argc, char* argv[])
 {
@@ -49,7 +49,7 @@ int main(int argc, char* argv[])
 	c.b = 10;
 	Mesh mesh[1] = 
 	{ Mesh(verts, triangles,
-		_Transform(Eigen::Vector3d(0, 0, 5), Eigen::Vector3d(0, 0, 0), Eigen::Vector3d(0, 0, 0)),
+		_Transform(Eigen::Vector3d(0, 0, 0), Eigen::Vector3d(0, 0, 0), Eigen::Vector3d(0, 0, 0)),
 		c) };
 	scene.meshes = mesh;
 	Light light[1] = 
@@ -58,9 +58,11 @@ int main(int argc, char* argv[])
 	};
 	scene.lights = light;
 	
-	out.setPixels(cam.trace());
+	SDL_Color** screen = cam.trace();
+	out.setPixels(screen);
 	out.printScreen();
 
+	delete[] screen;
 	system("pause");
 	return 0;
 }

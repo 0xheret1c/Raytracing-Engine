@@ -56,6 +56,10 @@ public:
 		SDL_DestroyRenderer(this->renderer);
 		SDL_DestroyWindow(this->window);
 		SDL_Quit();
+		for (size_t i = 0; i < this->screenWidth; i++)
+		{
+			delete[] this->screen[i];
+		}
 		delete[] this->screen;
 	}
 	void setPixels(SDL_Color** pixels)

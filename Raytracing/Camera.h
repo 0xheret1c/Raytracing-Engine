@@ -99,9 +99,9 @@ public:
 
 				for (size_t z = 0; z < density * density; z++)
 				{
-					float angleRadX = (fov / ((width - 1.0) * density)) * ((x*density) + (z%density)) - (fov / 2.0);
+					double angleRadX = (fov / ((width - 1.0) * density)) * ((x*density) + (z%density)) - (fov / 2.0);
 					angleRadX *= M_PI / 180.0;
-					float angleRadY = (fovY / ((height - 1.0) * density)) * ((y*density) + (z / density)) - (fovY / 2.0);
+					double angleRadY = (fovY / ((height - 1.0) * density)) * ((y*density) + (z / density)) - (fovY / 2.0);
 					angleRadY *= M_PI / 180.0;
 
 					double _x = tan(angleRadX) * screenDistance;
@@ -117,7 +117,7 @@ public:
 	
 					if (traceRay(direction,hit,0))
 					{
-						unsigned char color = Our_math::clamp01(hit.intensity) * 0xFF;
+						unsigned char color = (unsigned char)Our_math::clamp01(hit.intensity) * 0xFF;
 						returnArray[x][y].r = color;
 						returnArray[x][y].g = color;
 						returnArray[x][y].b = color;

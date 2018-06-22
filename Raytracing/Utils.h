@@ -2,18 +2,18 @@
 #include <cstdlib>
 #include <time.h>  
 #include <iostream>
-#define DEBUG 1
+
 
 #ifndef __UTILS_H_INCLUDED__
 #define __UTILS_H_INCLUDED__
-
+#define __DEBUG 1
 class Utils
 {
 public:
 
 	static void LOG(const char* message)
 	{
-#ifdef DEBUG
+#ifdef __DEBUG
 		std::cout << message << std::endl;
 #endif // DEBUG
 	}

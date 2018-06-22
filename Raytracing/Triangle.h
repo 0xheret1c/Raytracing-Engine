@@ -40,7 +40,7 @@ public:
 		if (v < 0.0 || u + v > 1.0)
 			return false;
 
-		float t = f * edge2.dot(q);
+		double t = f * edge2.dot(q);
 		if (t > epsilon)
 		{
 			intersection = ray.origin + ray.direction * t;
