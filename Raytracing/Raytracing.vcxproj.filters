@@ -51,6 +51,9 @@
     <ClInclude Include="Primitive.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="e_colors.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">

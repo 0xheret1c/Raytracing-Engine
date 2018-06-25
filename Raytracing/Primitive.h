@@ -48,8 +48,8 @@ public:
 		{
 			Eigen::Vector3d(-0.5, 0, -0.5),
 			Eigen::Vector3d(-0.5, 0,  0.5),
-			Eigen::Vector3d( 0.5, 0, -0.5),
-			Eigen::Vector3d( 0.5, 0,  0.5)
+			Eigen::Vector3d(0.5, 0, -0.5),
+			Eigen::Vector3d(0.5, 0,  0.5)
 		};
 		size_t triangles[6] =
 		{
@@ -57,6 +57,30 @@ public:
 		};
 
 		return Mesh(verts, triangles, 6, trans, color);
+
+	}
+
+	static Mesh Pyramid(_Transform trans, SDL_Color color)
+	{
+		Eigen::Vector3d verts[5] =
+		{
+			Eigen::Vector3d(0.5, 0  ,  0.5),	// v0
+			Eigen::Vector3d(0.5, 0  , -0.5),	// v1
+			Eigen::Vector3d(-0.5, 0  , -0.5),	// v2
+			Eigen::Vector3d(-0.5, 0  ,  0.5),	// v3
+			Eigen::Vector3d( 0  , 1,    0)	// v4
+		};
+		size_t triangles[18] =
+		{
+			0,1,4,
+			1,2,4,
+			2,3,4,
+			3,0,4,
+			0,1,2,
+			0,2,3
+		};
+
+		return Mesh(verts, triangles, 18, trans, color);
 
 	}
 };

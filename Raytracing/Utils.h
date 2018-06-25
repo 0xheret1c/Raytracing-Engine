@@ -52,6 +52,9 @@ public:
 	}
 	static SDL_Color getColor(unsigned int color)
 	{
+		if (color > 0xFFFFFF)
+			return getColor(0xFF,0xFF,0xFF);
+		
 		Uint8 r = (color & 0xFF0000) >> 16;
 		Uint8 g = (color & 0x00FF00) >> 8;
 		Uint8 b = (color & 0x0000FF) >> 0;

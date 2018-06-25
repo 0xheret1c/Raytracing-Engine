@@ -116,7 +116,7 @@ enum e_Colors
 	peru = 0xCD853F,
 	sandy_brown = 0xF4A460,
 	burly_wood = 0xDEB887,
-	tan = 0xD2B48C,
+	tan_ = 0xD2B48C,
 	rosy_brown = 0xBC8F8F,
 	moccasin = 0xFFE4B5,
 	navajo_white = 0xFFDEAD,

@@ -5,6 +5,7 @@
 #include "./Core.h"
 #include "Light.h"
 #include "Primitive.h"
+#include "e_colors.h"
 
 //Prototype
 void traceTest();
@@ -56,10 +57,10 @@ void traceTest()
 	Camera cam = Camera(WIDTH, HEIGHT,_Transform(Vector3d(0, 1,-2),Vector3d(12, 0, 0)), &scene);
 	//Mesh the cube
 	Mesh mesh[] = { 
-		Primitive::Cube(_Transform(Vector3d(0, -1 ,5),Vector3d(0,0,0), Vector3d(1, 0.25, 1)),Utils::getColor(0xFF0000)),
-		Primitive::Cube(_Transform(Vector3d(0, -0.75 ,5),Vector3d(0,45,0), Vector3d(0.5, 0.25, 0.5)),Utils::getColor(0x00FF00)),
-		Primitive::Cube(_Transform(Vector3d(0, -0.5, 5),Vector3d(0,10,0), Vector3d(0.25,0.25,0.25)),Utils::getColor(0x0000FF)),
-		Primitive::Plane(_Transform(Vector3d(0,-1.125 ,0), Vector3d(0,0,0), Vector3d(500, 1, 500)),Utils::getColor(0xFFFFFF)) 
+		Primitive::Cube(_Transform(Vector3d(0, -1 ,5),Vector3d(0,0,0), Vector3d(1, 0.25, 1)),Utils::getColor(e_Colors::blue)),
+		Primitive::Cube(_Transform(Vector3d(0, -0.75 ,5),Vector3d(0,45,0), Vector3d(0.5, 0.25, 0.5)),Utils::getColor(e_Colors::chart_reuse)),
+		Primitive::Pyramid(_Transform(Vector3d(0, -0.65, 5),Vector3d(0,10,0), Vector3d(0.30,0.30,0.30)),Utils::getColor(e_Colors::red)),
+		Primitive::Plane(_Transform(Vector3d(0,-1.125 ,0), Vector3d(0,0,0), Vector3d(500, 1, 500)),Utils::getColor(e_Colors::white))
 	};
 	Light light[1] =
 	{
