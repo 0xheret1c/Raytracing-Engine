@@ -50,6 +50,18 @@ public:
 		color.b = b;
 		return color;
 	}
+	static SDL_Color getColor(unsigned int color)
+	{
+		Uint8 r = (color & 0xFF0000) >> 16;
+		Uint8 g = (color & 0x00FF00) >> 8;
+		Uint8 b = (color & 0x0000FF) >> 0;
+		SDL_Color sdl_color;
+		sdl_color.a = 0xFF;
+		sdl_color.r = r;
+		sdl_color.g = g;
+		sdl_color.b = b;
+		return sdl_color;
+	}
 
 };
 #endif
