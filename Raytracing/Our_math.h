@@ -19,7 +19,11 @@ public:
 
 	static inline double clamp01(double val)
 	{
-		return (val < 0.0 ? 0.0 : (val > 1.0 ? 1.0 : val));
+		if (val > 1)
+		{
+			return 1;
+		}
+		return val;
 	}
 
 };

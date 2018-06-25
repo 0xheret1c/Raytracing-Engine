@@ -1,13 +1,13 @@
 #pragma once
 //Forward declaration
 class Camera;
-class Light;
 
 #include <Eigen/Core>
 
 #include "Triangle.h"
 #include "RaycastHit.h"
 #include "Mesh.h"
+#include "Light.h"
 
 
 
@@ -16,29 +16,90 @@ class Light;
 class Scene 
 {
 private:
-
-
-public:
+	size_t meshCount = 0;
+	size_t lightCount = 0;
 	Mesh* meshes;
 	Light* lights;
+public:
+	//EIGEN_MAKE_ALIGNED_OPERATOR_NEW;
+
 	Camera* camera;
 
 	Scene()
 	{
 
 	}
-	Scene(Mesh* _meshes, Light* _lights, Camera* _cam)
+	Scene(Mesh* _meshes,size_t _meshCount, Light* _lights,size_t _lightCount, Camera* _cam)
 	{
+		meshCount = _meshCount;
 		meshes = _meshes;
 		lights = _lights;
 		camera = _cam;
 	}
 
+	void setLights(Light* _lights, size_t count)
+	{
+		lights = _lights;
+		lightCount = count;
+	}
+	void setMeshes(Mesh* _meshes, size_t count)
+	{
+		meshes = _meshes;
+		meshCount = count;
+	}
+
 	double globalIllumination = 0.2;
 
-	bool intersects(Ray ray, RaycastHit hit, Triangle* ignore = nullptr)
+	double calculateLightIntensity(Eigen::Vector3d origin,Light light, Triangle* ignore = nullptr)
 	{
-		size_t length = sizeof(meshes) / sizeof(Mesh);
+		double epsilon = std::numeric_limits<double>::epsilon();
+		//double epsilon = 0.01;
+		RaycastHit hit;
+		Ray ray = Ray(origin, -light.transform.forward(), this);
+		if (intersects(ray, &hit, ignore))
+		{
+			double scalar = ignore->n.dot(light.transform.forward());
+			if (abs(scalar) > 1.0 - epsilon)
+			{
+				return globalIllumination;
+			}
+			else
+			{
+				double angle = acos(scalar);
+				//angle = (angle * 180f) / Mathf.PI;
+				return (angle / M_PI) * globalIllumination;
+			}
+		}
+		//return 1.0;
+
+		double scalar = ignore->n.dot(light.transform.forward());
+		if (abs(scalar) > 1.0 - epsilon)
+		{
+			return 1.0;
+		}
+		else
+		{
+			double angle = acos(scalar);
+			//angle = (angle * 180f) / Mathf.PI;
+			return (angle / M_PI);
+		}
+
+	}
+
+	double getIllumination(Eigen::Vector3d point, Triangle* ignore = nullptr)
+	{
+		double illum = 0;
+		size_t amountLights = lightCount;
+		for (size_t i = 0; i < amountLights; i++)
+		{
+			illum += calculateLightIntensity(point,lights[i],ignore);
+		}
+		return illum;
+	}
+
+	bool intersects(Ray ray, RaycastHit* hit, Triangle* ignore = nullptr)
+	{
+		size_t length = meshCount;
 
 		
 		bool intersected = false;
@@ -52,7 +113,7 @@ public:
 				double distance = (closestHit.point - ray.origin).norm();
 				if(distance < closest)
 				{
-					hit = closestHit;
+					*hit = closestHit;
 					closest = distance;
 					intersected = true;
 				}

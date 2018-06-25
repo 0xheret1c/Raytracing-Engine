@@ -6,11 +6,10 @@
 
 #ifndef __UTILS_H_INCLUDED__
 #define __UTILS_H_INCLUDED__
-#define __DEBUG 1
+
 class Utils
 {
 public:
-
 	static void LOG(const char* message)
 	{
 #ifdef __DEBUG

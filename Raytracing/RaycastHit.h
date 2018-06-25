@@ -13,19 +13,22 @@ class RaycastHit
 {
 private:
 public:
+	//EIGEN_MAKE_ALIGNED_OPERATOR_NEW;
 	Mesh* mesh;
-	Triangle triangle;
+	Triangle* triangle;
+	Triangle triangleObject;
 	Eigen::Vector3d point;
 	double intensity = 0;
 
 	RaycastHit()
 	{
 	}
-	RaycastHit(Mesh* _mesh, Triangle _triangle, Eigen::Vector3d _point)
+	RaycastHit(Mesh* _mesh, Triangle* _triangle, Eigen::Vector3d _point)
 	{
 		mesh = _mesh;
 		triangle = _triangle;
 		point = _point;
+		triangleObject = *triangle;
 	}
 };
 #endif

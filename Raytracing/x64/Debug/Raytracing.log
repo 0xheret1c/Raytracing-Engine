@@ -1,1 +1,5 @@
-﻿LINK : fatal error LNK1104: Datei "DL2.lib" kann nicht geöffnet werden.
+﻿  main.cpp
+  GFXOutput.h
+  Code wird generiert...
+  Raytracing.vcxproj -> D:\Dropbox\Dropbox\Projects\C++\RayTracing\Raytracing\x64\Debug\Raytracing.exe
+  Raytracing.vcxproj -> D:\Dropbox\Dropbox\Projects\C++\RayTracing\Raytracing\x64\Debug\Raytracing.pdb (Partial PDB)

@@ -140,6 +140,7 @@
     <ClInclude Include="Light.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Our_math.h" />
+    <ClInclude Include="Primitive.h" />
     <ClInclude Include="Ray.h" />
     <ClInclude Include="RaycastHit.h" />
     <ClInclude Include="Scene.h" />

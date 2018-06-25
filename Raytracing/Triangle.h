@@ -14,9 +14,10 @@ private:
 	Eigen::Vector3d edge1;
 	Eigen::Vector3d edge2;
 public:
+	//EIGEN_MAKE_ALIGNED_OPERATOR_NEW;
 	Eigen::Vector3d n;
 
-	bool intersects(Ray ray, Eigen::Vector3d intersection)
+	bool intersects(Ray ray, Eigen::Vector3d* intersection)
 	{
 		double epsilon = std::numeric_limits<double>::epsilon();
 		Eigen::Vector3d h, s, q;
@@ -43,7 +44,7 @@ public:
 		double t = f * edge2.dot(q);
 		if (t > epsilon)
 		{
-			intersection = ray.origin + ray.direction * t;
+			*intersection = ray.origin + ray.direction * t;
 			return true;
 		}
 		return false;
