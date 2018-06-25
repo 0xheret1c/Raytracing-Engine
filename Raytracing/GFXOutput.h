@@ -41,6 +41,9 @@ public:
 		SDL_CreateWindowAndRenderer((int)this->screenWidth, (int)this->screenHeight, 0, &this->window, &this->renderer);
 		while (!quit)
 		{
+
+
+
 			this->printScreen();
 			SDL_WaitEvent(&event);
 			switch (event.type)

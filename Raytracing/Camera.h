@@ -23,7 +23,7 @@ private:
 
 	unsigned int width = 200;
 	unsigned int height = 200;
-	unsigned int density = 3;
+	unsigned int density = 4;
 	double screenDistance = 0.5;
 	double fov = 60;
 	size_t maxBounces = 0;
@@ -83,10 +83,14 @@ public:
 	}
 	SDL_Color** trace()
 	{
+		//Debug
 		std::cout << "Started tracing..." << std::endl;
 		const clock_t begin_time = clock();
+		size_t pixelToTrace = height * width;
+		size_t tracedPixel = 0;
+		size_t lastPercent = 0;
 
-
+		//--
 		Eigen::Matrix3d m = transform.rotation.toRotationMatrix(); // Funktioniert eventuell nicht
 		double fovY = fov * ((double)height / (double)width);
 		double fovX = fov;
@@ -145,6 +149,19 @@ public:
 				returnArray[x][height - y - 1].r = (Uint8)(Our_math::clamp01(r) * 0xFF);
 				returnArray[x][height - y - 1].g = (Uint8)(Our_math::clamp01(g) * 0xFF);
 				returnArray[x][height - y - 1].b = (Uint8)(Our_math::clamp01(b) * 0xFF);
+
+				tracedPixel++;
+			}
+
+			//Debug
+			size_t percent = (size_t)(((float)tracedPixel / (float)pixelToTrace) * 100);
+			if (percent % 1 == 0 && percent != lastPercent)
+			{
+				lastPercent = percent;
+				std::cout << "Traced " << percent << "% "
+					<< tracedPixel << "/" << pixelToTrace << " pixels traced. "
+					<< tracedPixel * (density * density) << "/" << pixelToTrace * (density * density) << " rays casted."
+					<< std::endl;
 			}
 		}
 		float timePassedSecs = float(clock() - begin_time) / CLOCKS_PER_SEC;
