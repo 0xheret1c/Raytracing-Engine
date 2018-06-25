@@ -1,3 +1,4 @@
+
 #pragma once
 
 //Foward declaration
@@ -5,6 +6,7 @@ class Ray;
 class Scene;
 
 //Includes
+#include <time.h>
 #include <Eigen\Core>
 #include "_Transform.h"
 #include "RaycastHit.h"
@@ -81,7 +83,10 @@ public:
 	}
 	SDL_Color** trace()
 	{
-		std::cout << "Tracing..." << std::endl;
+		std::cout << "Started tracing..." << std::endl;
+		const clock_t begin_time = clock();
+
+
 		Eigen::Matrix3d m = transform.rotation.toRotationMatrix(); // Funktioniert eventuell nicht
 		double fovY = fov * ((double)height / (double)width);
 		double fovX = fov;
@@ -142,8 +147,9 @@ public:
 				returnArray[x][height - y - 1].b = (Uint8)(Our_math::clamp01(b) * 0xFF);
 			}
 		}
+		float timePassedSecs = float(clock() - begin_time) / CLOCKS_PER_SEC;
+		std::cout << "Trame finished in " << timePassedSecs << " seconds / " << 60 / timePassedSecs << " FPS." << std::endl;
 		return returnArray;
-		std::cout << "Done!" << std::endl;
 	}
 };
 #endif __CAMERA_H_INCLUDED
