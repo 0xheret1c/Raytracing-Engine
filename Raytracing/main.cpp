@@ -13,7 +13,7 @@ const unsigned int HEIGHT = 950;
 using namespace Eigen;
 int main(int argc, char* argv[])
 {
-	system("pause");
+
 	/*SDL_Color c;
 	c.r = 255;
 	c.a = 255;
@@ -55,15 +55,11 @@ void traceTest()
 
 	Camera cam = Camera(WIDTH, HEIGHT,_Transform(Vector3d(-1, 1.2,-2),Vector3d(12, 00, 00)), &scene);
 	//Mesh the cube
-	SDL_Color c;
-	c.r = 255;
-	c.g = 100;
-	c.b = 10;
 	Mesh mesh[] = { 
-		Primitive::Cube(_Transform(Vector3d(0, 0.5 ,5),Vector3d(0,2,32)),c),
-		Primitive::Cube(_Transform(Vector3d(-1, 1.25 ,6),Vector3d(22,42,2)),c),
-		Primitive::Cube(_Transform(Vector3d(-2.5, -1 ,7.5),Vector3d(45,45,45)),c),
-		Primitive::Plane(_Transform(Vector3d(0,-1.5 ,0)),c) 
+		Primitive::Cube(_Transform(Vector3d(0, 0.5 ,5),Vector3d(0,2,32)),Utils::getColor(0xFF,0,0)),
+		Primitive::Cube(_Transform(Vector3d(-1, 1.25 ,6),Vector3d(22,42,2)),Utils::getColor(0,0xFF,0)),
+		Primitive::Cube(_Transform(Vector3d(-2.5, -1 ,7.5),Vector3d(45,45,45)),Utils::getColor(0,0,0xFF)),
+		Primitive::Plane(_Transform(Vector3d(0,-1.5 ,0)),Utils::getColor(0xFF,0xFF,0xFF)) 
 	};
 	Light light[1] =
 	{

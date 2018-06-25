@@ -1,4 +1,3 @@
-
 #pragma once
 
 //Foward declaration
@@ -23,7 +22,7 @@ private:
 
 	unsigned int width = 200;
 	unsigned int height = 200;
-	unsigned int density = 10;
+	unsigned int density = 1;
 	double screenDistance = 0.5;
 	double fov = 60;
 	size_t maxBounces = 0;
@@ -38,6 +37,9 @@ private:
 			{
 				hit->intensity = scene->getIllumination(hit->point,hit->triangle);
 			}
+			hit->color.r += hit->mesh->color.r;
+			hit->color.g += hit->mesh->color.g;
+			hit->color.b += hit->mesh->color.b;
 			return true;
 		}
 		return false;
@@ -134,13 +136,10 @@ public:
 					if (traceRay(direction,&hit,0))
 					{
 						/*Uint8 color = (Uint8)(Our_math::clamp01(hit.intensity) * 0xFF);
-
-						returnArray[x][height - y - 1].r = color;
-						returnArray[x][height - y - 1].g = color;
-						returnArray[x][height - y - 1].b = color;*/
-						r += Our_math::clamp01(hit.intensity);
-						g += Our_math::clamp01(hit.intensity);
-						b += Our_math::clamp01(hit.intensity);
+						*/
+						r += Our_math::clamp01((hit.color.r / 0xFF) * hit.intensity);
+						g += Our_math::clamp01((hit.color.g / 0xFF) * hit.intensity);
+						b += Our_math::clamp01((hit.color.b / 0xFF)* hit.intensity);
 					}
 				}
 				r /= (density * density);
@@ -169,7 +168,7 @@ public:
 			}
 		}
 		float timePassedSecs = float(clock() - begin_time) / CLOCKS_PER_SEC;
-		std::cout << "Trame finished in " << timePassedSecs << " seconds / " << 60 / timePassedSecs << " FPS." << std::endl;
+		std::cout << "Trame finished in " << timePassedSecs << " seconds / " << 1 / timePassedSecs << " FPS." << std::endl;
 		return returnArray;
 	}
 };

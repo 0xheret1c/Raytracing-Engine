@@ -26,6 +26,7 @@ public:
 		return val;
 	}
 
+	
 };
 
 #endif
