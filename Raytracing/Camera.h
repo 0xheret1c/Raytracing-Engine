@@ -23,7 +23,7 @@ private:
 
 	unsigned int width = 200;
 	unsigned int height = 200;
-	unsigned int density = 4;
+	unsigned int density = 10;
 	double screenDistance = 0.5;
 	double fov = 60;
 	size_t maxBounces = 0;
@@ -86,6 +86,7 @@ public:
 		//Debug
 		std::cout << "Started tracing..." << std::endl;
 		const clock_t begin_time = clock();
+
 		size_t pixelToTrace = height * width;
 		size_t tracedPixel = 0;
 		size_t lastPercent = 0;
@@ -157,10 +158,13 @@ public:
 			size_t percent = (size_t)(((float)tracedPixel / (float)pixelToTrace) * 100);
 			if (percent % 1 == 0 && percent != lastPercent)
 			{
+				float timePassedSecs = float(clock() - begin_time) / CLOCKS_PER_SEC;
 				lastPercent = percent;
+				float timeRemaining = (100 - percent) * (timePassedSecs / (percent));
 				std::cout << "Traced " << percent << "% "
 					<< tracedPixel << "/" << pixelToTrace << " pixels traced. "
 					<< tracedPixel * (density * density) << "/" << pixelToTrace * (density * density) << " rays casted."
+					<< " Est. Time Remaining: " << timeRemaining << " seconds."
 					<< std::endl;
 			}
 		}

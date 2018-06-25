@@ -8,12 +8,12 @@
 
 //Prototype
 void traceTest();
-const unsigned int WIDTH = 1920;
+const unsigned int WIDTH =  950;
 const unsigned int HEIGHT = 950;
 using namespace Eigen;
 int main(int argc, char* argv[])
 {
-
+	system("pause");
 	/*SDL_Color c;
 	c.r = 255;
 	c.a = 255;
