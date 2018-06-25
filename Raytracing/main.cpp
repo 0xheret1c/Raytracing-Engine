@@ -8,53 +8,29 @@
 #include "e_colors.h"
 
 //Prototype
+
 void traceTest();
 const unsigned int WIDTH =  1000;
-const unsigned int HEIGHT = 800;
+const unsigned int HEIGHT = 1000;
+
 using namespace Eigen;
 int main(int argc, char* argv[])
 {
 
-	/*SDL_Color c;
-	c.r = 255;
-	c.a = 255;
-	c.g = 255;
-	c.b = 255;
-	Scene scene = Scene();
-	Vector3d verts[3];
-	verts[0] = Vector3d(0, 0, 1);
-	verts[1] = Vector3d(0, 1, 1);
-	verts[2] = Vector3d(1, 0, 1);
-	size_t tri[] = {1,2,3};
-	Mesh mesh[] = { Mesh(verts,tri,3,_Transform(),c)};
-	scene.setMeshes(mesh,1);
-	Ray r = Ray(Vector3d(0.1, 0.1, -1), Vector3d(0, 0, 1));
-	
-	Triangle t = Triangle(verts[0], verts[1], verts[2]);
 
-
-	if (scene.intersects(r,&RaycastHit()))
-	{
-		std::cout << "hit" << std::endl;
-	}
-	else
-	{
-		std::cout << "shit" << std::endl;
-	}
-	*/
 	traceTest();
 
+	
 	system("pause");
+	
 	return 0;
 }
 
 void traceTest()
 {
 	GFXOutput out = GFXOutput(WIDTH, HEIGHT);
-
 	Scene scene = Scene();
-
-	Camera cam = Camera(WIDTH, HEIGHT,_Transform(Vector3d(0, 1,-2),Vector3d(12, 0, 0)), &scene);
+	Camera cam = Camera(WIDTH, HEIGHT,_Transform(Vector3d(0, 0,-1),Vector3d(12, 0, 0)), &scene);
 	//Mesh the cube
 	Mesh mesh[] = { 
 		Primitive::Cube(_Transform(Vector3d(0, -1 ,5),Vector3d(0,0,0), Vector3d(1, 0.25, 1)),Utils::getColor(e_Colors::blue)),
@@ -67,10 +43,9 @@ void traceTest()
 		Light(_Transform(Vector3d(0, 3, 0), Eigen::Vector3d(20, 45, 0)),Eigen::Vector3d(1337,1337,1337))
 	};
 
-	
-	scene.camera = &cam;	//set cam
-	scene.setLights(light, 1);
-	scene.setMeshes(mesh,4);
+	scene.camera = &cam;	
+	scene.setLights(light, sizeof(light) / sizeof(Light));
+	scene.setMeshes(mesh,  sizeof(mesh)  / sizeof(Mesh));
 	SDL_Color** screen = cam.trace();
 	out.setPixels(screen);
 	out.initSDL();
