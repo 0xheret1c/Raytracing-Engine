@@ -22,7 +22,7 @@ private:
 
 	unsigned int width = 200;
 	unsigned int height = 200;
-	unsigned int density = 1;
+	unsigned int density = 3;
 	double screenDistance = 0.5;
 	double fov = 60;
 	size_t maxBounces = 0;
@@ -94,7 +94,7 @@ public:
 		size_t lastPercent = 0;
 
 		//--
-		Eigen::Matrix3d m = transform.rotation.toRotationMatrix(); // Funktioniert eventuell nicht
+		//Eigen::Matrix3d m = transform.rotation.toRotationMatrix(); // Funktioniert eventuell nicht
 		double fovY = fov * ((double)height / (double)width);
 		double fovX = fov;
 
@@ -129,7 +129,7 @@ public:
 
 	
 
-					direction =  m * direction;
+					direction =  transform.rotationMatrix * direction;
 					
 					RaycastHit hit;
 

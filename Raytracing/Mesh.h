@@ -25,9 +25,9 @@ private:
 		for (size_t i = 0; i < sizeTriangles; i += 3)
 		{
 			//TODO: scale einbauen
-			Eigen::Vector3d v1((transform.rotation.toRotationMatrix() * verts[_triangles[i + 0]]) + transform.position);
-			Eigen::Vector3d v2((transform.rotation.toRotationMatrix() * verts[_triangles[i + 1]]) + transform.position);
-			Eigen::Vector3d v3((transform.rotation.toRotationMatrix() * verts[_triangles[i + 2]]) + transform.position);
+			Eigen::Vector3d v1((transform.rotationMatrix * verts[_triangles[i + 0]].cwiseProduct(transform.scale)) + transform.position);
+			Eigen::Vector3d v2((transform.rotationMatrix * verts[_triangles[i + 1]].cwiseProduct(transform.scale)) + transform.position);
+			Eigen::Vector3d v3((transform.rotationMatrix * verts[_triangles[i + 2]].cwiseProduct(transform.scale)) + transform.position);
 			triangles[c] = Triangle(v1,v2,v3);
 			c++;
 		}

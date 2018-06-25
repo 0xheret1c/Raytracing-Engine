@@ -21,6 +21,7 @@ private:
 	Mesh* meshes;
 	Light* lights;
 public:
+	double globalIllumination = 0.45;
 	//EIGEN_MAKE_ALIGNED_OPERATOR_NEW;
 
 	Camera* camera;
@@ -47,8 +48,6 @@ public:
 		meshes = _meshes;
 		meshCount = count;
 	}
-
-	double globalIllumination = 0.2;
 
 	double calculateLightIntensity(Eigen::Vector3d origin,Light light, Triangle* ignore = nullptr)
 	{

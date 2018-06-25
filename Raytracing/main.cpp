@@ -8,8 +8,8 @@
 
 //Prototype
 void traceTest();
-const unsigned int WIDTH =  950;
-const unsigned int HEIGHT = 950;
+const unsigned int WIDTH =  1000;
+const unsigned int HEIGHT = 800;
 using namespace Eigen;
 int main(int argc, char* argv[])
 {
@@ -53,17 +53,17 @@ void traceTest()
 
 	Scene scene = Scene();
 
-	Camera cam = Camera(WIDTH, HEIGHT,_Transform(Vector3d(-1, 1.2,-2),Vector3d(12, 00, 00)), &scene);
+	Camera cam = Camera(WIDTH, HEIGHT,_Transform(Vector3d(0, 1,-2),Vector3d(12, 0, 0)), &scene);
 	//Mesh the cube
 	Mesh mesh[] = { 
-		Primitive::Cube(_Transform(Vector3d(0, 0.5 ,5),Vector3d(0,2,32)),Utils::getColor(0xFF0000)),
-		Primitive::Cube(_Transform(Vector3d(-1, 1.25 ,6),Vector3d(22,42,2)),Utils::getColor(0x00FF00)),
-		Primitive::Cube(_Transform(Vector3d(-2.5, -1 ,7.5),Vector3d(45,45,45)),Utils::getColor(0x0000FF)),
-		Primitive::Plane(_Transform(Vector3d(0,-1.5 ,0)),Utils::getColor(0xFFFFFF)) 
+		Primitive::Cube(_Transform(Vector3d(0, -1 ,5),Vector3d(0,0,0), Vector3d(1, 0.25, 1)),Utils::getColor(0xFF0000)),
+		Primitive::Cube(_Transform(Vector3d(0, -0.75 ,5),Vector3d(0,45,0), Vector3d(0.5, 0.25, 0.5)),Utils::getColor(0x00FF00)),
+		Primitive::Cube(_Transform(Vector3d(0, -0.5, 5),Vector3d(0,10,0), Vector3d(0.25,0.25,0.25)),Utils::getColor(0x0000FF)),
+		Primitive::Plane(_Transform(Vector3d(0,-1.125 ,0), Vector3d(0,0,0), Vector3d(500, 1, 500)),Utils::getColor(0xFFFFFF)) 
 	};
 	Light light[1] =
 	{
-		Light(_Transform(Vector3d(0, 3, 0), Eigen::Vector3d(45, -30, 0)),Eigen::Vector3d(1337,1337,1337))
+		Light(_Transform(Vector3d(0, 3, 0), Eigen::Vector3d(20, 45, 0)),Eigen::Vector3d(1337,1337,1337))
 	};
 
 	

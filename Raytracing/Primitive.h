@@ -46,10 +46,10 @@ public:
 	{
 		Eigen::Vector3d verts[4] =
 		{
-			Eigen::Vector3d(-500, 0, -500),
-			Eigen::Vector3d(-500, 0,  500),
-			Eigen::Vector3d( 500, 0, -500),
-			Eigen::Vector3d( 500, 0,  500)
+			Eigen::Vector3d(-0.5, 0, -0.5),
+			Eigen::Vector3d(-0.5, 0,  0.5),
+			Eigen::Vector3d( 0.5, 0, -0.5),
+			Eigen::Vector3d( 0.5, 0,  0.5)
 		};
 		size_t triangles[6] =
 		{

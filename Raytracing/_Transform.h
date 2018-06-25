@@ -12,10 +12,11 @@ public:
 	Eigen::Vector3d position;
 	Eigen::Vector3d scale;
 	Eigen::Quaterniond rotation;
+	Eigen::Matrix3d rotationMatrix;
 	
 	Eigen::Vector3d forward()
 	{
-		return rotation.toRotationMatrix() * Eigen::Vector3d::UnitZ();
+		return rotationMatrix * Eigen::Vector3d::UnitZ();
  	}
 
 	_Transform()
@@ -28,6 +29,8 @@ public:
 			Eigen::AngleAxisd(0, Eigen::Vector3d::UnitX())
 			* Eigen::AngleAxisd(0, Eigen::Vector3d::UnitY())
 			* Eigen::AngleAxisd(0, Eigen::Vector3d::UnitZ());
+
+		this->rotationMatrix = this->rotation.toRotationMatrix();
 	}
 
 
@@ -40,6 +43,8 @@ public:
 			Eigen::AngleAxisd(0, Eigen::Vector3d::UnitX())
 			* Eigen::AngleAxisd(0, Eigen::Vector3d::UnitY())
 			* Eigen::AngleAxisd(0, Eigen::Vector3d::UnitZ());
+
+		this->rotationMatrix = this->rotation.toRotationMatrix();
 	}
 
 	_Transform(Eigen::Vector3d position, Eigen::Vector3d rotation)
@@ -50,6 +55,8 @@ public:
 		this->rotation = Eigen::AngleAxisd(rotation.x() * (M_PI) / 180, Eigen::Vector3d::UnitX())
 			* Eigen::AngleAxisd(rotation.y() * (M_PI) / 180, Eigen::Vector3d::UnitY())
 			* Eigen::AngleAxisd(rotation.z() * (M_PI) / 180, Eigen::Vector3d::UnitZ());
+
+		this->rotationMatrix = this->rotation.toRotationMatrix();
 	}
 
 
@@ -61,6 +68,8 @@ public:
 		this->rotation =  Eigen::AngleAxisd(rotation.x() * (M_PI) / 180, Eigen::Vector3d::UnitX())
 						* Eigen::AngleAxisd(rotation.y() * (M_PI) / 180, Eigen::Vector3d::UnitY())
 						* Eigen::AngleAxisd(rotation.z() * (M_PI) / 180, Eigen::Vector3d::UnitZ());
+
+		this->rotationMatrix = this->rotation.toRotationMatrix();
 	}
 };
 #endif 
