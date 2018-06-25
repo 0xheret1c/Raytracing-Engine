@@ -56,10 +56,10 @@ void traceTest()
 	Camera cam = Camera(WIDTH, HEIGHT,_Transform(Vector3d(-1, 1.2,-2),Vector3d(12, 00, 00)), &scene);
 	//Mesh the cube
 	Mesh mesh[] = { 
-		Primitive::Cube(_Transform(Vector3d(0, 0.5 ,5),Vector3d(0,2,32)),Utils::getColor(0xFF,0,0)),
-		Primitive::Cube(_Transform(Vector3d(-1, 1.25 ,6),Vector3d(22,42,2)),Utils::getColor(0,0xFF,0)),
-		Primitive::Cube(_Transform(Vector3d(-2.5, -1 ,7.5),Vector3d(45,45,45)),Utils::getColor(0,0,0xFF)),
-		Primitive::Plane(_Transform(Vector3d(0,-1.5 ,0)),Utils::getColor(0xFF,0xFF,0xFF)) 
+		Primitive::Cube(_Transform(Vector3d(0, 0.5 ,5),Vector3d(0,2,32)),Utils::getColor(0xFF0000)),
+		Primitive::Cube(_Transform(Vector3d(-1, 1.25 ,6),Vector3d(22,42,2)),Utils::getColor(0x00FF00)),
+		Primitive::Cube(_Transform(Vector3d(-2.5, -1 ,7.5),Vector3d(45,45,45)),Utils::getColor(0x0000FF)),
+		Primitive::Plane(_Transform(Vector3d(0,-1.5 ,0)),Utils::getColor(0xFFFFFF)) 
 	};
 	Light light[1] =
 	{
