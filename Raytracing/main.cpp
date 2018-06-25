@@ -8,8 +8,8 @@
 
 //Prototype
 void traceTest();
-const unsigned int WIDTH = 1920*2;
-const unsigned int HEIGHT = 1000;
+const unsigned int WIDTH = 1280;
+const unsigned int HEIGHT = 720;
 using namespace Eigen;
 int main(int argc, char* argv[])
 {
@@ -53,16 +53,16 @@ void traceTest()
 
 	Scene scene = Scene();
 
-	Camera cam = Camera(WIDTH, HEIGHT,_Transform(Vector3d(0, 0, 0),Vector3d(00, 00, 00)), &scene);
+	Camera cam = Camera(WIDTH, HEIGHT,_Transform(Vector3d(-1, 1.2,-2),Vector3d(12, 00, 00)), &scene);
 	//Mesh the cube
 	SDL_Color c;
 	c.r = 255;
 	c.g = 100;
 	c.b = 10;
 	Mesh mesh[] = { 
-		Primitive::Cube(_Transform(Vector3d(0, -1 ,5),Vector3d(0,2,32)),c),
-		Primitive::Cube(_Transform(Vector3d(-1, -1 ,6),Vector3d(0,42,2)),c),
-		Primitive::Cube(_Transform(Vector3d(-2.5, -1 ,7.5),Vector3d(0,11,-52)),c),
+		Primitive::Cube(_Transform(Vector3d(0, 0.5 ,5),Vector3d(0,2,32)),c),
+		Primitive::Cube(_Transform(Vector3d(-1, 1.25 ,6),Vector3d(22,42,2)),c),
+		Primitive::Cube(_Transform(Vector3d(-2.5, -1 ,7.5),Vector3d(45,45,45)),c),
 		Primitive::Plane(_Transform(Vector3d(0,-1.5 ,0)),c) 
 	};
 	Light light[1] =

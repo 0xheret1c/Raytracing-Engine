@@ -35,9 +35,9 @@ private:
 public:
 	void initSDL()
 	{
-		Utils::LOG("|\tInitializing SDL...");
+		Utils::LOG("Initializing SDL...");
 		SDL_Init(SDL_INIT_VIDEO);
-		Utils::LOG("|\tCreating window and renderer...");
+		Utils::LOG("Creating window and renderer...");
 		SDL_CreateWindowAndRenderer((int)this->screenWidth, (int)this->screenHeight, 0, &this->window, &this->renderer);
 		while (!quit)
 		{
@@ -63,7 +63,7 @@ public:
 
 	GFXOutput(unsigned int screenWidth, unsigned int screenHeight)
 	{
-		Utils::LOG("|\tCreating GFXOutput-object.");
+		
 		/**/
 		this->screenHeight = screenHeight;
 		this->screenWidth = screenWidth;
@@ -102,8 +102,6 @@ public:
 		{
 			for (size_t x = 0; x < this->screenWidth; x++)
 			{
-				//std::cout << "Setting pixel X: " << x << " Y: " << y;
-				//std::cout << " Color R: " << pixels[x][y].r << " G: " << pixels[x][y].g << " B: " << pixels[x][y].b << std::endl;
 				this->screen[x][y] = pixels[x][y];
 			}
 		}

@@ -21,7 +21,7 @@ private:
 
 	unsigned int width = 200;
 	unsigned int height = 200;
-	unsigned int density = 1;
+	unsigned int density = 3;
 	double screenDistance = 0.5;
 	double fov = 60;
 	size_t maxBounces = 0;
@@ -81,6 +81,7 @@ public:
 	}
 	SDL_Color** trace()
 	{
+		std::cout << "Tracing..." << std::endl;
 		Eigen::Matrix3d m = transform.rotation.toRotationMatrix(); // Funktioniert eventuell nicht
 		double fovY = fov * ((double)height / (double)width);
 		double fovX = fov;
@@ -96,7 +97,12 @@ public:
 				returnArray[x][height - y - 1].a = 255;
 				returnArray[x][height - y - 1].r = 0;
 				returnArray[x][height - y - 1].g = 0;
-				returnArray[x][height - y - 1].b = 0;
+				returnArray[x][height - y - 1].b = 120;
+
+				double r = 0;
+				double g = 0;
+				double b = 0;
+
 				for (size_t z = 0; z < density * density; z++)
 				{
 					double angleRadX = (fov / ((width - 1.0) * density)) * ((x*density) + (z%density)) - (fov / 2.0);
@@ -117,17 +123,27 @@ public:
 
 					if (traceRay(direction,&hit,0))
 					{
-						Uint8 color = (Uint8)(Our_math::clamp01(hit.intensity) * 0xFF);
+						/*Uint8 color = (Uint8)(Our_math::clamp01(hit.intensity) * 0xFF);
 
 						returnArray[x][height - y - 1].r = color;
 						returnArray[x][height - y - 1].g = color;
-						returnArray[x][height - y - 1].b = color;
+						returnArray[x][height - y - 1].b = color;*/
+						r += Our_math::clamp01(hit.intensity);
+						g += Our_math::clamp01(hit.intensity);
+						b += Our_math::clamp01(hit.intensity);
 					}
-					
 				}
+				r /= (density * density);
+				g /= (density * density);
+				b /= (density * density);
+
+				returnArray[x][height - y - 1].r = (Uint8)(Our_math::clamp01(r) * 0xFF);
+				returnArray[x][height - y - 1].g = (Uint8)(Our_math::clamp01(g) * 0xFF);
+				returnArray[x][height - y - 1].b = (Uint8)(Our_math::clamp01(b) * 0xFF);
 			}
 		}
 		return returnArray;
+		std::cout << "Done!" << std::endl;
 	}
 };
 #endif __CAMERA_H_INCLUDED
