@@ -11,17 +11,11 @@
 //Prototype
 
 void traceTest();
-<<<<<<< HEAD
-const unsigned int WIDTH =  1000;
-const unsigned int HEIGHT = 1000;
-const size_t density = 1;
-const size_t bounces = 0;
-=======
+
 const unsigned int WIDTH =  1920;
 const unsigned int HEIGHT = 1080;
 const size_t density = 3;
 const size_t bounces = 3;
->>>>>>> 26e3a7c63e3af4407ff39e4e9fc261f64032f7ff
 
 using namespace Eigen;
 int main(int argc, char* argv[])
@@ -45,12 +39,9 @@ void traceTest()
 	Material satinRed = Material(Utils::getColor(0xFF0000), 0.05);
 	Material metallicBlue = Material(Utils::getColor(0x0000FF), 0.45);
 	Material metallicWhite = Material(Utils::getColor(0xFFFFFF), 0.20);
-<<<<<<< HEAD
 	Material stone = Material(Utils::getColor(e_Colors::light_steel_blue), 0.01);
 	Material shinyGreen = Material(Utils::getColor(0x00FF00), 0.45);
-=======
-	Material shinyGreen = Material(Utils::getColor(0x00FF00), 0.2);
->>>>>>> 26e3a7c63e3af4407ff39e4e9fc261f64032f7ff
+
 	
 	//Cam
 	Camera cam = Camera(WIDTH, HEIGHT,_Transform(Vector3d(0, 0, 2),Vector3d(12, 0, 0)), &scene);
@@ -62,11 +53,11 @@ void traceTest()
 		Primitive::Cube(_Transform(Vector3d(1.5, -1 ,6),Vector3d(0,-35,0), Vector3d(0.05,2.5, 2.5)),mirror),
 		Primitive::Cube(_Transform(Vector3d(0, -1 ,5),Vector3d(0,0,0), Vector3d(1, 0.25, 1)),satinRed),
 		Primitive::Cube(_Transform(Vector3d(0, -0.75 ,5),Vector3d(0,32,0), Vector3d(0.85, 0.25, 0.85)),shinyGreen),
-<<<<<<< HEAD
+
 		Mesh::importFromRTMSH(path,_Transform(Vector3d(0, -0.65, 5),Vector3d(0,31,0), Vector3d(0.07,0.07,0.07)),stone),
-=======
+
 		Mesh::importFromRTMSH(path,_Transform(Vector3d(0, -0.65, 5),Vector3d(0,31,0), Vector3d(0.07,0.07,0.07)),satinRed),
->>>>>>> 26e3a7c63e3af4407ff39e4e9fc261f64032f7ff
+
 		Primitive::Plane(_Transform(Vector3d(0,-1.125 ,0), Vector3d(0,0,0), Vector3d(500, 1, 500)),Utils::getColor(e_Colors::white))
 	};
 	Light light[1] =
