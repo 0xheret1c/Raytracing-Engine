@@ -12,19 +12,15 @@ class Scene;
 
 
 
-//Include guards
-#ifndef __CAMERA_H_INCLUDED
-#define __CAMERA_H_INCLUDED
-
 class Camera
 {
 private:
 
 	unsigned int width = 200;
 	unsigned int height = 200;
-	unsigned int density = 3;
+	unsigned int density = 5;
 	double screenDistance = 0.5;
-	double fov = 60;
+	double fov = 90;
 	size_t maxBounces = 0;
 	Scene* scene;
 
@@ -172,4 +168,3 @@ public:
 		return returnArray;
 	}
 };
-#endif __CAMERA_H_INCLUDED

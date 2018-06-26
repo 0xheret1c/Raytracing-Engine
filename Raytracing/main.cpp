@@ -10,7 +10,7 @@
 //Prototype
 
 void traceTest();
-const unsigned int WIDTH =  1000;
+const unsigned int WIDTH =  1920;
 const unsigned int HEIGHT = 1000;
 
 using namespace Eigen;
