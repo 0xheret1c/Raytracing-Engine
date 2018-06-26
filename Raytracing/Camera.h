@@ -47,11 +47,6 @@ private:
 				color += traceRay(nRay, bounces + 1, hit.triangle) * hit.mesh->mat.reflectiveness;
 				
 			}
-
-
-			/*hit->color.r += hit->mesh->color.r;
-			hit->color.g += hit->mesh->color.g;
-			hit->color.b += hit->mesh->color.b;*/
 		}
 
 		return Utils::clampColor(color);
@@ -60,7 +55,6 @@ private:
 
 
 public:
-	//EIGEN_MAKE_ALIGNED_OPERATOR_NEW;
 	_Transform transform;
 
 	void setMaxBounces(size_t val)

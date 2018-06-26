@@ -74,7 +74,7 @@ private:
 	}
 
 public:
-	//EIGEN_MAKE_ALIGNED_OPERATOR_NEW;
+	EIGEN_MAKE_ALIGNED_OPERATOR_NEW;
 
 	_Transform transform;
 	Eigen::Vector3d* verts;
