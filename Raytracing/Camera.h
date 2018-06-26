@@ -59,6 +59,11 @@ public:
 	//EIGEN_MAKE_ALIGNED_OPERATOR_NEW;
 	_Transform transform;
 
+	void setDensity(size_t val)
+	{
+		density = val;
+	}
+
 	Camera(unsigned int _width, unsigned int _height, _Transform _transform, Scene* _scene)
 	{
 		transform = _transform;

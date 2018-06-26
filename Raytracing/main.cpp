@@ -30,6 +30,8 @@ void traceTest()
 	GFXOutput out = GFXOutput(WIDTH, HEIGHT);
 	Scene scene = Scene();
 	Camera cam = Camera(WIDTH, HEIGHT,_Transform(Vector3d(0, 0, 2),Vector3d(12, 0, 0)), &scene);
+	cam.setDensity(2);
+
 	//Mesh the cube
 	Mesh mesh[] = { 
 		Primitive::Cube(_Transform(Vector3d(0, -1 ,5),Vector3d(0,0,0), Vector3d(1, 0.25, 1)),Utils::getColor(e_Colors::blue)),
