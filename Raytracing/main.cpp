@@ -10,8 +10,8 @@
 //Prototype
 
 void traceTest();
-const unsigned int WIDTH =  1920;
-const unsigned int HEIGHT = 1000;
+const unsigned int WIDTH =  100;
+const unsigned int HEIGHT = 300;
 
 using namespace Eigen;
 int main(int argc, char* argv[])
@@ -28,6 +28,7 @@ int main(int argc, char* argv[])
 
 void traceTest()
 {
+	std::string path = "C:\\Users\\Marius\\Documents\\GitHub\\Raytracing-Engine\\x64\\Release\\example_cube.rtmsh";
 	GFXOutput out = GFXOutput(WIDTH, HEIGHT);
 	Scene scene = Scene();
 	Camera cam = Camera(WIDTH, HEIGHT,_Transform(Vector3d(0, 0,-1),Vector3d(12, 0, 0)), &scene);

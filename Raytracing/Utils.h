@@ -62,4 +62,6 @@ public:
 		return sdl_color;
 	}
 
+	
+
 };

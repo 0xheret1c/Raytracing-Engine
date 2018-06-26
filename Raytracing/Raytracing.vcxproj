@@ -92,12 +92,13 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>D:\Dropbox\Dropbox\Projects\C++\RayTracing\Raytracing\SDL2-2.0.8\include;D:\Dropbox\Dropbox\Projects\C++\RayTracing\Raytracing\Raytracing;D:\Dropbox\Dropbox\Projects\C++\RayTracing\Raytracing\Raytracing\Eigen;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Marius\Documents\GitHub\Raytracing-Engine\SDL2-2.0.8\include;C:\Users\Marius\Documents\GitHub\Raytracing-Engine\Raytracing;D:\Dropbox\Dropbox\Projects\C++\RayTracing\Raytracing\SDL2-2.0.8\include;D:\Dropbox\Dropbox\Projects\C++\RayTracing\Raytracing\Raytracing;D:\Dropbox\Dropbox\Projects\C++\RayTracing\Raytracing\Raytracing\Eigen;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <BasicRuntimeChecks>StackFrameRuntimeCheck</BasicRuntimeChecks>
     </ClCompile>
     <Link>
       <AdditionalDependencies>SDL2.lib;SDL2main.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
-      <AdditionalLibraryDirectories>D:\Dropbox\Dropbox\Projects\C++\RayTracing\Raytracing\SDL2-2.0.8\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Users\Marius\Documents\GitHub\Raytracing-Engine\SDL2-2.0.8\lib\x64;D:\Dropbox\Dropbox\Projects\C++\RayTracing\Raytracing\SDL2-2.0.8\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -124,12 +125,13 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)SDL2-2.0.8\include;$(SolutionDir)Raytracing;$(SolutionDir)Raytracing\Eigen;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Marius\Documents\GitHub\Raytracing-Engine\SDL2-2.0.8\include;C:\Users\Marius\Documents\GitHub\Raytracing-Engine\Raytracing;$(SolutionDir)SDL2-2.0.8\include;$(SolutionDir)Raytracing;$(SolutionDir)Raytracing\Eigen;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <BasicRuntimeChecks>StackFrameRuntimeCheck</BasicRuntimeChecks>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>$(SolutionDir)SDL2-2.0.8\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Users\Marius\Documents\GitHub\Raytracing-Engine\SDL2-2.0.8\lib\x64;$(SolutionDir)SDL2-2.0.8\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>SDL2.lib;SDL2main.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
     </Link>

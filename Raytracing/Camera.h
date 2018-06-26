@@ -18,7 +18,7 @@ private:
 
 	unsigned int width = 200;
 	unsigned int height = 200;
-	unsigned int density = 5;
+	unsigned int density = 1;
 	double screenDistance = 0.5;
 	double fov = 90;
 	size_t maxBounces = 0;

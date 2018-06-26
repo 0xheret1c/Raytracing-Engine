@@ -48,8 +48,8 @@ public class ObjectExport : MonoBehaviour {
         }
 
         StreamWriter writer = new StreamWriter(Path.Combine(path,fileName));
-        writer.WriteLine("v:" + vertsString);
         writer.WriteLine("t:" + trianglesString);
+		writer.WriteLine("v:" + vertsString);
         writer.Close();
 
     }
