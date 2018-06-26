@@ -18,9 +18,9 @@ private:
 
 	unsigned int width = 200;
 	unsigned int height = 200;
-	unsigned int density = 3;
+	unsigned int density = 5;
 	double screenDistance = 0.5;
-	double fov = 90;
+	double fov = 60;
 	size_t maxBounces = 1;
 	Scene* scene;
 
@@ -40,7 +40,7 @@ private:
 			color[2] = hit.mesh->color.b * intensity;
 			
 			Eigen::Vector3d reflection = ray.direction.normalized() - (2.0 * (ray.direction.normalized().dot(hit.triangle->n) * hit.triangle->n));
-			Ray nRay = Ray(hit.point, reflection, scene);
+			Ray nRay = Ray(hit.point, reflection.normalized(), scene);
 			color += traceRay(nRay, bounces + 1, hit.triangle) * 0.3;
 			
 
@@ -150,7 +150,7 @@ public:
 						b += Our_math::clamp01((hit.color.b / 0xFF)* hit.intensity);
 					}*/
 
-					Ray ray = Ray(transform.position, direction, scene);
+					Ray ray = Ray(transform.position, direction.normalized(), scene);
 
 					Eigen::Vector3f col = traceRay(ray, 0);
 					r += col[0];

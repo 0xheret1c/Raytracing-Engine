@@ -16,6 +16,38 @@ class Mesh
 {
 private:
 	size_t triangleCount = 0;
+	
+	//Ray-sphere intersection
+	Eigen::Vector3d min;
+	Eigen::Vector3d max;
+	Eigen::Vector3d center;
+	double radius;
+	//--
+
+	bool checkSphereInterception(Ray ray)
+	{
+	
+		Eigen::Vector3d e = center - ray.origin;
+		double eLength = e.norm();
+		double a = e.dot(ray.direction);
+		if ((pow(radius,2) - pow(eLength,2) + pow(a,2)) < 0)
+		{
+			return false;
+		}
+		return true;
+	}
+
+	void checkBounds(Eigen::Vector3d pos)
+	{
+		min[0] = pos.x() < min.x() ? pos.x() : min.x();
+		min[1] = pos.y() < min.y() ? pos.y() : min.y();
+		min[2] = pos.z() < min.z() ? pos.z() : min.z();
+
+		max[0] = pos.x() > max.x() ? pos.x() : max.x();
+		max[1] = pos.y() > max.y() ? pos.y() : max.y();
+		max[2] = pos.z() > max.z() ? pos.z() : max.z();
+	}
+
 	void calculateTriangels(size_t * _triangles, size_t _triangleCount)
 	{
 		size_t sizeTriangles = _triangleCount;
@@ -30,7 +62,13 @@ private:
 			Eigen::Vector3d v3((transform.rotationMatrix * verts[_triangles[i + 2]].cwiseProduct(transform.scale)) + transform.position);
 			triangles[c] = Triangle(v1,v2,v3);
 			c++;
+			checkBounds(v1);
+			checkBounds(v2);
+			checkBounds(v3);
 		}
+
+		center = (min + max) / 2;
+		radius = (max - center).norm();
 
 	}
 
@@ -43,8 +81,11 @@ public:
 
 	bool intersects(Ray ray, RaycastHit* hit,Triangle* ignore = nullptr)
 	{
+		if (!checkSphereInterception(ray))
+		{
+			return false;
+		}
 		size_t length = triangleCount;
-
 		bool intersected = false;
 		double closest = INFINITY;
 		Triangle* closestTriangle = nullptr;
@@ -79,16 +120,19 @@ public:
 		return intersected;
 	}
 
-	Mesh()
+	/*Mesh()
 	{
-
-	}
+		min = Eigen::Vector3d(-INFINITY, -INFINITY, -INFINITY);
+		max = Eigen::Vector3d(+INFINITY, +INFINITY, +INFINITY);
+	}*/
 	Mesh(Eigen::Vector3d* _verts,size_t * _triangles, size_t _triangleCount ,_Transform _transform, SDL_Color c)
 	{
 		color = c;
 		verts = _verts;
 		transform = _transform;
 		calculateTriangels(_triangles, _triangleCount);
+		max = Eigen::Vector3d(-INFINITY, -INFINITY, -INFINITY);
+		min = Eigen::Vector3d(+INFINITY, +INFINITY, +INFINITY);
 	}
 	~Mesh()
 	{
