@@ -1,8 +1,7 @@
 #pragma once
 #include <Eigen\Core>
 
-#ifndef __TRANSFORM_H_INCLUDED__
-#define __TRANSFORM_H_INCLUDED__
+
 class _Transform 
 {
 private:
@@ -72,4 +71,3 @@ public:
 		this->rotationMatrix = this->rotation.toRotationMatrix();
 	}
 };
-#endif 

@@ -4,8 +4,6 @@ class Scene;
 #include <Eigen/Core>
 
 
-#ifndef __RAY_H_INCLUDED__
-#define __RAY_H_INCLUDED__
 class Ray
 {
 private:
@@ -30,4 +28,3 @@ public:
 	{
 	}
 };
-#endif

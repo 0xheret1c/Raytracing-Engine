@@ -6,9 +6,7 @@ class Mesh;
 #include "Triangle.h"
 
 
-//include guards
-#ifndef __RAYCASTHIT_H_INCLUDED__
-#define __RAYCASTHIT_H_INCLUDED__
+
 class RaycastHit
 {
 private:
@@ -40,4 +38,3 @@ public:
 		color.b = 0x00;
 	}
 };
-#endif

@@ -7,9 +7,6 @@
 #include "RaycastHit.h"
 
 
-
-#ifndef __LIGHT_H_INCLUDED__
-#define __LIGHT_H_INCLUDED__
 class Light
 {
 private:
@@ -28,4 +25,3 @@ public:
 
 
 };
-#endif

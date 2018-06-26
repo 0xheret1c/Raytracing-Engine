@@ -3,8 +3,6 @@
 #include <time.h>  
 #include "Core.h"
 
-#ifndef __OUR_MATH_H_INCLUDED__
-#define __OUR_MATH_H_INCLUDED__
 
 class Our_math
 {
@@ -29,4 +27,3 @@ public:
 	
 };
 
-#endif

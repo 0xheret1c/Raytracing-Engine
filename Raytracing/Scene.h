@@ -10,9 +10,6 @@ class Camera;
 #include "Light.h"
 
 
-
-#ifndef __SCENE_H_INCLUDED__
-#define __SCENE_H_INCLUDED__
 class Scene 
 {
 private:
@@ -123,4 +120,3 @@ public:
 	}
 
 };
-#endif

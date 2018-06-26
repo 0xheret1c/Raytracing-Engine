@@ -2,9 +2,6 @@
 #include "Core.h"
 #include "Ray.h"
 
-#ifndef __TRIANGLE_H_INCLUDED__
-#define __TRIANGLE_H_INCLUDED__
-
 class Triangle
 {
 private:
@@ -69,4 +66,3 @@ public:
 		n = edge1.cross(edge2).normalized();
 	}
 };
-#endif

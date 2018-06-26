@@ -8,9 +8,7 @@ class RaycastHit;
 #include "Triangle.h"
 #include "Ray.h"
 
-//Include guards
-#ifndef __MESH_H_INCLUDED__
-#define __MESH_H_INCLUDED__
+
 
 class Mesh
 {
@@ -98,4 +96,3 @@ public:
 	}
 	
 };
-#endif
