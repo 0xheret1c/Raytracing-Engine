@@ -82,7 +82,7 @@ public:
 	SDL_Color** trace()
 	{
 		//Debug
-		std::cout << "Started tracing..." << std::endl;
+		std::cout << "Started tracing... this might take a while!" << std::endl;
 		const clock_t begin_time = clock();
 
 		size_t pixelToTrace = height * width;
