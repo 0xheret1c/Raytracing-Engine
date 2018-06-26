@@ -28,8 +28,12 @@ private:
 	Eigen::Vector3f traceRay(Ray ray, size_t bounces, Triangle* ignore = nullptr)
 	{
 		Eigen::Vector3f color(0, 0, 0);
-		if (bounces > maxBounces)
+		double angle = (-(acos(ray.direction.dot(Eigen::Vector3d::UnitY())) / (M_PI / 2.0)) + 2.0);
+		angle = Our_math::clamp01(angle);
+		color = Eigen::Vector3f(255, 255, 255) - angle * (Eigen::Vector3f(255, 255, 255) - Eigen::Vector3f(0x19, 0x2c, 0xb7));
+		if (bounces > maxBounces) {
 			return color;
+		}
 		
 		RaycastHit hit;
 		if(scene->intersects(ray, &hit,ignore))
@@ -40,12 +44,11 @@ private:
 			color[1] = hit.mesh->color.g * intensity;
 			color[2] = hit.mesh->color.b * intensity;
 			
-			if (bounces < maxBounces) {
+			if (bounces <= maxBounces) {
 				Eigen::Vector3d reflection = ray.direction.normalized() - (2.0 * (ray.direction.normalized().dot(hit.triangle->n) * hit.triangle->n));
 				Ray nRay = Ray(hit.point, reflection.normalized(), scene);
 				color = color * (1.0 - hit.mesh->mat.reflectiveness);
 				color += traceRay(nRay, bounces + 1, hit.triangle) * hit.mesh->mat.reflectiveness;
-				
 			}
 		}
 
