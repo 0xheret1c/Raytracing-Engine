@@ -40,10 +40,13 @@ private:
 			color[1] = hit.mesh->color.g * intensity;
 			color[2] = hit.mesh->color.b * intensity;
 			
-			Eigen::Vector3d reflection = ray.direction.normalized() - (2.0 * (ray.direction.normalized().dot(hit.triangle->n) * hit.triangle->n));
-			Ray nRay = Ray(hit.point, reflection.normalized(), scene);
-			color += traceRay(nRay, bounces + 1, hit.triangle) * hit.mesh->mat.reflectiveness;
-			
+			if (bounces < maxBounces) {
+				Eigen::Vector3d reflection = ray.direction.normalized() - (2.0 * (ray.direction.normalized().dot(hit.triangle->n) * hit.triangle->n));
+				Ray nRay = Ray(hit.point, reflection.normalized(), scene);
+				color = color * (1.0 - hit.mesh->mat.reflectiveness);
+				color += traceRay(nRay, bounces + 1, hit.triangle) * hit.mesh->mat.reflectiveness;
+				
+			}
 
 
 			/*hit->color.r += hit->mesh->color.r;
