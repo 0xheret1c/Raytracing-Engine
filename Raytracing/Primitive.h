@@ -123,7 +123,7 @@ public:
 			Eigen::Vector3d(0.5, 0  , -0.5),	// v1
 			Eigen::Vector3d(-0.5, 0  , -0.5),	// v2
 			Eigen::Vector3d(-0.5, 0  ,  0.5),	// v3
-			Eigen::Vector3d(0  , 1,    0)	// v4
+			Eigen::Vector3d(0  , 1,    0)		// v4
 		};
 		size_t triangles[18] =
 		{

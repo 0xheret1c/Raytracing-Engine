@@ -14,6 +14,7 @@ void traceTest();
 const unsigned int WIDTH =  800;
 const unsigned int HEIGHT = 800;
 const size_t density = 3;
+const size_t bounces = 3;
 
 using namespace Eigen;
 int main(int argc, char* argv[])
@@ -31,6 +32,7 @@ void traceTest()
 	std::string path = "C:\\Users\\Marius\\Documents\\GitHub\\Raytracing-Engine\\Meshes\\Pagoda_Ornamental.rtmsh";
 	GFXOutput out = GFXOutput(WIDTH, HEIGHT);
 	Scene scene = Scene();
+	
 	//Materials
 	Material mirror = Material(Utils::getColor(235,255,235), 0.85);
 	Material satinRed = Material(Utils::getColor(0xFF0000), 0.05);
@@ -41,13 +43,14 @@ void traceTest()
 	//Cam
 	Camera cam = Camera(WIDTH, HEIGHT,_Transform(Vector3d(0, 0, 2),Vector3d(12, 0, 0)), &scene);
 	cam.setDensity(density);
-
+	cam.setMaxBounces(bounces);
 	//Mesh the cube
 	Mesh mesh[] = { 
-		Primitive::Cube(_Transform(Vector3d(-1.5, -1 ,7),Vector3d(0,45,0), Vector3d(0.05,2.5, 2.5)),mirror),
+		Primitive::Cube(_Transform(Vector3d(-1.5, -1 ,6),Vector3d(0,35,0), Vector3d(0.05,2.5, 2.5)),mirror),
+		Primitive::Cube(_Transform(Vector3d(1.5, -1 ,6),Vector3d(0,-35,0), Vector3d(0.05,2.5, 2.5)),mirror),
 		Primitive::Cube(_Transform(Vector3d(0, -1 ,5),Vector3d(0,0,0), Vector3d(1, 0.25, 1)),satinRed),
-		Primitive::Cube(_Transform(Vector3d(0, -0.75 ,5),Vector3d(0,45,0), Vector3d(0.85, 0.25, 0.85)),shinyGreen),
-		Mesh::importFromRTMSH(path,_Transform(Vector3d(0, -0.65, 5),Vector3d(0,45,0), Vector3d(0.07,0.07,0.07)),metallicBlue),
+		Primitive::Cube(_Transform(Vector3d(0, -0.75 ,5),Vector3d(0,32,0), Vector3d(0.85, 0.25, 0.85)),shinyGreen),
+		Mesh::importFromRTMSH(path,_Transform(Vector3d(0, -0.65, 5),Vector3d(0,31,0), Vector3d(0.07,0.07,0.07)),metallicBlue),
 		Primitive::Plane(_Transform(Vector3d(0,-1.125 ,0), Vector3d(0,0,0), Vector3d(500, 1, 500)),Utils::getColor(e_Colors::white))
 	};
 	Light light[1] =

@@ -60,6 +60,10 @@ public:
 	//EIGEN_MAKE_ALIGNED_OPERATOR_NEW;
 	_Transform transform;
 
+	void setMaxBounces(size_t val)
+	{
+		maxBounces = val;
+	}
 	void setDensity(size_t val)
 	{
 		density = val;
