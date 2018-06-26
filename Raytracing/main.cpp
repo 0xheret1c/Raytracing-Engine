@@ -10,8 +10,8 @@
 //Prototype
 
 void traceTest();
-const unsigned int WIDTH =  100;
-const unsigned int HEIGHT = 300;
+const unsigned int WIDTH =  500;
+const unsigned int HEIGHT = 500;
 
 using namespace Eigen;
 int main(int argc, char* argv[])

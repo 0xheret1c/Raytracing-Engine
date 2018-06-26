@@ -1,6 +1,9 @@
-﻿  main.cpp
+﻿  GFXOutput.h
+f:\arbeit\uni\raytrace\raytracing-engine\raytracing\utils.h(67): warning C4838: Konvertierung von "int" zu "Uint8" erfordert eine einschränkende Konvertierung
+  main.cpp
+f:\arbeit\uni\raytrace\raytracing-engine\raytracing\utils.h(67): warning C4838: Konvertierung von "int" zu "Uint8" erfordert eine einschränkende Konvertierung
+f:\arbeit\uni\raytrace\raytracing-engine\raytracing\camera.h(38): warning C4244: "=": Konvertierung von "double" in "float", möglicher Datenverlust
+f:\arbeit\uni\raytrace\raytracing-engine\raytracing\camera.h(39): warning C4244: "=": Konvertierung von "double" in "float", möglicher Datenverlust
+f:\arbeit\uni\raytrace\raytracing-engine\raytracing\camera.h(40): warning C4244: "=": Konvertierung von "double" in "float", möglicher Datenverlust
   Code wird generiert...
-  Überspringen... (keine relevanten Änderungen gefunden)
-  GFXOutput.h
-  Raytracing.vcxproj -> C:\Users\Marius\Documents\GitHub\Raytracing-Engine\x64\Debug\Raytracing.exe
-  Raytracing.vcxproj -> C:\Users\Marius\Documents\GitHub\Raytracing-Engine\x64\Debug\Raytracing.pdb (Partial PDB)
+  Raytracing.vcxproj -> F:\Arbeit\Uni\raytrace\Raytracing-Engine\x64\Debug\Raytracing.exe
