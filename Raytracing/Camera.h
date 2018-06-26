@@ -18,27 +18,39 @@ private:
 
 	unsigned int width = 200;
 	unsigned int height = 200;
-	unsigned int density = 5;
+	unsigned int density = 3;
 	double screenDistance = 0.5;
 	double fov = 90;
-	size_t maxBounces = 0;
+	size_t maxBounces = 1;
 	Scene* scene;
 
-	bool traceRay(Eigen::Vector3d direction, RaycastHit* hit,size_t bounces, Triangle* ignore = nullptr)
+	Eigen::Vector3f traceRay(Ray ray, size_t bounces, Triangle* ignore = nullptr)
 	{
-		Ray ray = Ray(transform.position, direction, scene);
-		if(scene->intersects(ray,hit,ignore))
+		Eigen::Vector3f color(0, 0, 0);
+		if (bounces > maxBounces)
+			return color;
+		
+		RaycastHit hit;
+		if(scene->intersects(ray, &hit,ignore))
 		{
-			if(bounces >= maxBounces)
-			{
-				hit->intensity = scene->getIllumination(hit->point,hit->triangle);
-			}
-			hit->color.r += hit->mesh->color.r;
+			
+			double intensity = Our_math::clamp01(scene->getIllumination(hit.point, hit.triangle));
+			color[0] = hit.mesh->color.r * intensity;
+			color[1] = hit.mesh->color.g * intensity;
+			color[2] = hit.mesh->color.b * intensity;
+			
+			Eigen::Vector3d reflection = ray.direction.normalized() - (2.0 * (ray.direction.normalized().dot(hit.triangle->n) * hit.triangle->n));
+			Ray nRay = Ray(hit.point, reflection, scene);
+			color += traceRay(nRay, bounces + 1, hit.triangle) * 0.3;
+			
+
+
+			/*hit->color.r += hit->mesh->color.r;
 			hit->color.g += hit->mesh->color.g;
-			hit->color.b += hit->mesh->color.b;
-			return true;
+			hit->color.b += hit->mesh->color.b;*/
 		}
-		return false;
+
+		return Utils::clampColor(color);
 	}
 
 
@@ -102,14 +114,15 @@ public:
 			for (size_t y = 0; y < height; y++)
 			{
 				returnArray[x][height - y - 1] = SDL_Color();
-				returnArray[x][height - y - 1].a = 255;
 				returnArray[x][height - y - 1].r = 0;
 				returnArray[x][height - y - 1].g = 0;
 				returnArray[x][height - y - 1].b = 120;
+				returnArray[x][height - y - 1].a = 255;
 
 				double r = 0;
 				double g = 0;
 				double b = 0;
+				double a = 0;
 
 				for (size_t z = 0; z < density * density; z++)
 				{
@@ -127,24 +140,34 @@ public:
 
 					direction =  transform.rotationMatrix * direction;
 					
-					RaycastHit hit;
+					/*RaycastHit hit;
 
 					if (traceRay(direction,&hit,0))
 					{
-						/*Uint8 color = (Uint8)(Our_math::clamp01(hit.intensity) * 0xFF);
-						*/
+						//Uint8 color = (Uint8)(Our_math::clamp01(hit.intensity) * 0xFF);
 						r += Our_math::clamp01((hit.color.r / 0xFF) * hit.intensity);
 						g += Our_math::clamp01((hit.color.g / 0xFF) * hit.intensity);
 						b += Our_math::clamp01((hit.color.b / 0xFF)* hit.intensity);
-					}
+					}*/
+
+					Ray ray = Ray(transform.position, direction, scene);
+
+					Eigen::Vector3f col = traceRay(ray, 0);
+					r += col[0];
+					g += col[1];
+					b += col[2];
 				}
 				r /= (density * density);
 				g /= (density * density);
 				b /= (density * density);
 
-				returnArray[x][height - y - 1].r = (Uint8)(Our_math::clamp01(r) * 0xFF);
+				/*returnArray[x][height - y - 1].r = (Uint8)(Our_math::clamp01(r) * 0xFF);
 				returnArray[x][height - y - 1].g = (Uint8)(Our_math::clamp01(g) * 0xFF);
-				returnArray[x][height - y - 1].b = (Uint8)(Our_math::clamp01(b) * 0xFF);
+				returnArray[x][height - y - 1].b = (Uint8)(Our_math::clamp01(b) * 0xFF);*/
+
+				returnArray[x][height - y - 1].r = (Uint8)r;
+				returnArray[x][height - y - 1].g = (Uint8)g;
+				returnArray[x][height - y - 1].b = (Uint8)b;
 
 				tracedPixel++;
 			}

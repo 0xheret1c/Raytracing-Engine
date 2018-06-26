@@ -3,6 +3,7 @@
 #include <time.h>  
 #include <iostream>
 #include <SDL.h>
+#include <Eigen\Core>
 
 class Utils
 {
@@ -60,6 +61,18 @@ public:
 		sdl_color.g = g;
 		sdl_color.b = b;
 		return sdl_color;
+	}
+
+	static SDL_Color vectorToColor(Eigen::Vector4i input) {
+		SDL_Color r = { input[0], input[1], input[2], input[3]};
+		return r;
+	}
+
+	static Eigen::Vector3f clampColor(Eigen::Vector3f input) {
+		input[0] = input[0] < 0 ? 0 : (input[0] > 255 ? 255 : input[0]);
+		input[1] = input[1] < 0 ? 0 : (input[1] > 255 ? 255 : input[1]);
+		input[2] = input[2] < 0 ? 0 : (input[2] > 255 ? 255 : input[2]);
+		return input;
 	}
 
 };

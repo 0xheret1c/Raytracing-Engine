@@ -11,7 +11,7 @@
 
 void traceTest();
 const unsigned int WIDTH =  1920;
-const unsigned int HEIGHT = 1000;
+const unsigned int HEIGHT = 1080;
 
 using namespace Eigen;
 int main(int argc, char* argv[])
@@ -35,7 +35,7 @@ void traceTest()
 	Mesh mesh[] = { 
 		Primitive::Cube(_Transform(Vector3d(0, -1 ,5),Vector3d(0,0,0), Vector3d(1, 0.25, 1)),Utils::getColor(e_Colors::blue)),
 		Primitive::Cube(_Transform(Vector3d(0, -0.75 ,5),Vector3d(0,45,0), Vector3d(0.5, 0.25, 0.5)),Utils::getColor(e_Colors::chart_reuse)),
-		Primitive::Pyramid(_Transform(Vector3d(0, -0.65, 5),Vector3d(0,10,0), Vector3d(0.30,0.30,0.30)),Utils::getColor(e_Colors::red)),
+		Primitive::Pyramid(_Transform(Vector3d(0, 0, 5),Vector3d(0,10,0), Vector3d(0.30,0.30,0.30)),Utils::getColor(e_Colors::red)),
 		Primitive::Plane(_Transform(Vector3d(0,-1.125 ,0), Vector3d(0,0,0), Vector3d(500, 1, 500)),Utils::getColor(e_Colors::white))
 	};
 	Light light[1] =
