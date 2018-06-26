@@ -129,6 +129,9 @@ public:
 
 					std::cout << "Loading " << trianglecount << " triangles." << std::endl;
 					
+
+
+
 					__triangles = new size_t[trianglecount];
 
 					std::string currentNumber = "";
@@ -153,13 +156,34 @@ public:
 				else if(line[0] == 'v')		   // verts
 				{
 
-					__verts = new Eigen::Vector3d[trianglecount / 3];
-					std::cout << "Loading " << (trianglecount / 3) << " verticies." << std::endl;
-					
+					size_t vertcount = 0;
 					char current = ',';
-					std::string currentNumber = "";
 					size_t i = 2;
 					size_t j = 0;
+					size_t ccounter = 0;
+					while (current != ';')
+					{
+						current = line[i];
+						if (current == ',' || current == ';')
+						{
+							ccounter++;
+							if (ccounter > 2)
+							{
+								ccounter = 0;
+								vertcount++;
+							}
+						}
+						i++;
+					}
+
+					__verts = new Eigen::Vector3d[vertcount];
+					std::cout << "Loading " << (vertcount) << " verticies." << std::endl;
+					
+
+					std::string currentNumber = "";
+					current = ',';
+					i = 2;
+					j = 0;
 					double xyz[3] = {0,0,0};
 					size_t xyzCounter = 0;
 					while (current != ';')

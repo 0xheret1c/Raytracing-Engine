@@ -10,8 +10,8 @@
 //Prototype
 
 void traceTest();
-const unsigned int WIDTH =  500;
-const unsigned int HEIGHT = 500;
+const unsigned int WIDTH =  700;
+const unsigned int HEIGHT = 700;
 
 using namespace Eigen;
 int main(int argc, char* argv[])
@@ -28,7 +28,7 @@ int main(int argc, char* argv[])
 
 void traceTest()
 {
-	std::string path = "C:\\Users\\Marius\\Documents\\GitHub\\Raytracing-Engine\\x64\\Release\\example_cube.rtmsh";
+	std::string path = "C:\\Users\\Marius\\Documents\\GitHub\\Raytracing-Engine\\Meshes\\Pagoda_Ornamental.rtmsh";
 	GFXOutput out = GFXOutput(WIDTH, HEIGHT);
 	Scene scene = Scene();
 	Camera cam = Camera(WIDTH, HEIGHT,_Transform(Vector3d(0, 0,-1),Vector3d(12, 0, 0)), &scene);
@@ -36,7 +36,7 @@ void traceTest()
 	Mesh mesh[] = { 
 		Primitive::Cube(_Transform(Vector3d(0, -1 ,5),Vector3d(0,0,0), Vector3d(1, 0.25, 1)),Utils::getColor(e_Colors::blue)),
 		Primitive::Cube(_Transform(Vector3d(0, -0.75 ,5),Vector3d(0,45,0), Vector3d(0.5, 0.25, 0.5)),Utils::getColor(e_Colors::chart_reuse)),
-		Primitive::Pyramid(_Transform(Vector3d(0, -0.65, 5),Vector3d(0,10,0), Vector3d(0.30,0.30,0.30)),Utils::getColor(e_Colors::red)),
+		Mesh::importFromRTMSH(path,_Transform(Vector3d(0, 0.5, 5),Vector3d(0,10,0), Vector3d(0.1,0.1,0.1)),Utils::getColor(e_Colors::red)),
 		Primitive::Plane(_Transform(Vector3d(0,-1.125 ,0), Vector3d(0,0,0), Vector3d(500, 1, 500)),Utils::getColor(e_Colors::white))
 	};
 	Light light[1] =
