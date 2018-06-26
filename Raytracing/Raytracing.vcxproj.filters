@@ -54,6 +54,9 @@
     <ClInclude Include="e_colors.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="Material.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">

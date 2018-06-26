@@ -9,6 +9,7 @@ class Scene;
 #include <Eigen\Core>
 #include "_Transform.h"
 #include "RaycastHit.h"
+#include "Material.h"
 
 
 
@@ -41,7 +42,7 @@ private:
 			
 			Eigen::Vector3d reflection = ray.direction.normalized() - (2.0 * (ray.direction.normalized().dot(hit.triangle->n) * hit.triangle->n));
 			Ray nRay = Ray(hit.point, reflection.normalized(), scene);
-			color += traceRay(nRay, bounces + 1, hit.triangle) * 0.3;
+			color += traceRay(nRay, bounces + 1, hit.triangle) * hit.mesh->mat.reflectiveness;
 			
 
 
