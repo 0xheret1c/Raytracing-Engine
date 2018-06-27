@@ -81,6 +81,7 @@ public:
 	Triangle* triangles;
 	SDL_Color color;
 	Material mat;
+	size_t vertCount;
 
 	bool intersects(Ray ray, RaycastHit* hit,Triangle* ignore = nullptr)
 	{
@@ -128,7 +129,8 @@ public:
 		min = Eigen::Vector3d(-INFINITY, -INFINITY, -INFINITY);
 		max = Eigen::Vector3d(+INFINITY, +INFINITY, +INFINITY);
 	}*/
-	Mesh(Eigen::Vector3d* _verts, size_t * _triangles, size_t _triangleCount, _Transform _transform, SDL_Color c)
+
+	Mesh(Eigen::Vector3d* _verts,size_t _vertscount, size_t * _triangles, size_t _triangleCount, _Transform _transform, SDL_Color c)
 	{
 		mat = Material();
 		color = c;
@@ -137,8 +139,9 @@ public:
 		calculateTriangels(_triangles, _triangleCount);
 		max = Eigen::Vector3d(-INFINITY, -INFINITY, -INFINITY);
 		min = Eigen::Vector3d(+INFINITY, +INFINITY, +INFINITY);
+		_vertscount = _vertscount;
 	}
-	Mesh(Eigen::Vector3d* _verts, size_t * _triangles, size_t _triangleCount, _Transform _transform, Material material)
+	Mesh(Eigen::Vector3d* _verts,size_t _vertCount, size_t * _triangles, size_t _triangleCount, _Transform _transform, Material material)
 	{
 		mat = material;
 		color = material.color;
@@ -147,11 +150,16 @@ public:
 		calculateTriangels(_triangles, _triangleCount);
 		max = Eigen::Vector3d(-INFINITY, -INFINITY, -INFINITY);
 		min = Eigen::Vector3d(+INFINITY, +INFINITY, +INFINITY);
+		vertCount = _vertCount;
 	}
 	~Mesh()
 	{
 		//TODO: VERTS CLEAR FIXEN!!!!
-		delete[] verts;
+		for (size_t i = 0; i < vertCount; i++)
+		{
+			verts[i].resize(0);
+		}
+		//delete[] verts;
 		delete[] triangles;
 	}
 	
@@ -163,7 +171,7 @@ public:
 
 		std::string line;
 		int trianglecount = 0;
-
+		size_t vertcount = 0;
 		file.open(path, std::ios::in);	// open in input mode
 		std::cout << "Importing \"" << path << "\"." << std::endl;
 
@@ -213,8 +221,7 @@ public:
 				}
 				else if (line[0] == 'v')		   // verts
 				{
-
-					size_t vertcount = 0;
+					vertcount = 0;
 					char current = ',';
 					size_t i = 2;
 					size_t j = 0;
@@ -274,7 +281,7 @@ public:
 			std::cout << "[MESH IMPORT] ERROR: CANNOT IMPORT MESH: \"" << path << "\"." << std::endl;
 		}
 
-		return  Mesh(__verts, __triangles, trianglecount, _transform, _c);
+		return  Mesh(__verts, vertcount, __triangles, trianglecount, _transform, _c);
 	}
 
 	static Mesh importFromRTMSH(std::string path, _Transform _transform, Material m)
@@ -285,7 +292,7 @@ public:
 
 		std::string line;
 		int trianglecount = 0;
-
+		size_t vertcount = 0;
 		file.open(path, std::ios::in);	// open in input mode
 		std::cout << "Importing \"" << path << "\"." << std::endl;
 
@@ -336,7 +343,7 @@ public:
 				else if (line[0] == 'v')		   // verts
 				{
 
-					size_t vertcount = 0;
+					vertcount = 0;
 					char current = ',';
 					size_t i = 2;
 					size_t j = 0;
@@ -396,6 +403,6 @@ public:
 			std::cout << "[MESH IMPORT] ERROR: CANNOT IMPORT MESH: \"" << path << "\"." << std::endl;
 		}
 
-		return  Mesh(__verts, __triangles, trianglecount, _transform, m);
+		return  Mesh(__verts,vertcount, __triangles, trianglecount, _transform, m);
 	}
 };

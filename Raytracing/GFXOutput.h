@@ -2,6 +2,7 @@
 #include "Utils.h"
 #include "Math.h"
 #include "SDL.h"
+#include <fstream>
 #include <iostream>
 
 
@@ -126,11 +127,17 @@ public:
 
 	void screenshotBMP(char* fileName)
 	{
-		
+
 		SDL_Surface *sshot = SDL_CreateRGBSurface(0, screenWidth, screenHeight, 32, 0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000);
 		SDL_RenderReadPixels(renderer, NULL, SDL_PIXELFORMAT_ARGB8888, sshot->pixels, sshot->pitch);
 		SDL_SaveBMP(sshot, fileName);
 		SDL_FreeSurface(sshot);
+	}
+
+	static void screenshotBMP(char* fileName, SDL_Color** screen, size_t screenW, size_t screenH)
+	{
+
+		
 	}
 
 	void printScreen()
