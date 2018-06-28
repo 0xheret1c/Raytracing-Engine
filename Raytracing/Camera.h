@@ -56,10 +56,10 @@ private:
 		return Utils::clampColor(color);
 	}
 
-	Eigen::Vector3f traceDiffuse(Eigen::Vector3d reflection, RaycastHit hit, Triangle *ignore = nullptr) {
+	/*Eigen::Vector3f traceDiffuse(Eigen::Vector3d reflection, RaycastHit hit, Triangle *ignore = nullptr) {
 		//double angleRadX = Utils::_rand();
 		//double angleRadY = (fovY / ((height - 1.0) * density)) * ((y*density) + (z / density)) - (fovY / 2.0);
-	}
+	}*/
 
 
 
@@ -112,7 +112,6 @@ public:
 		//Debug
 		std::cout << "Started tracing... this might take a while!" << std::endl;
 		const clock_t begin_time = clock();
-
 		size_t pixelToTrace = height * width;
 		size_t tracedPixel = 0;
 		size_t lastPercent = 0;

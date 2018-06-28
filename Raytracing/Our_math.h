@@ -2,6 +2,8 @@
 #include <cstdlib>
 #include <time.h>  
 #include "Core.h"
+#include <SDL.h>
+#include <Eigen\Core>
 
 
 class Our_math
@@ -24,6 +26,13 @@ public:
 		return val;
 	}
 
-	
+	static Eigen::Quaterniond toQuat(Eigen::Vector3d rotation) {
+		Eigen::Quaterniond rot;
+		rot = Eigen::AngleAxisd(rotation.x() * (M_PI) / 180, Eigen::Vector3d::UnitX())
+			* Eigen::AngleAxisd(rotation.y() * (M_PI) / 180, Eigen::Vector3d::UnitY())
+			* Eigen::AngleAxisd(rotation.z() * (M_PI) / 180, Eigen::Vector3d::UnitZ());
+		return rot;
+	}
+
 };
 
