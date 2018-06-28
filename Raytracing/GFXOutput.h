@@ -130,7 +130,7 @@ public:
 	void screenshotBMP(std::string fileName)
 	{
 
-		SDL_Surface *sshot = SDL_CreateRGBSurface(0, screenWidth, screenHeight, 32, 0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000);
+		/*SDL_Surface *sshot = SDL_CreateRGBSurface(0, screenWidth, screenHeight, 32, 0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000);
 		size_t lastIndex = fileName.length - 1;
 		std::string extention = fileName.substr(fileName.length - 4, 4);
 		std::cout << extention << std::endl;
@@ -142,7 +142,7 @@ public:
 		}
 		SDL_RenderReadPixels(renderer, NULL, SDL_PIXELFORMAT_ARGB8888, sshot->pixels, sshot->pitch);
 		SDL_SaveBMP(sshot, fileName.c_str());
-		SDL_FreeSurface(sshot);
+		SDL_FreeSurface(sshot);*/
 	}
 
 	static void screenshotBMP(char* fileName, SDL_Color** screen, size_t screenW, size_t screenH)
