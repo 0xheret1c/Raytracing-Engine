@@ -75,4 +75,10 @@ public:
 		return input;
 	}
 
+	static Eigen::Quaterniond vectorToQuaternion(Eigen::Vector3d rotation) {
+		return Eigen::AngleAxisd(rotation.x() * (M_PI) / 180, Eigen::Vector3d::UnitX())
+			* Eigen::AngleAxisd(rotation.y() * (M_PI) / 180, Eigen::Vector3d::UnitY())
+			* Eigen::AngleAxisd(rotation.z() * (M_PI) / 180, Eigen::Vector3d::UnitZ());
+	}
+
 };
