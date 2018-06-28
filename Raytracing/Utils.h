@@ -2,7 +2,7 @@
 #include <cstdlib>
 #include <time.h>  
 #include <iostream>
-#include <sys/stat.h>
+#include <fstream>
 #include <string>
 #include <SDL.h>
 #include <Eigen\Core>
@@ -77,11 +77,11 @@ public:
 		return input;
 	}
 
-	/*static bool fileExists(std::string name)
+	static inline bool fileExists(const char *filename)
 	{
-		//std::ofstream f(name.c_str());
-		//return f.good();
-		return false;
-	}*/
+		std::ifstream ifile(filename);
+		return (bool)ifile;
+	}
+
 
 };

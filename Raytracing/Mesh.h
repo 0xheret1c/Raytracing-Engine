@@ -155,10 +155,10 @@ public:
 	~Mesh()
 	{
 		//TODO: VERTS CLEAR FIXEN!!!!
-		for (size_t i = 0; i < vertCount; i++)
-		{
-			verts[i].resize(0);
-		}
+		//for (size_t i = 0; i < vertCount; i++)
+		//{
+		//	verts[i].resize(0);
+		//}
 		//delete[] verts;
 		delete[] triangles;
 	}

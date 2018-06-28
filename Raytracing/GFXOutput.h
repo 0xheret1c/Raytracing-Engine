@@ -41,11 +41,11 @@ public:
 		SDL_Init(SDL_INIT_VIDEO);
 		Utils::LOG("Creating window and renderer...");
 		SDL_CreateWindowAndRenderer((int)this->screenWidth, (int)this->screenHeight, 0, &this->window, &this->renderer);
-
-		while (!quit)
+		this->printScreen();
+		this->screenshotBMP(".\\LastTraces\\lastTrace.bmp");
+		/*while (!quit)
 		{
-			this->printScreen();
-			this->screenshotBMP("lastTrace.bmp");
+
 			SDL_WaitEvent(&event);
 			switch (event.type)
 			{
@@ -53,8 +53,8 @@ public:
 				quit = true;
 				break;
 			}
-		}
-		SDL_DestroyTexture(this->texture);
+		}*/
+		/*SDL_DestroyTexture(this->texture);
 		SDL_DestroyRenderer(this->renderer);
 		SDL_DestroyWindow(this->window);
 		SDL_Quit();
@@ -62,7 +62,7 @@ public:
 		{
 			delete[] this->screen[i];
 		}
-		delete[] this->screen;
+		delete[] this->screen;*/
 	}
 
 	GFXOutput(unsigned int screenWidth, unsigned int screenHeight)
@@ -130,19 +130,28 @@ public:
 	void screenshotBMP(std::string fileName)
 	{
 
-		/*SDL_Surface *sshot = SDL_CreateRGBSurface(0, screenWidth, screenHeight, 32, 0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000);
-		size_t lastIndex = fileName.length - 1;
-		std::string extention = fileName.substr(fileName.length - 4, 4);
-		std::cout << extention << std::endl;
-
-
-		if (Utils::fileExists(fileName))
+		SDL_Surface *sshot = SDL_CreateRGBSurface(0, screenWidth, screenHeight, 32, 0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000);
+		
+		size_t lastIndex = fileName.length() - 1;
+		std::string extention = fileName.substr(fileName.length() - 4, 4);
+		if (extention == ".bpm")
+		{
+			fileName += ".bpm";
+		}
+		size_t i = 1;
+		std::string toCheck = fileName;
+		std::string temp = fileName;
+		while (Utils::fileExists(toCheck.c_str()))
 		{
 
+			toCheck = temp.insert(temp.length() - 4,std::to_string(i));
+			temp = fileName;
+			i++;
 		}
+		fileName = toCheck;
 		SDL_RenderReadPixels(renderer, NULL, SDL_PIXELFORMAT_ARGB8888, sshot->pixels, sshot->pitch);
 		SDL_SaveBMP(sshot, fileName.c_str());
-		SDL_FreeSurface(sshot);*/
+		SDL_FreeSurface(sshot);
 	}
 
 	static void screenshotBMP(char* fileName, SDL_Color** screen, size_t screenW, size_t screenH)
