@@ -2,6 +2,8 @@
 #include <cstdlib>
 #include <time.h>  
 #include <iostream>
+#include <sys/stat.h>
+#include <string>
 #include <SDL.h>
 #include <Eigen\Core>
 
@@ -73,6 +75,12 @@ public:
 		input[1] = input[1] < 0 ? 0 : (input[1] > 255 ? 255 : input[1]);
 		input[2] = input[2] < 0 ? 0 : (input[2] > 255 ? 255 : input[2]);
 		return input;
+	}
+
+	static inline bool fileExists(const std::string& name) 
+	{
+		std::ofstream f(name.c_str());
+		return f.good();
 	}
 
 };

@@ -3,6 +3,7 @@
 #include "Math.h"
 #include "SDL.h"
 #include <fstream>
+#include <string>
 #include <iostream>
 
 
@@ -126,12 +127,21 @@ public:
 
 
 
-	void screenshotBMP(char* fileName)
+	void screenshotBMP(std::string fileName)
 	{
 
 		SDL_Surface *sshot = SDL_CreateRGBSurface(0, screenWidth, screenHeight, 32, 0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000);
+		size_t lastIndex = fileName.length - 1;
+		std::string extention = fileName.substr(fileName.length - 4, 4);
+		std::cout << extention << std::endl;
+
+
+		if (Utils::fileExists(fileName))
+		{
+
+		}
 		SDL_RenderReadPixels(renderer, NULL, SDL_PIXELFORMAT_ARGB8888, sshot->pixels, sshot->pitch);
-		SDL_SaveBMP(sshot, fileName);
+		SDL_SaveBMP(sshot, fileName.c_str());
 		SDL_FreeSurface(sshot);
 	}
 
