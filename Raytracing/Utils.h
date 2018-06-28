@@ -83,6 +83,10 @@ public:
 		std::ofstream f(name.c_str());
 		return f.good();
 =======
+	static Eigen::Quaterniond vectorToQuaternion(Eigen::Vector3d rotation) {
+		return Eigen::AngleAxisd(rotation.x() * (M_PI) / 180, Eigen::Vector3d::UnitX())
+			* Eigen::AngleAxisd(rotation.y() * (M_PI) / 180, Eigen::Vector3d::UnitY())
+			* Eigen::AngleAxisd(rotation.z() * (M_PI) / 180, Eigen::Vector3d::UnitZ());
 >>>>>>> 2584f6e9c44a8bad5a1104b539d6d6fe730908ea
 	}
 
