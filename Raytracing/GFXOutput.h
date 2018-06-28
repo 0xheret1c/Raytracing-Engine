@@ -19,7 +19,6 @@ private:
 	SDL_Color** screen;
 	SDL_Window* window;
 	SDL_Renderer* renderer;
-	SDL_Texture* texture;
 
 	void allocScreen()
 	{
@@ -30,9 +29,6 @@ private:
 		}
 		this->setPixels();
 	}
-
-	
-
 
 public:
 	void initSDL()
@@ -54,10 +50,10 @@ public:
 				break;
 			}
 		}*/
-		/*SDL_DestroyTexture(this->texture);
 		SDL_DestroyRenderer(this->renderer);
 		SDL_DestroyWindow(this->window);
 		SDL_Quit();
+		/*
 		for (size_t i = 0; i < this->screenWidth; i++)
 		{
 			delete[] this->screen[i];
@@ -90,7 +86,6 @@ public:
 	~GFXOutput()
 	{
 		//Cleanup
-		SDL_DestroyTexture(this->texture);
 		SDL_DestroyRenderer(this->renderer);
 		SDL_DestroyWindow(this->window);
 		SDL_Quit();

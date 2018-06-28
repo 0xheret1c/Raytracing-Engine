@@ -50,12 +50,13 @@ void traceTest()
 	};
 	scene.setLights(light, sizeof(light) / sizeof(Light));
 	//Mesh the cube
+
 	double rotation = 0.00;
-	while (true)
+	while (rotation <= 360)
 	{
 		Mesh mesh[] = {
-			Primitive::Cube(_Transform(		Vector3d(-1.5, -1 ,6),	Vector3d(0,35,0),				Vector3d(0.05,2.5, 2.5)),mirror),
-			Primitive::Pyramid(_Transform(	Vector3d(1.5, -1 ,6),	Vector3d(0,-35 + rotation,0),	Vector3d(0.05,2.5, 2.5)),mirror),
+			Primitive::Cube(_Transform(		Vector3d(-1.5, -1 ,6),	Vector3d(0,35,0),				Vector3d(0.02,2.5, 2.5)),mirror),
+			Primitive::Pyramid(_Transform(	Vector3d(1.5, -1 ,6),	Vector3d(0,-35 + rotation,0),	Vector3d(2.5, 2.5, 1.5)),mirror),
 			Primitive::Cube(_Transform(		Vector3d(0, -1 ,5),		Vector3d(0,0 - rotation,0),		Vector3d(1, 0.25, 1)),satinRed),
 			Primitive::Cube(_Transform(		Vector3d(0, -0.75 ,5),	Vector3d(0,32 - rotation,0),	Vector3d(0.85, 0.25, 0.85)),shinyGreen),
 
@@ -64,11 +65,12 @@ void traceTest()
 			Primitive::Plane(_Transform(Vector3d(0,-1.125 ,0), Vector3d(0,0,0), Vector3d(500, 1, 500)),Utils::getColor(e_Colors::white))
 		};
 		scene.camera = &cam;
-		rotation += 0.5;
+		rotation += 5.0;
 		scene.setMeshes(mesh, sizeof(mesh) / sizeof(Mesh));
 		SDL_Color** screen = cam.trace();
 		out.setPixels(screen);
 		out.initSDL();
+		
 	}
 
 
