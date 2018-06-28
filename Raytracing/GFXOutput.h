@@ -44,6 +44,7 @@ public:
 		while (!quit)
 		{
 			this->printScreen();
+			this->screenshotBMP("lastTrace.bmp");
 			SDL_WaitEvent(&event);
 			switch (event.type)
 			{
