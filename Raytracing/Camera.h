@@ -28,7 +28,8 @@ private:
 	Eigen::Vector3f traceRay(Ray ray, size_t bounces, Triangle* ignore = nullptr)
 	{
 		Eigen::Vector3f color(0, 0, 0);
-		double angle = (-(acos(ray.direction.dot(Eigen::Vector3d::UnitY())) / (M_PI / 2.0)) + 2.0);
+		double angle = (-(acos(ray.direction.dot(Eigen::Vector3d::UnitY())) / (M_PI / 2.0)));
+		angle = abs(angle);
 		angle = Our_math::clamp01(angle);
 		color = Eigen::Vector3f(255, 255, 255) - angle * (Eigen::Vector3f(255, 255, 255) - Eigen::Vector3f(0x19, 0x2c, 0xb7));
 		if (bounces > maxBounces) {
@@ -53,6 +54,11 @@ private:
 		}
 
 		return Utils::clampColor(color);
+	}
+
+	Eigen::Vector3f traceDiffuse(Eigen::Vector3d reflection, RaycastHit hit, Triangle *ignore = nullptr) {
+		//double angleRadX = Utils::_rand();
+		//double angleRadY = (fovY / ((height - 1.0) * density)) * ((y*density) + (z / density)) - (fovY / 2.0);
 	}
 
 

@@ -77,10 +77,13 @@ public:
 		return input;
 	}
 
+<<<<<<< HEAD
 	static inline bool fileExists(const std::string& name) 
 	{
 		std::ofstream f(name.c_str());
 		return f.good();
+=======
+>>>>>>> 2584f6e9c44a8bad5a1104b539d6d6fe730908ea
 	}
 
 };
