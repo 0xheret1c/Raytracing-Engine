@@ -12,8 +12,8 @@
 
 void traceTest();
 
-const unsigned int WIDTH =  500;
-const unsigned int HEIGHT = 500;
+const unsigned int WIDTH =  300;
+const unsigned int HEIGHT = 300;
 const size_t density = 1;
 const size_t bounces = 2;
 

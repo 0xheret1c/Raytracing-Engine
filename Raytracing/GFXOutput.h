@@ -53,12 +53,8 @@ public:
 		SDL_DestroyRenderer(this->renderer);
 		SDL_DestroyWindow(this->window);
 		SDL_Quit();
-		/*
-		for (size_t i = 0; i < this->screenWidth; i++)
-		{
-			delete[] this->screen[i];
-		}
-		delete[] this->screen;*/
+		
+
 	}
 
 	GFXOutput(unsigned int screenWidth, unsigned int screenHeight)
@@ -106,6 +102,9 @@ public:
 		}
 
 	}
+
+
+
 	void setPixels()
 	{
 		for (size_t y = 0; y < this->screenHeight; y++)
@@ -119,8 +118,6 @@ public:
 			}
 		}
 	}
-
-
 
 	void screenshotBMP(std::string fileName)
 	{
