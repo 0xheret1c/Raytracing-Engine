@@ -49,7 +49,7 @@ public:
 			}
 			else if (argv[i] == "-d" || argv[i] == "--density") 
 			{
-				std::cout << "Set fov to " << argv[++i] << "." << std::endl;
+				std::cout << "Set density to " << argv[++i] << "." << std::endl;
 				setDensity(std::stoi(argv[i]));
 			}
 			else if (argv[i] == "-g" || argv[i] == "--global-illumination")
