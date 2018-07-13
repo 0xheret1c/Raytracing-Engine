@@ -2,6 +2,27 @@
 #include <fstream>
 #include <string>
 
+/***************************************************************
+*		arrayToBmp.hpp
+*		Purpose: Save an RGB24 array to an uncompressed BMP file, 
+*		with inbuild file-checking and copy-management!
+*		
+*		@license Licensed under the no-license-license.
+*		@author Marius Zander
+*		@version 1.1 04/07/18
+*		
+***************************************************************/
+
+/* ======================== HOW TO USE =======================*
+*
+* Copy and paste arrayToBmp.hpp into your project, and include it with #include "arrayToBmp.hpp".
+* Then use the arrayToBMP function to write your BMP! Easy as that. The Color values are basicly integers, 
+* just like HTML rgb values. E.g.: 0xFFFFFF for white, or 0xFF0000 for red.
+* If you have trouble converting integers to RGB24 values, use the getColor function, which returns an rgb24_t value, 
+* with given R, G and B values.
+*
+* ============================================================/
+
 /* typedefs */
 typedef unsigned char byte_t;
 typedef unsigned int rgb24_t;
@@ -10,6 +31,8 @@ class arrayToBMP
 {
 private:
 
+	/* CONSTS check https://en.wikipedia.org/wiki/BMP_file_format for more info.*/
+	/*COLOR TABLE*/
 	static const uint32_t COLORTABLE_ENTRIES = 0x00;
 
 	/*COMPRESSIONS*/
@@ -37,14 +60,28 @@ private:
 	static const uint32_t BI_CLRIMPORTANT = 0x00;
 
 
+	/*
+	* bytesNeeded calculates how many bytes are needed to store the given number.
+	*
+	* @param data The number you want to get the bytes needed of.
+	* @return the bytes needed to store a number.
+	* E.g.: 250 = 8, 255 = 8, 256 = 9 etc.
+	*/
 	static inline size_t bytesNeeded(size_t data)
 	{
 		size_t s = 1;
-		while (s < 8 && data >= (size_t)(1L << (s * 8))) 
+		while (s < 8 && data >= ((size_t)1L << (size_t)(s * 8)))
 			s++;
 		return s;
 		
 	}
+
+	/*
+	* getPaddingByteCount calculates how many padding bytes will be added.
+	*
+	* @param býtes the input bytes without padding.
+	* @return the amout of padding bytes needed.
+	*/
 	static inline size_t getPaddingByteCount(size_t bytes)
 	{
 		size_t paddingBytes = 0;
@@ -58,6 +95,13 @@ private:
 		return paddingBytes;
 	}
 
+	/*
+	* writeToByteArray writes size_t's little-endian encoded to the array.
+	*
+	* @param data the data to write.
+	* @param at the position where to start writing.
+	* @param destArray the array to write in.
+	*/
 	static inline void writeToByteArray(size_t data, size_t at, byte_t* destArray)
 	{
 		size_t length = bytesNeeded(data);
@@ -73,15 +117,32 @@ private:
 	}
 
 	/* Functions for writing the BMP file */
+	
+	/*
+	* writeFileHeader writes the BMPFILEHEADER into the destination array,
+	* using the writeToByteArray function.
+	*
+	* @param fileSize the size of the whole BMP file
+	* @param destArray the array to write in.
+	*/
 	static inline void writeFileHeader(byte_t* destArray,size_t fileSize)
 	{
 
-		writeToByteArray(BF_TYPE,		0x00, destArray);			// bfType
-		writeToByteArray(fileSize,		0x02, destArray);			// bfSize
-		writeToByteArray(BF_RESERVED,   0x06, destArray);			// bfReserved	
-		writeToByteArray(BF_OFFBITS,	0x0A, destArray);			// bfOffbits
+		writeToByteArray(BF_TYPE,		0x00, destArray);		// bfType
+		writeToByteArray(fileSize,		0x02, destArray);		// bfSize
+		writeToByteArray(BF_RESERVED,   0x06, destArray);		// bfReserved	
+		writeToByteArray(BF_OFFBITS,	0x0A, destArray);		// bfOffbits
 
 	}
+
+	/*
+	* writeInfoHeader writes the BMPINFOHEADER into the destination array,
+	* using the writeToByteArray function.
+	*
+	* @param width  the width of the image in pixels.
+	* @param height the height of the image in pixels.
+	* @param destArray the array to write in.
+	*/
 	static inline void writeInfoHeader(byte_t* destArray,size_t width, size_t height)
 	{
 
@@ -100,6 +161,15 @@ private:
 		writeToByteArray(BI_CLRIMPORTANT,	0x32, destArray);	// biClrImportant 
 	
 	}
+
+	/*
+	* writeImageData writes the IMAGEDATA into the destination array.
+	*
+	* @param width  the width of the image in pixels.
+	* @param height the height of the image in pixels.
+	* @param colorArray the array of colors to write. Basicly the image pixels.
+	* @param destArray the array to write in.
+	*/
 	static inline void writeImageData(byte_t* destArray, rgb24_t* colorArray, size_t width, size_t height)
 	{
 		const size_t imageSizeWithoutPadding = (width * height * 3);
@@ -110,8 +180,9 @@ private:
 		size_t paddingOffset = 0;
 
 		size_t i; 
-		for (i = BF_OFFBITS; i <= BF_OFFBITS + BI_IMAGESIZE; i = i + 3)
+		for (i = BF_OFFBITS; i + paddingOffset + 2 < BF_OFFBITS + BI_IMAGESIZE && index < width*height; i = i + 3)
 		{
+
 			if (writtenBytes % 6 == 0 && writtenBytes != 0)
 			{
 				//Two bytes padding for every 6 bytes written. To allign memory
@@ -123,10 +194,9 @@ private:
 			byte_t R = (color & 0xFF0000) >> 16;
 			byte_t G = (color & 0x00FF00) >> 8;
 			byte_t B = (color & 0x0000FF);
-			destArray[paddingOffset + i + 2]	 = B;
+			destArray[paddingOffset + i + 2] = B;
 			destArray[paddingOffset + i + 1] = G;
-			destArray[paddingOffset + i] = R;	
-
+			destArray[paddingOffset + i]     = R;	
 			writtenBytes += 3;
 		}
 
@@ -134,12 +204,28 @@ private:
 
 	/* Functions for writing files byte-wise */
 
+	/*
+	* fileExists returns true if a file exits, false if not.
+	*
+	* @param filename the path to the file
+	* @return true if the file exists, false if it doesnt.
+	*/
 	static inline bool fileExists(const char *filename)
 	{
 		std::ifstream ifile(filename);
 		return (bool)ifile;
 	}
 
+	
+	/*
+	* correctFileName checks if the ".bmp" fileextention is in the filename, 
+	* if not, adds the ".bmp" ending. If the file already exists, inserts a number
+	* before the ".bmp" extention. 
+	: E.g.: foo -> foo.bmp, foo.bmp -> foo1.bmp, foo -> foo2.bmp
+	*
+	* @param filename the path to the file,
+	* @return the corrected path.
+	*/
 	static std::string correctFileName(std::string fileName)
 	{
 		size_t lastIndex = fileName.length() - 1;
@@ -160,6 +246,13 @@ private:
 		return toCheck;
 	}
 
+	/*
+	* writeOut writes the given array bytewise to the given path.
+	*
+	* @param toWrite the array to write.
+	* @param length the length of the array.
+	* @param path the path to save the file to. It gets corrected by correctFileName.
+	*/
 	static inline void writeOut(byte_t* toWrite,size_t length,const char* path)
 	{
 		std::string correctedPath = correctFileName(path);
@@ -173,6 +266,14 @@ private:
 	}
 public:
 	
+	/*
+	* getColor gets a rgb24 value given the single R, G, and B values.
+	*
+	* @param R the red value, one byte in size 0x00 - 0xFF
+	* @param G the green value, one byte in size 0x00 - 0xFF
+	* @param B the blue value, one byte in size 0x00 - 0xFF
+	* @return the R, G, and B values merged into one single rgb24_t value.
+	*/
 	static inline rgb24_t getColor(byte_t R, byte_t G, byte_t B)
 	{
 		rgb24_t ret = 0x000000;
@@ -183,21 +284,30 @@ public:
 		return ret;
 	}
 
+	/*
+	* ArrayToBMP writes a BMP file to the destinated path.
+	*
+	* @param width  the width of the image in pixels.
+	* @param height the height of the image in pixels.
+	* @param colorArray the array of colors to write. Basicly the image pixels.
+	* @param path the destinated path, will be corrected by correctFileName-
+	* @return errorcode, currently always zero because Marius is lazy.
+	*/
 	static inline int ArrayToBMP(rgb24_t* colorArray, size_t width, size_t height, const char* path)
 	{
 		const size_t imageSizeWithoutPadding = (width * height * 3);
 		const size_t padding = getPaddingByteCount(imageSizeWithoutPadding);
 		const size_t BI_IMAGESIZE = imageSizeWithoutPadding + padding;
-		size_t arrayLength = width * height;
-		size_t fileHeaderSize = 14;
-		size_t infoHeaderSize = 40;
-		size_t fileSize = infoHeaderSize + fileHeaderSize + BI_IMAGESIZE;
+		const size_t arrayLength = width * height;
+		const size_t fileHeaderSize = 14;
+		const size_t infoHeaderSize = 40;
+		const size_t fileSize = infoHeaderSize + fileHeaderSize + BI_IMAGESIZE;
 		byte_t* bitmap = new byte_t[fileSize];
+		//TODO maybe use memset
 		for (size_t i = 0; i < fileSize; i++)
 		{
 			bitmap[i] = 0x00;
 		}
-
 
 		writeFileHeader(bitmap, fileSize);
 		writeInfoHeader(bitmap, width, height);
