@@ -10,6 +10,7 @@
 #include "e_colors.h"
 #include "Renderer.h"
 #include "Importer.h"
+#include "Menu.h"
 
 //Prototype
 
@@ -21,9 +22,25 @@ const size_t density = 1;
 const size_t bounces = 2;
 
 using namespace Eigen;
+
+void menu()
+{
+	std::string message = "=== RAYTRACER === \r\nSelect the scene you want to render.\r\nPress arrow up and down to navigate and enter to confirm.";
+	std::string elements[4] = { "Jonathan","Marius","Tolga","Joni" };
+	size_t elementsc = 4;
+	int areYouSure = 0;
+	do
+	{
+		int selection = Menu::menu(message, elements, elementsc, 200);
+		areYouSure = Menu::yesOrNo("Do you want to render \"" + elements[selection] + "\"? This might take some time.",200);
+	}
+	while(areYouSure != 1);
+}
+
 int main(int argc, char* argv[])
 {
-	traceTest();
+	menu();
+	//traceTest();
 
 	return 0;
 }
@@ -62,7 +79,7 @@ void traceTest()
 	//meshes[0].toString();
 	
 	GFXOutput out = GFXOutput(WIDTH, HEIGHT);
-	Scene scene = Importer::importScene("C:\\Users\\HInde\\OneDrive\\Dokumente\\scene.rtsc", WIDTH, HEIGHT, density, bounces);
+	Scene scene = Importer::importScene(".\\", WIDTH, HEIGHT, density, bounces);
 	SDL_Color** screen = Renderer::render(&scene);
 	out.setPixels(screen);
 
