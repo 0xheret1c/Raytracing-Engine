@@ -13,20 +13,18 @@
 #include "Menu.h"
 
 //Prototype
-
-void traceTest();
-
-const unsigned int WIDTH =  1000;
-const unsigned int HEIGHT = 750;
-const size_t density = 1;
-const size_t bounces = 2;
+unsigned int WIDTH =  1000;
+unsigned int HEIGHT = 750;
+size_t density = 1;
+size_t bounces = 2;
+std::string sceneToRender;
 
 using namespace Eigen;
 
-std::string menu()
+void menu()
 {
 	std::string header = "\t=== RAYTRACER ===\r\n";
-	std::string message = header + "Select the scene you want to render.\r\nPress arrow up and down to navigate and enter to confirm.";
+	std::string message = header + "Select the scene you want to render.\r\nPress arrow up and down to navigate and enter to confirm.\r\n";
 	std::vector<std::string> fileNames = Importer::getFileNames(".\\Scenes");
 	std::string* elements = &fileNames[0];
 	size_t elementsc = fileNames.size();
@@ -35,60 +33,44 @@ std::string menu()
 	do
 	{
 		selection = Menu::menu(message, elements, elementsc, 200);
-		areYouSure = Menu::yesOrNo(header + "Do you want to render \"" + elements[selection] + "\"? This might take some time.",200);
+		message = header + "Do you want to render \"" + elements[selection] + "\"?\r\n";
+		areYouSure = Menu::yesOrNo(message,200);
 	}
 	while(areYouSure != 1);
-	return ".\\Scenes\\" + fileNames[selection];
+	sceneToRender = ".\\Scenes\\" + fileNames[selection];
+	
+	areYouSure = 0;
+	do
+	{
+		message = header + "Set window-width:";
+		WIDTH = std::stoi(Menu::inputPrompt(message, "WIDTH: "));
+		message = header + "Set window-height:";
+		HEIGHT = std::stoi(Menu::inputPrompt(message, "HEIGHT: "));
+		message = header + "Set density:";
+		density = std::stoi(Menu::inputPrompt(message, "DENSITY: "));
+		message = header + "Set Bounces:";
+		bounces = std::stoi(Menu::inputPrompt(message, "BOUNCES: "));
+
+		message = header + "Are the following correct? If you continue, the render sequence will start,\r\n this might take some time."+ "\r\n\r\nSCENE:   " + sceneToRender
+			+ "\r\nWIDTH:   " + std::to_string(WIDTH)
+			+ "\r\nHEIGHT:  " + std::to_string(HEIGHT)
+			+ "\r\nDENSITY: " + std::to_string(density)
+			+ "\r\nBOUNCES: " + std::to_string(bounces);
+		areYouSure = Menu::yesOrNo(message, 200);
+	} while (areYouSure != 1);
+
+
 }
 
 int main(int argc, char* argv[])
 {
 	
-	
-	std::string sceneToRender = menu();
+	menu();
 	GFXOutput out = GFXOutput(WIDTH, HEIGHT);
 	Scene scene = Importer::importScene(sceneToRender, WIDTH, HEIGHT, density, bounces);
 	SDL_Color** screen = Renderer::render(&scene);
 	out.setPixels(screen);
 	out.initSDL();
-	traceTest();
 
 	return 0;
-}
-
-void traceTest()
-{
-	//int array_size = 0;
-	//std::vector<Mesh> meshes = Mesh::importScene(array_size, "C:\\Users\\HInde\\OneDrive\\Dokumente\\scene.rtsc");
-	//std::string path = ".\\Meshes\\";
-	//Scene scene = Scene();
-	
-	//Materials
-	/*Material mirror = Material(Utils::getColor(0x000500), 0.8);
-	Material satinRed = Material(Utils::getColor(0xFF0000), 0.05);
-	Material metallicBlue = Material(Utils::getColor(0x0000FF), 0.45);
-	Material metallicWhite = Material(Utils::getColor(0xFFFFFF), 0.20);
-	Material stone = Material(Utils::getColor(e_Colors::light_steel_blue), 0.01);
-	Material shinyGreen = Material(Utils::getColor(0x00FF00), 0.45);*/
-
-	
-	//Cam
-	/*Camera cam = Camera(WIDTH, HEIGHT,_Transform(Vector3d(0, 2, -7),Vector3d(0, 0, 0)), &scene);
-	cam.setDensity(density);
-	cam.setMaxBounces(bounces);
-	Light light[1] =
-	{
-		Light(_Transform(Vector3d(0, 3, 0), Eigen::Vector3d(20, 45, 0)),Eigen::Vector3d(1337,1337,1337))
-	};
-	scene.setLights(light, sizeof(light) / sizeof(Light));*/
-	//Mesh the cube
-
-	//scene.camera = &cam;
-	//scene.setMeshes(meshes, array_size);
-	
-
-	//meshes[0].toString();
-	
-	
-	//delete[] screen;
 }

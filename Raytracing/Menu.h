@@ -85,8 +85,25 @@ public:
 		return selectionPos;
 	}
 
+	static std::string inputPrompt(std::string message,std::string label)
+	{
+		showConsoleCursor(true);
+		std::cout << "\r\n";
+		system("clear");
+		std::cout << message << std::endl;
+		std::cout << label;
+		std::string ret = "";
+		std::cin >> ret;
+		if (ret == "")
+		{
+			ret == "0";
+		}
+		return ret;
+	}
+
 	static bool yesOrNo(std::string message, size_t delayMS)
 	{
+		showConsoleCursor(false);
 		std::string elements[] = { "Yes","No " };
 		size_t elementsc = 2;
 		return !menu(message, elements, elementsc, delayMS);
