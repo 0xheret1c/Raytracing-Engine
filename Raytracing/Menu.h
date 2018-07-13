@@ -16,10 +16,10 @@ private:
 	static void drawMenu(std::string message, std::string* elements,size_t elementsc, size_t selectionPos)
 	{
 		setCursorPos(0, 0);
-		std::string cursor   = ">>";
-		std::string noCursor = "  ";
-		std::string afterCursor   = "<<";
-		std::string afterNoCursor = "  ";
+		std::string cursor   = ">> ";
+		std::string noCursor = "   ";
+		std::string afterCursor   = " <<";
+		std::string afterNoCursor = "   ";
 		std::string offset = "";
 		std::cout << message << std::endl;
 		for (size_t i = 0; i < elementsc; i++)

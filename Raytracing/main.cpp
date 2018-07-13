@@ -23,26 +23,27 @@ const size_t bounces = 2;
 
 using namespace Eigen;
 
-void menu()
+std::string menu()
 {
 	std::string header = "\t=== RAYTRACER ===\r\n";
 	std::string message = header + "Select the scene you want to render.\r\nPress arrow up and down to navigate and enter to confirm.";
-	std::string elements[4] = { "Jonathan","Marius","Tolga","Joni" };
-	size_t elementsc = 4;
+	std::vector<std::string> fileNames = Importer::getFileNames(".\\Scenes");
+	std::string* elements = &fileNames[0];
+	size_t elementsc = fileNames.size();
 	int areYouSure = 0;
+	int selection = 0;
 	do
 	{
-		int selection = Menu::menu(message, elements, elementsc, 200);
+		 selection = Menu::menu(message, elements, elementsc, 200);
 		areYouSure = Menu::yesOrNo(header + "Do you want to render \"" + elements[selection] + "\"? This might take some time.",200);
 	}
 	while(areYouSure != 1);
+	return ".\\Scenes" + fileNames[selection];
 }
 
 int main(int argc, char* argv[])
 {
-	menu();
-	//traceTest();
-
+	std::string sceneToRender = menu();
 	return 0;
 }
 

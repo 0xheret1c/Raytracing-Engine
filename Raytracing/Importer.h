@@ -1,9 +1,31 @@
 #pragma once
+#include <string>
+#include <Windows.h>
+#include <vector>
 
 class Importer
 {
 private:
 public:
+
+	static std::vector<std::string> getFileNames(std::string folder)
+	{	
+		std::vector<std::string> names;
+		std::string search_path = folder + "/*.*";
+		WIN32_FIND_DATA fd;
+		HANDLE hFind = ::FindFirstFile(search_path.c_str(), &fd);
+		if (hFind != INVALID_HANDLE_VALUE) {
+			do {
+				// read all (real) files in current folder
+				// , delete '!' read other 2 default folder . and ..
+				if (!(fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)) {
+					names.push_back(fd.cFileName);
+				}
+			} while (::FindNextFile(hFind, &fd));
+			::FindClose(hFind);
+		}
+		return names;
+	}
 
 	static Scene importRTSC(std::string path) {
 		std::vector<Mesh> meshes;
