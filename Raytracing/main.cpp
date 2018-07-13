@@ -34,16 +34,25 @@ std::string menu()
 	int selection = 0;
 	do
 	{
-		 selection = Menu::menu(message, elements, elementsc, 200);
+		selection = Menu::menu(message, elements, elementsc, 200);
 		areYouSure = Menu::yesOrNo(header + "Do you want to render \"" + elements[selection] + "\"? This might take some time.",200);
 	}
 	while(areYouSure != 1);
-	return ".\\Scenes" + fileNames[selection];
+	return ".\\Scenes\\" + fileNames[selection];
 }
 
 int main(int argc, char* argv[])
 {
+	
+	
 	std::string sceneToRender = menu();
+	GFXOutput out = GFXOutput(WIDTH, HEIGHT);
+	Scene scene = Importer::importScene(sceneToRender, WIDTH, HEIGHT, density, bounces);
+	SDL_Color** screen = Renderer::render(&scene);
+	out.setPixels(screen);
+	out.initSDL();
+	traceTest();
+
 	return 0;
 }
 
@@ -80,16 +89,6 @@ void traceTest()
 
 	//meshes[0].toString();
 	
-	GFXOutput out = GFXOutput(WIDTH, HEIGHT);
-	Scene scene = Importer::importScene(".\\", WIDTH, HEIGHT, density, bounces);
-	SDL_Color** screen = Renderer::render(&scene);
-	out.setPixels(screen);
-
-	out.initSDL();
-
-
-
-
 	
 	//delete[] screen;
 }
