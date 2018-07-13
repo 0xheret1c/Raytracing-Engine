@@ -25,14 +25,15 @@ using namespace Eigen;
 
 void menu()
 {
-	std::string message = "=== RAYTRACER === \r\nSelect the scene you want to render.\r\nPress arrow up and down to navigate and enter to confirm.";
+	std::string header = "\t=== RAYTRACER ===\r\n";
+	std::string message = header + "Select the scene you want to render.\r\nPress arrow up and down to navigate and enter to confirm.";
 	std::string elements[4] = { "Jonathan","Marius","Tolga","Joni" };
 	size_t elementsc = 4;
 	int areYouSure = 0;
 	do
 	{
 		int selection = Menu::menu(message, elements, elementsc, 200);
-		areYouSure = Menu::yesOrNo("Do you want to render \"" + elements[selection] + "\"? This might take some time.",200);
+		areYouSure = Menu::yesOrNo(header + "Do you want to render \"" + elements[selection] + "\"? This might take some time.",200);
 	}
 	while(areYouSure != 1);
 }
