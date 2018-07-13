@@ -17,6 +17,12 @@ public:
 	Eigen::Vector3d direction;
 
 	Light(){}
+
+	Light(_Transform _transform)
+	{
+		transform = _transform;
+	}
+
 	Light(_Transform _transform, Eigen::Vector3d _direction)
 	{
 		transform = _transform;

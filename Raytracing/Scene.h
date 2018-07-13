@@ -1,6 +1,6 @@
 #pragma once
 //Forward declaration
-class Camera;
+//class Camera;
 
 #include <Eigen/Core>
 
@@ -15,19 +15,19 @@ class Scene
 private:
 	size_t meshCount = 0;
 	size_t lightCount = 0;
-	Mesh* meshes;
-	Light* lights;
+	std::vector<Mesh> meshes;
+	std::vector<Light> lights;
 public:
 	double globalIllumination = 0.45;
 	//EIGEN_MAKE_ALIGNED_OPERATOR_NEW;
 
-	Camera* camera;
+	Camera camera;
 
 	Scene()
 	{
 
 	}
-	Scene(Mesh* _meshes,size_t _meshCount, Light* _lights,size_t _lightCount, Camera* _cam)
+	Scene(std::vector<Mesh> _meshes,size_t _meshCount, std::vector<Light> _lights,size_t _lightCount, Camera _cam)
 	{
 		meshCount = _meshCount;
 		meshes = _meshes;
@@ -35,12 +35,12 @@ public:
 		camera = _cam;
 	}
 
-	void setLights(Light* _lights, size_t count)
+	void setLights(std::vector<Light> _lights, size_t count)
 	{
 		lights = _lights;
 		lightCount = count;
 	}
-	void setMeshes(Mesh* _meshes, size_t count)
+	void setMeshes(std::vector<Mesh> _meshes, size_t count)
 	{
 		meshes = _meshes;
 		meshCount = count;
@@ -118,5 +118,4 @@ public:
 
 		return intersected;
 	}
-
 };

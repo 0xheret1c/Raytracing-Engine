@@ -9,8 +9,8 @@
 #include "GFXOutput.h"
 
 /*Geometry n stuff*/
-#include "Scene.h"
 #include "Camera.h"
+#include "Scene.h"
 
 
 
