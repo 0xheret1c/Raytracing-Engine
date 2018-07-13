@@ -34,5 +34,15 @@ public:
 		return rot;
 	}
 
+	static Eigen::Quaterniond fromToVectors(Eigen::Vector3d u, Eigen::Vector3d v)
+	{
+		float cos_theta = u.dot(v);
+		float angle = acos(cos_theta);
+		Eigen::Vector3d w = u.cross(v).normalized();
+		Eigen::Quaterniond r;
+		r = r * Eigen::AngleAxisd(angle, w);
+		return r;
+	}
+
 };
 

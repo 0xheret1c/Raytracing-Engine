@@ -25,14 +25,63 @@ private:
 
 			if (bounces <= scene->camera.maxBounces) {
 				Eigen::Vector3d reflection = ray.direction.normalized() - (2.0 * (ray.direction.normalized().dot(hit.triangle->n) * hit.triangle->n));
-				Ray nRay = Ray(hit.point, reflection.normalized(), scene);
+				/*Ray nRay = Ray(hit.point, reflection.normalized(), scene);
 				color = color * (1.0 - hit.mesh->mat.reflectiveness);
-				color += traceRay(scene, nRay, bounces + 1, hit.triangle) * hit.mesh->mat.reflectiveness;
+				color += traceRay(scene, nRay, bounces + 1, hit.triangle) * hit.mesh->mat.reflectiveness;*/
+
+				Ray nRay = Ray(hit.point + hit.triangle->n * 0.0001, reflection.normalized(), scene);
+				color = color * (1.0 - hit.mesh->mat.reflectiveness);
+				if (hit.mesh->mat.reflectiveness > 0.5) {
+					color += calculateGloss(scene, nRay, bounces + 1) * hit.mesh->mat.reflectiveness;
+				}
+				else {
+					color += traceRay(scene, nRay, bounces + 1) * hit.mesh->mat.reflectiveness;
+				}
 			}
 		}
 
 		return Utils::clampColor(color);
 	}
+
+	static Eigen::Vector3f calculateGloss(Scene* scene, Ray reflectionRay, size_t bounces) {
+		Eigen::Vector3f color(0, 0, 0);
+		
+		Eigen::Vector3d u = Eigen::Vector3d::UnitY().cross(reflectionRay.direction).normalized();
+		Eigen::Vector3d v = u.cross(reflectionRay.direction).normalized();
+
+		unsigned int width = 9;
+		unsigned int height = 9;
+		double maxAngle = 2;
+
+		for (int w = 0; w < width; w++) {
+			for (int h = 0; h < height; h++) {
+				double angleRadX = ((maxAngle / (width - 1.0)) * w) - (maxAngle / 2.0);
+				angleRadX *= M_PI / 180.0;
+				double angleRadY = ((maxAngle / (height - 1.0)) * h) - (maxAngle / 2.0);
+				angleRadY *= M_PI / 180.0;
+				double _x = tan(angleRadX);
+				double _y = tan(angleRadY);
+				
+				Eigen::Vector3d direction = reflectionRay.direction;
+				direction += u * angleRadX;
+				direction += v * angleRadY;
+
+				Ray nRay = Ray(reflectionRay.origin, direction.normalized(), scene);
+				color += traceRay(scene, nRay, bounces);
+			}
+		}
+		color /= (width * height);
+		return color;
+	}
+
+	/*static Eigen::Vector3d getRandomRayInHemisphere(Eigen::Matrix3d n) {
+		double _x = tan(rand() * 0.05 + 0.025);
+		double _y = tan(rand() * 0.05 + 0.025);
+		double _z = 1;
+		Eigen::Vector3d direction = Eigen::Vector3d(_x, _y, _z);
+		direction = n * direction;
+		return direction;
+	}*/
 
 public:
 	static SDL_Color** render(Scene* scene) {

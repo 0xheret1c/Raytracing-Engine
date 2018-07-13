@@ -28,7 +28,7 @@ public:
 	unsigned int width = 200;
 	unsigned int height = 200;
 	unsigned int density = 1;
-	double screenDistance = 1.0;
+	double screenDistance = 0.5;
 	double fov = 60;
 	size_t maxBounces = 1;
 	_Transform transform;

@@ -51,10 +51,11 @@ public:
 		double epsilon = std::numeric_limits<double>::epsilon();
 		//double epsilon = 0.01;
 		RaycastHit hit;
+		origin += ignore->n * 0.0001;
 		Ray ray = Ray(origin, -light.transform.forward(), this);
-		if (intersects(ray, &hit, ignore))
+		if (intersects(ray, &hit))
 		{
-			double scalar = ignore->n.dot(light.transform.forward());
+			/*double scalar = ignore->n.dot(light.transform.forward());
 			if (abs(scalar) > 1.0 - epsilon)
 			{
 				return globalIllumination;
@@ -64,11 +65,15 @@ public:
 				double angle = acos(scalar);
 				//angle = (angle * 180f) / Mathf.PI;
 				return (angle / M_PI) * globalIllumination;
-			}
+			}*/
+			
+			return globalIllumination;
 		}
-		//return 1.0;
 
-		double scalar = ignore->n.dot(light.transform.forward());
+		
+		return Our_math::clamp01(ignore->n.dot(light.transform.forward()) * -1);
+
+		/*double scalar = ignore->n.dot(light.transform.forward());
 		if (abs(scalar) > 1.0 - epsilon)
 		{
 			return 1.0;
@@ -78,7 +83,7 @@ public:
 			double angle = acos(scalar);
 			//angle = (angle * 180f) / Mathf.PI;
 			return (angle / M_PI);
-		}
+		}*/
 
 	}
 
