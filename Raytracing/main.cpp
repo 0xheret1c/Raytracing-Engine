@@ -1,19 +1,22 @@
 #define __DEBUG 1 // Debug mode
 
 #include <stdio.h>
+#include <vector>
 #include <iostream>
 #include "./Core.h"
 #include "Light.h"
 #include "Primitive.h"
 #include "Material.h"
 #include "e_colors.h"
+#include "Renderer.h"
+#include "Importer.h"
 
 //Prototype
 
 void traceTest();
 
-const unsigned int WIDTH =  500;
-const unsigned int HEIGHT = 500;
+const unsigned int WIDTH =  1000;
+const unsigned int HEIGHT = 1000;
 const size_t density = 1;
 const size_t bounces = 2;
 
@@ -27,51 +30,43 @@ int main(int argc, char* argv[])
 
 void traceTest()
 {
-	std::string path = ".\\Meshes\\";
-	GFXOutput out = GFXOutput(WIDTH, HEIGHT);
-	Scene scene = Scene();
+	//int array_size = 0;
+	//std::vector<Mesh> meshes = Mesh::importScene(array_size, "C:\\Users\\HInde\\OneDrive\\Dokumente\\scene.rtsc");
+	//std::string path = ".\\Meshes\\";
+	//Scene scene = Scene();
 	
 	//Materials
-	Material mirror = Material(Utils::getColor(0x000500), 0.8);
+	/*Material mirror = Material(Utils::getColor(0x000500), 0.8);
 	Material satinRed = Material(Utils::getColor(0xFF0000), 0.05);
 	Material metallicBlue = Material(Utils::getColor(0x0000FF), 0.45);
 	Material metallicWhite = Material(Utils::getColor(0xFFFFFF), 0.20);
 	Material stone = Material(Utils::getColor(e_Colors::light_steel_blue), 0.01);
-	Material shinyGreen = Material(Utils::getColor(0x00FF00), 0.45);
+	Material shinyGreen = Material(Utils::getColor(0x00FF00), 0.45);*/
 
 	
 	//Cam
-	Camera cam = Camera(WIDTH, HEIGHT,_Transform(Vector3d(0, 0, 2),Vector3d(12, 0, 0)), &scene);
+	/*Camera cam = Camera(WIDTH, HEIGHT,_Transform(Vector3d(0, 2, -7),Vector3d(0, 0, 0)), &scene);
 	cam.setDensity(density);
 	cam.setMaxBounces(bounces);
 	Light light[1] =
 	{
 		Light(_Transform(Vector3d(0, 3, 0), Eigen::Vector3d(20, 45, 0)),Eigen::Vector3d(1337,1337,1337))
 	};
-	scene.setLights(light, sizeof(light) / sizeof(Light));
+	scene.setLights(light, sizeof(light) / sizeof(Light));*/
 	//Mesh the cube
 
-	double rotation = 0.00;
-	while (rotation <= 360)
-	{
-		Mesh mesh[] = {
-			Primitive::Cube(_Transform(		Vector3d(-1.5, -1 ,6),	Vector3d(0,35,0),				Vector3d(0.02,2.5, 2.5)),mirror),
-			Primitive::Pyramid(_Transform(	Vector3d(1.5, -1 ,6),	Vector3d(0,-35 + rotation,0),	Vector3d(2.5, 2.5, 1.5)),mirror),
-			Primitive::Cube(_Transform(		Vector3d(0, -1 ,5),		Vector3d(0,0 - rotation,0),		Vector3d(1, 0.25, 1)),satinRed),
-			Primitive::Cube(_Transform(		Vector3d(0, -0.75 ,5),	Vector3d(0,32 - rotation,0),	Vector3d(0.85, 0.25, 0.85)),shinyGreen),
+	//scene.camera = &cam;
+	//scene.setMeshes(meshes, array_size);
+	
 
-			Mesh::importFromRTMSH(path + "Pagoda_Ornamental.rtmsh" ,_Transform(Vector3d(0, -0.65, 5),Vector3d(0,33 - rotation,0), Vector3d(0.1,0.1,0.1)),stone),
+	//meshes[0].toString();
+	
+	GFXOutput out = GFXOutput(WIDTH, HEIGHT);
+	Scene scene = Importer::importScene("C:\\Users\\HInde\\OneDrive\\Dokumente\\scene.rtsc", WIDTH, HEIGHT, density, bounces);
+	SDL_Color** screen = Renderer::render(&scene);
+	out.setPixels(screen);
 
-			Primitive::Plane(_Transform(Vector3d(0,-1.125 ,0), Vector3d(0,0,0), Vector3d(500, 1, 500)),Utils::getColor(e_Colors::white))
-		};
-		scene.camera = &cam;
-		rotation += 5.0;
-		scene.setMeshes(mesh, sizeof(mesh) / sizeof(Mesh));
-		SDL_Color** screen = cam.trace();
-		out.setPixels(screen);
-		out.initSDL();
-		
-	}
+	out.initSDL();
 
 
 

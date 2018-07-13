@@ -57,6 +57,12 @@
     <ClInclude Include="Material.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="Importer.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
