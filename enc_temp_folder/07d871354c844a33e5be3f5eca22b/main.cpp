@@ -52,7 +52,7 @@ void menu()
 		message = header + "Set Bounces: (Will greatly increase rendering time. Recommended: 0-3)";
 		bounces = std::stoi(Menu::inputPrompt(message, "BOUNCES: "));
 
-		message = header + "Are the following correct? If you continue, the render sequence will start,\r\nthis might take some time."+ "\r\n\r\nSCENE:   " + sceneToRender
+		message = header + "Are the following correct? If you continue, the render sequence will start,\r\n this might take some time."+ "\r\n\r\nSCENE:   " + sceneToRender
 			+ "\r\nWIDTH:   " + std::to_string(WIDTH)
 			+ "\r\nHEIGHT:  " + std::to_string(HEIGHT)
 			+ "\r\nDENSITY: " + std::to_string(density)
