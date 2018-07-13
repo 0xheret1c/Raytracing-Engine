@@ -7,7 +7,6 @@ class RaycastHit;
 #include <iostream>
 #include <fstream>	// Importing meshs from filesystem.
 #include "_Transform.h"
-#include "Triangle.h"
 #include "Ray.h"
 #include "Material.h"
 
@@ -16,8 +15,6 @@ class RaycastHit;
 class Mesh
 {
 private:
-	int triangleCount = 0;
-	
 	//Ray-sphere intersection
 	Eigen::Vector3d min;
 	Eigen::Vector3d max;
@@ -49,27 +46,8 @@ private:
 		max[2] = pos.z() > max.z() ? pos.z() : max.z();
 	}
 
-	void calculateTriangels(int * _triangles, int _triangleCount)
+	void calculateBounds(Eigen::Vector3d * _triangles, int _vertCount)
 	{
-		int sizeTriangles = _triangleCount;
-		triangleCount = sizeTriangles / 3;
-		triangles = new Triangle[triangleCount];
-		int c = 0;
-		for (int i = 0; i < sizeTriangles; i += 3)
-		{
-			//TODO: scale einbauen
-			Eigen::Vector3d v1((transform.rotationMatrix * verts[_triangles[i + 0]].cwiseProduct(transform.scale)) + transform.position);
-			Eigen::Vector3d v2((transform.rotationMatrix * verts[_triangles[i + 1]].cwiseProduct(transform.scale)) + transform.position);
-			Eigen::Vector3d v3((transform.rotationMatrix * verts[_triangles[i + 2]].cwiseProduct(transform.scale)) + transform.position);
-			triangles[c] = Triangle(v1,v2,v3);
-			c++;
-			checkBounds(v1);
-			checkBounds(v2);
-			checkBounds(v3);
-		}
-
-		center = (min + max) / 2;
-		radius = (max - center).norm();
 
 	}
 
@@ -80,47 +58,47 @@ public:
 	Eigen::Vector3d* verts;
 	int* tris;
 	int triCount;
-	Triangle* triangles;
 	SDL_Color color;
 	Material mat;
 	int vertCount;
 
-	bool intersects(Ray ray, RaycastHit* hit,Triangle* ignore = nullptr)
+	bool intersects(Ray ray, RaycastHit* hit)
 	{
-		if (!checkSphereInterception(ray))
+		/*if (!checkSphereInterception(ray))
 		{
 			return false;
-		}
-		int length = triangleCount;
+		}*/
 		bool intersected = false;
 		double closest = INFINITY;
-		Triangle* closestTriangle = nullptr;
-		Eigen::Vector3d closestPoint;
-		for (int i = 0; i < length; i++)
-		{
-			if(&triangles[i] != ignore)
-			{
 
-				Eigen::Vector3d point;
-				if(triangles[i].intersects(ray,&point))
+		Eigen::Vector3d n(0, 0, 0);
+		Eigen::Vector3d point(0, 0, 0);
+
+		for (int i = 0; i < triCount; i += 3) {
+			Eigen::Vector3d v0 = transform.translate(verts[tris[i]]);
+			Eigen::Vector3d v1 = transform.translate(verts[tris[i + 1]]);
+			Eigen::Vector3d v2 = transform.translate(verts[tris[i + 2]]);
+			double t = 0;
+			double u = 0;
+			double v = 0;
+
+			if (rayTriangleIntersect(ray.origin, ray.direction, v0, v1, v2, t, u, v)) {
+				intersected = true;
+				Eigen::Vector3d hitPoint = ray.origin + t * ray.direction;
+				double distance = (hitPoint - ray.origin).norm();
+				if (distance < closest)
 				{
-					intersected = true;
-					double distance = (point - ray.origin).norm();
-					if(distance < closest)
-					{
-						closest = distance;
-						closestTriangle = &triangles[i];
-						closestPoint = point;
-					}
+					closest = distance;
+					point = hitPoint;
+					n = (v1 - v0).cross(v2 - v0);
 				}
 			}
 		}
 
 		if(intersected)
 		{
-			hit->point = closestPoint;
-			hit->triangle = closestTriangle;
-			hit->triangleObject = *closestTriangle;
+			hit->point = point;
+			hit->n = n.normalized();
 			hit->mesh = this;
 		}
 		return intersected;
@@ -140,7 +118,6 @@ public:
 		transform = _transform;
 		max = Eigen::Vector3d(-INFINITY, -INFINITY, -INFINITY);
 		min = Eigen::Vector3d(+INFINITY, +INFINITY, +INFINITY);
-		calculateTriangels(_triangles, _triangleCount);
 		tris = _triangles;
 		triCount = _triangleCount;
 		_vertscount = _vertscount;
@@ -153,7 +130,6 @@ public:
 		transform = _transform;
 		max = Eigen::Vector3d(-INFINITY, -INFINITY, -INFINITY);
 		min = Eigen::Vector3d(+INFINITY, +INFINITY, +INFINITY);
-		calculateTriangels(_triangles, _triangleCount);
 		tris = _triangles;
 		triCount = _triangleCount;
 		vertCount = _vertCount;
@@ -183,247 +159,41 @@ public:
 		}
 		std::cout << "}" << std::endl;
 	}
-	
-	static Mesh importFromRTMSH(std::string path, _Transform _transform, SDL_Color _c)
+
+	bool rayTriangleIntersect(
+		const Eigen::Vector3d &orig, const Eigen::Vector3d &dir,
+		const Eigen::Vector3d &v0, const Eigen::Vector3d &v1, const Eigen::Vector3d &v2,
+		double &t, double &u, double &v)
 	{
-		std::ifstream file;
-		int* __triangles = 0;
-		Eigen::Vector3d*  __verts = 0;
+		double epsilon = std::numeric_limits<double>::epsilon();
+		Eigen::Vector3d v0v1 = v1 - v0;
+		Eigen::Vector3d v0v2 = v2 - v0;
+		Eigen::Vector3d pvec = dir.cross(v0v2);
+		double det = v0v1.dot(pvec);
+		#ifdef CULLING
+				// if the determinant is negative the triangle is backfacing
+				// if the determinant is close to 0, the ray misses the triangle
+				if (det < kEpsilon) return false;
+		#else
+				// ray and triangle are parallel if det is close to 0
+				if (fabs(det) < epsilon) return false;
+		#endif
+				double invDet = 1 / det;
 
-		std::string line;
-		int trianglecount = 0;
-		int vertcount = 0;
-		file.open(path, std::ios::in);	// open in input mode
-		std::cout << "Importing \"" << path << "\"." << std::endl;
+		Eigen::Vector3d tvec = orig - v0;
+		u = tvec.dot(pvec) * invDet;
+		if (u < 0 || u > 1) return false;
 
-		if (file.is_open()) {
-			while (!file.eof())
-			{
-				std::getline(file, line);
-				if (line[0] == 't') // triangles
-				{
-					char current = ',';
-					int i = 2;
-					while (current != ';')
-					{
-						current = line[i];
-						if (current == ',' || current == ';')
-						{
-							trianglecount++;
-						}
-						i++;
-					}
+		Eigen::Vector3d qvec = tvec.cross(v0v1);
+		v = dir.dot(qvec) * invDet;
+		if (v < 0 || u + v > 1) return false;
 
-					std::cout << "Loading " << trianglecount << " triangles." << std::endl;
+		t = v0v2.dot(qvec) * invDet;
 
-
-
-
-					__triangles = new int[trianglecount];
-
-					std::string currentNumber = "";
-					current = ',';
-					i = 2;
-					int j = 0;
-					while (current != ';')
-					{
-						current = line[i];
-						if (current != ',' || current != ';')
-						{
-							currentNumber += line[i];
-						}
-						if (current == ',' || current == ';')
-						{
-							__triangles[j++] = std::stoi(currentNumber);
-							currentNumber = "";
-						}
-						i++;
-					}
-				}
-				else if (line[0] == 'v')		   // verts
-				{
-					vertcount = 0;
-					char current = ',';
-					int i = 2;
-					int j = 0;
-					int ccounter = 0;
-					while (current != ';')
-					{
-						current = line[i];
-						if (current == ',' || current == ';')
-						{
-							ccounter++;
-							if (ccounter > 2)
-							{
-								ccounter = 0;
-								vertcount++;
-							}
-						}
-						i++;
-					}
-
-					__verts = new Eigen::Vector3d[vertcount];
-					std::cout << "Loading " << (vertcount) << " verticies." << std::endl;
-
-
-					std::string currentNumber = "";
-					current = ',';
-					i = 2;
-					j = 0;
-					double xyz[3] = { 0,0,0 };
-					int xyzCounter = 0;
-					while (current != ';')
-					{
-						current = line[i];
-						if (current != ',' || current != ';')
-						{
-							currentNumber += line[i];
-						}
-						if (current == ',' || current == ';')
-						{
-							xyz[xyzCounter] = std::stod(currentNumber);
-							xyzCounter++;
-							if (xyzCounter > 2)
-							{
-								xyzCounter = 0;
-								__verts[j++] = Eigen::Vector3d(xyz[0], xyz[1], xyz[2]);
-							}
-							currentNumber = "";
-						}
-						i++;
-					}
-				}
-			}
-			std::cout << "Imported \"" << path << "\"." << std::endl;
-			file.close();
-		}
-		else
-		{
-			std::cout << "[MESH IMPORT] ERROR: CANNOT IMPORT MESH: \"" << path << "\"." << std::endl;
+		if (t > 0) {
+			return true;
 		}
 
-		return  Mesh(__verts, vertcount, __triangles, trianglecount, _transform, _c);
-	}
-
-	static Mesh importFromRTMSH(std::string path, _Transform _transform, Material m)
-	{
-		std::ifstream file;
-		int* __triangles = 0;
-		Eigen::Vector3d*  __verts = 0;
-
-		std::string line;
-		int trianglecount = 0;
-		int vertcount = 0;
-		file.open(path, std::ios::in);	// open in input mode
-		std::cout << "Importing \"" << path << "\"." << std::endl;
-
-		if (file.is_open()) {
-			while (!file.eof())
-			{
-				std::getline(file, line);
-				if (line[0] == 't') // triangles
-				{
-					char current = ',';
-					int i = 2;
-					while (current != ';')
-					{
-						current = line[i];
-						if (current == ',' || current == ';')
-						{
-							trianglecount++;
-						}
-						i++;
-					}
-
-					std::cout << "Loading " << trianglecount << " triangles." << std::endl;
-
-
-
-
-					__triangles = new int[trianglecount];
-
-					std::string currentNumber = "";
-					current = ',';
-					i = 2;
-					int j = 0;
-					while (current != ';')
-					{
-						current = line[i];
-						if (current != ',' || current != ';')
-						{
-							currentNumber += line[i];
-						}
-						if (current == ',' || current == ';')
-						{
-							__triangles[j++] = std::stoi(currentNumber);
-							currentNumber = "";
-						}
-						i++;
-					}
-				}
-				else if (line[0] == 'v')		   // verts
-				{
-
-					vertcount = 0;
-					char current = ',';
-					int i = 2;
-					int j = 0;
-					int ccounter = 0;
-					while (current != ';')
-					{
-						current = line[i];
-						if (current == ',' || current == ';')
-						{
-							ccounter++;
-							if (ccounter > 2)
-							{
-								ccounter = 0;
-								vertcount++;
-							}
-						}
-						i++;
-					}
-
-					__verts = new Eigen::Vector3d[vertcount];
-					std::cout << "Loading " << (vertcount) << " verticies." << std::endl;
-
-
-					std::string currentNumber = "";
-					current = ',';
-					i = 2;
-					j = 0;
-					double xyz[3] = { 0,0,0 };
-					int xyzCounter = 0;
-					while (current != ';')
-					{
-						current = line[i];
-						if (current != ',' || current != ';')
-						{
-							currentNumber += line[i];
-						}
-						if (current == ',' || current == ';')
-						{
-							xyz[xyzCounter] = std::stod(currentNumber);
-							xyzCounter++;
-							if (xyzCounter > 2)
-							{
-								xyzCounter = 0;
-								__verts[j++] = Eigen::Vector3d(xyz[0], xyz[1], xyz[2]);
-							}
-							currentNumber = "";
-						}
-						i++;
-					}
-				}
-			}
-			std::cout << "Imported \"" << path << "\"." << std::endl;
-			file.close();
-		}
-		else
-		{
-			std::cout << "[MESH IMPORT] ERROR: CANNOT IMPORT MESH: \"" << path << "\"." << std::endl;
-		}
-
-		return  Mesh(__verts,vertcount, __triangles, trianglecount, _transform, m);
+		return false;
 	}
 };

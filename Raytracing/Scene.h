@@ -4,7 +4,6 @@
 
 #include <Eigen/Core>
 
-#include "Triangle.h"
 #include "RaycastHit.h"
 #include "Mesh.h"
 #include "Light.h"
@@ -46,59 +45,32 @@ public:
 		meshCount = count;
 	}
 
-	double calculateLightIntensity(Eigen::Vector3d origin,Light light, Triangle* ignore = nullptr)
+	double calculateLightIntensity(Eigen::Vector3d origin,Light light, Eigen::Vector3d normal)
 	{
 		double epsilon = std::numeric_limits<double>::epsilon();
 		//double epsilon = 0.01;
 		RaycastHit hit;
-		origin += ignore->n * 0.0001;
+		origin += normal * (epsilon*100);
 		Ray ray = Ray(origin, -light.transform.forward(), this);
 		if (intersects(ray, &hit))
 		{
-			/*double scalar = ignore->n.dot(light.transform.forward());
-			if (abs(scalar) > 1.0 - epsilon)
-			{
-				return globalIllumination;
-			}
-			else
-			{
-				double angle = acos(scalar);
-				//angle = (angle * 180f) / Mathf.PI;
-				return (angle / M_PI) * globalIllumination;
-			}*/
-			
 			return globalIllumination;
 		}
-
-		
-		return Our_math::clamp01(ignore->n.dot(light.transform.forward()) * -1);
-
-		/*double scalar = ignore->n.dot(light.transform.forward());
-		if (abs(scalar) > 1.0 - epsilon)
-		{
-			return 1.0;
-		}
-		else
-		{
-			double angle = acos(scalar);
-			//angle = (angle * 180f) / Mathf.PI;
-			return (angle / M_PI);
-		}*/
-
+		return Our_math::clamp01((normal.dot(light.transform.forward()) * -1) + globalIllumination);
 	}
 
-	double getIllumination(Eigen::Vector3d point, Triangle* ignore = nullptr)
+	double getIllumination(Eigen::Vector3d point, Eigen::Vector3d normal)
 	{
 		double illum = 0;
 		size_t amountLights = lightCount;
 		for (size_t i = 0; i < amountLights; i++)
 		{
-			illum += calculateLightIntensity(point,lights[i],ignore);
+			illum += calculateLightIntensity(point,lights[i], normal);
 		}
 		return illum;
 	}
 
-	bool intersects(Ray ray, RaycastHit* hit, Triangle* ignore = nullptr)
+	bool intersects(Ray ray, RaycastHit* hit)
 	{
 		size_t length = meshCount;
 
@@ -109,7 +81,7 @@ public:
 		for (size_t i = 0; i < length; i++)
 		{
 			RaycastHit closestHit;
-			if(meshes[i].intersects(ray,&closestHit,ignore))
+			if(meshes[i].intersects(ray,&closestHit))
 			{
 				double distance = (closestHit.point - ray.origin).norm();
 				if(distance < closest)

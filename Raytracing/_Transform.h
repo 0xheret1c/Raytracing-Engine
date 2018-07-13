@@ -70,4 +70,8 @@ public:
 
 		this->rotationMatrix = this->rotation.toRotationMatrix();
 	}
+
+	Eigen::Vector3d translate(Eigen::Vector3d vector) {
+		return (rotationMatrix * vector.cwiseProduct(scale)) + position;
+	}
 };

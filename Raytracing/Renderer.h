@@ -3,8 +3,9 @@
 class Renderer
 {
 private:
-	static Eigen::Vector3f traceRay(Scene* scene, Ray ray, size_t bounces, Triangle* ignore = nullptr)
+	static Eigen::Vector3f traceRay(Scene* scene, Ray ray, size_t bounces)
 	{
+		double epsilon = std::numeric_limits<double>::epsilon();
 		Eigen::Vector3f color(0, 0, 0);
 		double angle = (-(acos(ray.direction.dot(Eigen::Vector3d::UnitY())) / (M_PI / 2.0)));
 		angle = abs(angle);
@@ -15,27 +16,25 @@ private:
 		}
 
 		RaycastHit hit;
-		if (scene->intersects(ray, &hit, ignore))
+		if (scene->intersects(ray, &hit))
 		{
-
-			double intensity = Our_math::clamp01(scene->getIllumination(hit.point, hit.triangle));
+			double intensity = Our_math::clamp01(scene->getIllumination(hit.point, hit.n));
 			color[0] = hit.mesh->color.r * intensity;
 			color[1] = hit.mesh->color.g * intensity;
 			color[2] = hit.mesh->color.b * intensity;
 
 			if (bounces <= scene->camera.maxBounces) {
-				Eigen::Vector3d reflection = ray.direction.normalized() - (2.0 * (ray.direction.normalized().dot(hit.triangle->n) * hit.triangle->n));
+				Eigen::Vector3d reflection = ray.direction.normalized() - (2.0 * (ray.direction.normalized().dot(hit.n) * hit.n));
 				/*Ray nRay = Ray(hit.point, reflection.normalized(), scene);
 				color = color * (1.0 - hit.mesh->mat.reflectiveness);
 				color += traceRay(scene, nRay, bounces + 1, hit.triangle) * hit.mesh->mat.reflectiveness;*/
-
-				Ray nRay = Ray(hit.point + hit.triangle->n * 0.0001, reflection.normalized(), scene);
-				color = color * (1.0 - hit.mesh->mat.reflectiveness);
-				if (hit.mesh->mat.reflectiveness > 0.5) {
-					color += calculateGloss(scene, nRay, bounces + 1) * hit.mesh->mat.reflectiveness;
+				Ray nRay = Ray(hit.point + hit.n * (epsilon * 100), reflection.normalized(), scene);
+				color = color * (1.0 - (hit.mesh->mat.reflectiveness * intensity));
+				if (hit.mesh->mat.hasGloss) {
+					color += calculateGloss(scene, nRay, bounces + 1, hit.mesh->mat) * hit.mesh->mat.reflectiveness * intensity;
 				}
 				else {
-					color += traceRay(scene, nRay, bounces + 1) * hit.mesh->mat.reflectiveness;
+					color += traceRay(scene, nRay, bounces + 1) * hit.mesh->mat.reflectiveness * intensity;
 				}
 			}
 		}
@@ -43,15 +42,15 @@ private:
 		return Utils::clampColor(color);
 	}
 
-	static Eigen::Vector3f calculateGloss(Scene* scene, Ray reflectionRay, size_t bounces) {
+	static Eigen::Vector3f calculateGloss(Scene* scene, Ray reflectionRay, size_t bounces, Material m) {
 		Eigen::Vector3f color(0, 0, 0);
 		
 		Eigen::Vector3d u = Eigen::Vector3d::UnitY().cross(reflectionRay.direction).normalized();
 		Eigen::Vector3d v = u.cross(reflectionRay.direction).normalized();
 
-		unsigned int width = 9;
-		unsigned int height = 9;
-		double maxAngle = 2;
+		unsigned int width = m.amount;
+		unsigned int height = m.amount;
+		double maxAngle = m.angle;
 
 		for (int w = 0; w < width; w++) {
 			for (int h = 0; h < height; h++) {

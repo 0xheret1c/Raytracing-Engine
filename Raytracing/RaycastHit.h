@@ -3,9 +3,6 @@
 class Mesh;
 //Includes
 #include <Eigen\Core>
-#include "Triangle.h"
-
-
 
 class RaycastHit
 {
@@ -13,9 +10,10 @@ private:
 public:
 	//EIGEN_MAKE_ALIGNED_OPERATOR_NEW;
 	Mesh* mesh;
-	Triangle* triangle;
-	Triangle triangleObject;
+	//Triangle* triangle;
+	//Triangle triangleObject;
 	Eigen::Vector3d point;
+	Eigen::Vector3d n;
 	double intensity = 0;
 	SDL_Color color;
 
@@ -26,12 +24,13 @@ public:
 		color.g = 0x00;
 		color.b = 0x00;
 	}
-	RaycastHit(Mesh* _mesh, Triangle* _triangle, Eigen::Vector3d _point)
+	RaycastHit(Mesh* _mesh, Eigen::Vector3d _point, Eigen::Vector3d _n)
 	{
 		mesh = _mesh;
-		triangle = _triangle;
+		//triangle = _triangle;
 		point = _point;
-		triangleObject = *triangle;
+		//triangleObject = *triangle;
+		n = _n;
 		color.a = 0xFF;
 		color.r = 0x00;
 		color.g = 0x00;

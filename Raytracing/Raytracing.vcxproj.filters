@@ -36,9 +36,6 @@
     <ClInclude Include="Mesh.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="Triangle.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
     <ClInclude Include="Ray.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>

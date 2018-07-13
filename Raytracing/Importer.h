@@ -131,14 +131,18 @@ public:
 				int r = 0;
 				int g = 0;
 				int b = 0;
+				float metallic = 0;
 				float gloss = 0;
 				fstr.read(reinterpret_cast<char*>(&r), sizeof(int));
 				fstr.read(reinterpret_cast<char*>(&g), sizeof(int));
 				fstr.read(reinterpret_cast<char*>(&b), sizeof(int));
+				fstr.read(reinterpret_cast<char*>(&metallic), sizeof(float));
 				fstr.read(reinterpret_cast<char*>(&gloss), sizeof(float));
 
+				std::cout << "Gloss: " << gloss << std::endl;
+
 				SDL_Color col = { r, g, b };
-				Material m = Material(col, gloss);
+				Material m = Material(col, metallic, gloss);
 
 				Mesh mesh(__verts, verticeCount, __triangles, triangleCount, transform, m);
 				//meshes[i] = mesh;

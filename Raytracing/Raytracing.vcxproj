@@ -148,7 +148,6 @@
     <ClInclude Include="RaycastHit.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="Scene.h" />
-    <ClInclude Include="Triangle.h" />
     <ClInclude Include="_Transform.h" />
     <ClInclude Include="Utils.h" />
   </ItemGroup>

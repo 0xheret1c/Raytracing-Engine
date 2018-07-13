@@ -9,16 +9,25 @@ private:
 
 public:
 	double reflectiveness = 0.05;
-	double diffuse = 0;
-	size_t amount = 0;
+	double gloss = 0;
+	double angle = 0;
+	unsigned int amount = 0;
+	bool hasGloss = false;
 	SDL_Color color;
 
-	Material(SDL_Color _color, double _reflectiveness, double _diffuse, size_t _amount)
+	Material(SDL_Color _color, double _reflectiveness, double _gloss)
 	{
 		color = _color;
 		reflectiveness = _reflectiveness;
-		diffuse = _diffuse;
-		amount = _amount;
+		gloss = _gloss;
+		if (gloss <= 0) {
+			hasGloss = false;
+		}
+		else {
+			hasGloss = true;
+			amount = gloss * 20;
+			angle = gloss * 5;
+		}
 	}
 	Material(SDL_Color _color, double _reflectiveness)
 	{
