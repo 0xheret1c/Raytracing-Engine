@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
-class ArgHandler
+#include <string>
+class argHandler
 {
 private:
 	static void loadSceneFromPath(const char* path){}
