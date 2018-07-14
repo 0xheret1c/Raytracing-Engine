@@ -38,27 +38,8 @@ public:
 		Utils::LOG("Creating window and renderer...");
 		SDL_CreateWindowAndRenderer((int)this->screenWidth, (int)this->screenHeight, 0, &this->window, &this->renderer);
 		this->printScreen();
-		this->screenshotBMP(".\\LastTraces\\lastTrace.bmp");
-		/*while (!quit)
-		{
 
-			SDL_WaitEvent(&event);
-			switch (event.type)
-			{
-			case SDL_QUIT:
-				quit = true;
-				break;
-			}
-		}*/
-		SDL_DestroyRenderer(this->renderer);
-		SDL_DestroyWindow(this->window);
-		SDL_Quit();
-		/*
-		for (size_t i = 0; i < this->screenWidth; i++)
-		{
-			delete[] this->screen[i];
-		}
-		delete[] this->screen;*/
+
 	}
 
 	GFXOutput(unsigned int screenWidth, unsigned int screenHeight)
@@ -120,7 +101,13 @@ public:
 		}
 	}
 
+	void destroy()
+	{
 
+		SDL_DestroyRenderer(this->renderer);
+		SDL_DestroyWindow(this->window);
+		SDL_Quit();
+	}
 
 	void screenshotBMP(std::string fileName)
 	{
@@ -148,7 +135,6 @@ public:
 		SDL_SaveBMP(sshot, fileName.c_str());
 		SDL_FreeSurface(sshot);
 	}
-
 	static void screenshotBMP(char* fileName, SDL_Color** screen, size_t screenW, size_t screenH)
 	{
 

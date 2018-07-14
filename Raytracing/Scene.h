@@ -55,7 +55,7 @@ public:
 		double epsilon = std::numeric_limits<double>::epsilon();
 		//double epsilon = 0.01;
 		RaycastHit hit;
-		origin += normal * (epsilon*100);
+		origin += normal * (epsilon*10000);
 		Ray ray = Ray(origin, -light.transform.forward(), this);
 		if (intersects(ray, &hit))
 		{

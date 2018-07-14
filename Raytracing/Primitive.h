@@ -2,7 +2,7 @@
 #include "Mesh.h"
 #include "_Transform.h"
 #include "Material.h"
-class Primitive
+class Primitive // Currently not used.
 {
 public:
 	static Mesh Cube(_Transform trans, SDL_Color color)
@@ -42,7 +42,6 @@ public:
 		return Mesh(verts,8*3, triangles, 36, trans, color);
 
 	}
-
 	static Mesh Cube(_Transform trans, Material m)
 	{
 		Eigen::Vector3d verts[8 * 3] =
@@ -79,7 +78,6 @@ public:
 
 		return Mesh(verts, 8 * 3, triangles, 36, trans, m);
 	}
-
 	static Mesh Plane(_Transform trans, SDL_Color color)
 	{
 		Eigen::Vector3d verts[4] =
@@ -114,7 +112,6 @@ public:
 		return Mesh(verts,4, triangles, 6, trans, m);
 
 	}
-
 	static Mesh Pyramid(_Transform trans, SDL_Color color)
 	{
 		Eigen::Vector3d verts[5] =

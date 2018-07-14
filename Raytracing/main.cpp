@@ -88,8 +88,20 @@ int main(int argc, char* argv[])
 		SDL_Color** screen = Renderer::render(&scene);
 		out.setPixels(screen);
 		out.initSDL();
+
 		rendered++;
+		std::string frameNumber = "";
+		std::string renderedNumber = std::to_string(rendered);
+		int renderedLength = renderedNumber.length();
+		int zeroes = 5;
+		for (size_t i = 0; i < (zeroes - renderedLength); i++)
+		{
+			frameNumber += "0";
+		}
+		frameNumber += renderedNumber;
+		out.screenshotBMP(".\\LastTraces\\lastTraceFrame " + frameNumber+".bmp");
 		scene.update();
+		out.destroy();
 	}
 
 	

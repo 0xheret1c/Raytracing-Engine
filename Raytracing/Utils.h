@@ -33,6 +33,7 @@ public:
 		}
 		return ret;
 	}
+	
 	static void delete2DArray(unsigned int width, unsigned int height, double** _array)
 	{
 		for (size_t i = 0; i < height; i++)
@@ -41,6 +42,7 @@ public:
 		}
 		delete[] _array;
 	}
+	
 	static int _rand(int min, int max)
 	{
 
@@ -57,6 +59,7 @@ public:
 		color.b = b;
 		return color;
 	}
+	
 	static SDL_Color getColor(unsigned int color)
 	{
 		if (color > 0xFFFFFF)
@@ -85,11 +88,14 @@ public:
 		return input;
 	}
 
-	static inline bool fileExists(const char *filename)
+	static bool fileExists(const char *filename)
 	{
 		std::ifstream ifile(filename);
 		return (bool)ifile;
 	}
 
+	static Eigen::Vector3i vecArrayFromBMP(std::string path, size_t width, size_t height)
+	{
 
+	}
 };
