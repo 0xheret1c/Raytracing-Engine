@@ -225,8 +225,14 @@ public:
 		return false;
 	}
 
-	void refresh() {
+	void nextFrame() {
 		transform = animator.nextFrame();
+		calculateBounds();
+	}
+
+	void setFrame(int frame) {
+		animator.setFrame(frame);
+		transform = animator.getFrame();
 		calculateBounds();
 	}
 };

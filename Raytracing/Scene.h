@@ -107,7 +107,17 @@ public:
 			lights[i].nextFrame();
 		}
 		for (int i = 0; i < meshCount; i++) {
-			meshes[i].refresh();
+			meshes[i].nextFrame();
+		}
+	}
+
+	void setFrame(int frame) {
+		camera.setFrame(frame);
+		for (int i = 0; i < lightCount; i++) {
+			lights[i].setFrame(frame);
+		}
+		for (int i = 0; i < meshCount; i++) {
+			meshes[i].setFrame(frame);
 		}
 	}
 };

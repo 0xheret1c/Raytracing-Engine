@@ -40,5 +40,10 @@ public:
 		transform = animator.nextFrame();
 	}
 
+	void setFrame(int frame) {
+		animator.setFrame(frame);
+		transform = animator.getFrame(frame);
+	}
+
 
 };
