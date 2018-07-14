@@ -14,6 +14,7 @@ private:
 public:
 	//EIGEN_MAKE_ALIGNED_OPERATOR_NEW;
 	_Transform transform;
+	Animator animator;
 	Eigen::Vector3d direction;
 
 	Light(){}
@@ -23,10 +24,20 @@ public:
 		transform = _transform;
 	}
 
+	Light(Animator _animator)
+	{
+		animator = _animator;
+		transform = animator.getFrame(0);
+	}
+
 	Light(_Transform _transform, Eigen::Vector3d _direction)
 	{
 		transform = _transform;
 		direction = _direction;
+	}
+
+	void nextFrame() {
+		transform = animator.nextFrame();
 	}
 
 

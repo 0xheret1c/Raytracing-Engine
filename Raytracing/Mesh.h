@@ -9,7 +9,6 @@ class RaycastHit;
 #include "_Transform.h"
 #include "Ray.h"
 #include "Material.h"
-#include "Animator.h"
 
 #define CULLING
 
