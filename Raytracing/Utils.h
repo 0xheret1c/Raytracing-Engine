@@ -5,6 +5,7 @@
 #include <fstream>
 #include <string>
 #include <SDL.h>
+#include <Windows.h>
 #include <Eigen\Core>
 
 class Utils
@@ -16,6 +17,13 @@ public:
 		std::cout << message << std::endl;
 #endif // DEBUG
 	}
+
+	static void setCursorPos(int x, int y)
+	{
+		COORD p = { x, y };
+		SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), p);
+	}
+
 	static double** allocate2DArray(unsigned int width, unsigned int height)
 	{
 		double** ret = new double*[height];
