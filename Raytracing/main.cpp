@@ -20,7 +20,7 @@ size_t bounces = 2;
 size_t animationStartFrame = 1;
 size_t animationEndFrame = 1;
 std::string sceneToRender;
-
+std::string sceneName = "DEFAULT";
 using namespace Eigen;
 
 void menu()
@@ -41,7 +41,8 @@ void menu()
 		areYouSure = Menu::yesOrNo(message,200);
 	}
 	while(areYouSure != 1);
-	sceneToRender = ".\\Scenes\\" + fileNames[selection];
+	sceneName = fileNames[selection];
+	sceneToRender = ".\\Scenes\\" + sceneName;
 	
 	areYouSure = 0;
 	do
@@ -99,7 +100,7 @@ int main(int argc, char* argv[])
 			frameNumber += "0";
 		}
 		frameNumber += renderedNumber;
-		out.screenshotBMP(".\\LastTraces\\lastTraceFrame " + frameNumber+".bmp");
+		out.screenshotBMP(".\\LastTraces\\" + sceneName + "_" + frameNumber+".bmp");
 		scene.update();
 		out.destroy();
 	}
