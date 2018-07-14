@@ -9,6 +9,7 @@ class Ray;
 #include "_Transform.h"
 #include "RaycastHit.h"
 #include "Material.h"
+#include "Animator.h"
 
 
 
@@ -32,6 +33,7 @@ public:
 	double fov = 60;
 	size_t maxBounces = 1;
 	_Transform transform;
+	Animator animator;
 
 	void setMaxBounces(size_t val)
 	{
@@ -60,6 +62,15 @@ public:
 		width = _width;
 		height = _height;
 	}
+
+	Camera(unsigned int _width, unsigned int _height, Animator _animator)
+	{
+		animator = _animator;
+		transform = animator.getFrame(0);
+		width = _width;
+		height = _height;
+	}
+
 	Camera(unsigned int _width, unsigned int _height, unsigned int _density, double _screenDistance, double _fov)
 	{
 		transform = _Transform();
@@ -78,8 +89,31 @@ public:
 		width = _width;
 		height = _height;
 	}
+
+	Camera(unsigned int _width, unsigned int _height, unsigned int _density, double _screenDistance, double _fov, Animator _animator)
+	{
+		animator = _animator;
+		transform = animator.getFrame(0);
+		fov = _fov;
+		screenDistance = _screenDistance;
+		density = _density;
+		width = _width;
+		height = _height;
+
+	}
+
 	Camera(_Transform _transform)
 	{
 		transform = _transform;
+	}
+
+	Camera(Animator _animator)
+	{
+		animator = _animator;
+		transform = animator.getFrame(0);
+	}
+
+	void nextFrame() {
+		transform = animator.nextFrame();
 	}
 };

@@ -102,6 +102,10 @@ public:
 	}
 
 	void update() {
+		camera.nextFrame();
+		for (int i = 0; i < lightCount; i++) {
+			lights[i].nextFrame();
+		}
 		for (int i = 0; i < meshCount; i++) {
 			meshes[i].refresh();
 		}

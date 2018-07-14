@@ -45,29 +45,12 @@ public:
 
 		//SET CAMERA POSITION
 
-		// READ POSITION
-		fstr.read(reinterpret_cast<char*>(&x), sizeof(float));
-		fstr.read(reinterpret_cast<char*>(&y), sizeof(float));
-		fstr.read(reinterpret_cast<char*>(&z), sizeof(float));
-		Eigen::Vector3d position(x, y, z);
+		int frameCount = 0;
+		fstr.read(reinterpret_cast<char*>(&frameCount), sizeof(int));
+		Animator camAnimations;
 
-		// READ ROTATION
-		fstr.read(reinterpret_cast<char*>(&x), sizeof(float));
-		fstr.read(reinterpret_cast<char*>(&y), sizeof(float));
-		fstr.read(reinterpret_cast<char*>(&z), sizeof(float));
-		Eigen::Vector3d rotation(x, y, z);
-
-		_Transform transform(position, rotation);
-
-		
-		Camera cam = Camera(200, 200, transform);
-		scene.camera = cam;
-
-		//READ LIGHTS
-		int lightCount = 0;
-		fstr.read(reinterpret_cast<char*>(&lightCount), sizeof(int));
-
-		for (int i = 0; i < lightCount; i++) {
+		for (int i = 0; i < frameCount; i++) {
+			// READ POSITION
 			fstr.read(reinterpret_cast<char*>(&x), sizeof(float));
 			fstr.read(reinterpret_cast<char*>(&y), sizeof(float));
 			fstr.read(reinterpret_cast<char*>(&z), sizeof(float));
@@ -79,9 +62,40 @@ public:
 			fstr.read(reinterpret_cast<char*>(&z), sizeof(float));
 			Eigen::Vector3d rotation(x, y, z);
 
-			_Transform transform(position, rotation);
+			camAnimations.addFrame(position, rotation, Eigen::Vector3d(1, 1, 1));
+		}
+		
+		Camera cam = Camera(200, 200, camAnimations);
+		scene.camera = cam;
 
-			lights.push_back(Light(transform));
+		//READ LIGHTS
+		int lightCount = 0;
+		fstr.read(reinterpret_cast<char*>(&lightCount), sizeof(int));
+
+		for (int i = 0; i < lightCount; i++) {
+
+			fstr.read(reinterpret_cast<char*>(&frameCount), sizeof(int));
+			Animator lightAnimations;
+
+			for (int i = 0; i < frameCount; i++) {
+				// READ POSITION
+				fstr.read(reinterpret_cast<char*>(&x), sizeof(float));
+				fstr.read(reinterpret_cast<char*>(&y), sizeof(float));
+				fstr.read(reinterpret_cast<char*>(&z), sizeof(float));
+				Eigen::Vector3d position(x, y, z);
+
+				// READ ROTATION
+				fstr.read(reinterpret_cast<char*>(&x), sizeof(float));
+				fstr.read(reinterpret_cast<char*>(&y), sizeof(float));
+				fstr.read(reinterpret_cast<char*>(&z), sizeof(float));
+				Eigen::Vector3d rotation(x, y, z);
+
+				lightAnimations.addFrame(position, rotation, Eigen::Vector3d(1, 1, 1));
+			}
+
+			//_Transform transform(position, rotation);
+
+			lights.push_back(Light(lightAnimations));
 		}
 
 		//READ GAMEOBJECTS
@@ -99,10 +113,8 @@ public:
 				std::streampos diff = fstr.tellg();
 				std::cout << "Before Position Read: " << fstr.tellg() << std::endl;
 
-				int frameCount = 0;
 				fstr.read(reinterpret_cast<char*>(&frameCount), sizeof(int));
 				Animator animator;
-				std::cout << "Frames: " << frameCount << std::endl;
 
 				for (int i = 0; i < frameCount; i++) {
 					// READ POSITION
