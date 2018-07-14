@@ -39,7 +39,7 @@ public:
 		SDL_CreateWindowAndRenderer((int)this->screenWidth, (int)this->screenHeight, 0, &this->window, &this->renderer);
 		this->printScreen();
 		this->screenshotBMP(".\\LastTraces\\lastTrace.bmp");
-		while (!quit)
+		/*while (!quit)
 		{
 
 			SDL_WaitEvent(&event);
@@ -49,7 +49,7 @@ public:
 				quit = true;
 				break;
 			}
-		}
+		}*/
 		SDL_DestroyRenderer(this->renderer);
 		SDL_DestroyWindow(this->window);
 		SDL_Quit();

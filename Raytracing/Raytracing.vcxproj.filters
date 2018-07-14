@@ -63,10 +63,14 @@
     <ClInclude Include="Menu.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+<<<<<<< HEAD
+    <ClInclude Include="Animator.h">
+=======
     <ClInclude Include="resource.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="resource1.h">
+>>>>>>> 5cb081efead8dcc5f9ac4ab491ad791b7860f3c1
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>

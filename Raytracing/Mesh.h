@@ -9,6 +9,9 @@ class RaycastHit;
 #include "_Transform.h"
 #include "Ray.h"
 #include "Material.h"
+#include "Animator.h"
+
+#define CULLING
 
 
 
@@ -46,15 +49,22 @@ private:
 		max[2] = pos.z() > max.z() ? pos.z() : max.z();
 	}
 
-	void calculateBounds(Eigen::Vector3d * _triangles, int _vertCount)
+	void calculateBounds()
 	{
-
+		max = Eigen::Vector3d(-INFINITY, -INFINITY, -INFINITY);
+		min = Eigen::Vector3d(+INFINITY, +INFINITY, +INFINITY);
+		for(int i = 0; i < vertCount; i++){
+			checkBounds(transform.translate(verts[i]));
+		}
+		radius = (max - min).norm() / 2.0;
+		center = (max + min) / 2.0;
 	}
 
 public:
 	EIGEN_MAKE_ALIGNED_OPERATOR_NEW;
 
 	_Transform transform;
+	Animator animator;
 	Eigen::Vector3d* verts;
 	int* tris;
 	int triCount;
@@ -64,10 +74,10 @@ public:
 
 	bool intersects(Ray ray, RaycastHit* hit)
 	{
-		/*if (!checkSphereInterception(ray))
+		if (!checkSphereInterception(ray))
 		{
 			return false;
-		}*/
+		}
 		bool intersected = false;
 		double closest = INFINITY;
 
@@ -108,6 +118,7 @@ public:
 	{
 		min = Eigen::Vector3d(-INFINITY, -INFINITY, -INFINITY);
 		max = Eigen::Vector3d(+INFINITY, +INFINITY, +INFINITY);
+		calculateBounds();
 	}
 
 	Mesh(Eigen::Vector3d* _verts,int _vertscount, int * _triangles, int _triangleCount, _Transform _transform, SDL_Color c)
@@ -121,6 +132,7 @@ public:
 		tris = _triangles;
 		triCount = _triangleCount;
 		_vertscount = _vertscount;
+		calculateBounds();
 	}
 	Mesh(Eigen::Vector3d* _verts,int _vertCount, int * _triangles, int _triangleCount, _Transform _transform, Material material)
 	{
@@ -133,7 +145,24 @@ public:
 		tris = _triangles;
 		triCount = _triangleCount;
 		vertCount = _vertCount;
+		calculateBounds();
 	}
+
+	Mesh(Eigen::Vector3d* _verts, int _vertCount, int * _triangles, int _triangleCount, Animator _animator, Material material)
+	{
+		mat = material;
+		color = material.color;
+		verts = _verts;
+		animator = _animator;
+		transform = animator.getFrame(0);
+		max = Eigen::Vector3d(-INFINITY, -INFINITY, -INFINITY);
+		min = Eigen::Vector3d(+INFINITY, +INFINITY, +INFINITY);
+		tris = _triangles;
+		triCount = _triangleCount;
+		vertCount = _vertCount;
+		calculateBounds();
+	}
+
 	~Mesh()
 	{
 		//TODO: VERTS CLEAR FIXEN!!!!
@@ -173,7 +202,7 @@ public:
 		#ifdef CULLING
 				// if the determinant is negative the triangle is backfacing
 				// if the determinant is close to 0, the ray misses the triangle
-				if (det < kEpsilon) return false;
+				if (det < epsilon) return false;
 		#else
 				// ray and triangle are parallel if det is close to 0
 				if (fabs(det) < epsilon) return false;
@@ -195,5 +224,10 @@ public:
 		}
 
 		return false;
+	}
+
+	void refresh() {
+		transform = animator.nextFrame();
+		calculateBounds();
 	}
 };

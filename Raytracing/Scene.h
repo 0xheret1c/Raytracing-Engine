@@ -39,6 +39,11 @@ public:
 		lights = _lights;
 		lightCount = count;
 	}
+
+	Mesh* getMesh(int index) {
+		return &meshes[index];
+	}
+
 	void setMeshes(std::vector<Mesh> _meshes, size_t count)
 	{
 		meshes = _meshes;
@@ -94,5 +99,11 @@ public:
 		}
 
 		return intersected;
+	}
+
+	void update() {
+		for (int i = 0; i < meshCount; i++) {
+			meshes[i].refresh();
+		}
 	}
 };

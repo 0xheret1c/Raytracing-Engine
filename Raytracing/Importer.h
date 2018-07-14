@@ -99,28 +99,39 @@ public:
 				std::streampos diff = fstr.tellg();
 				std::cout << "Before Position Read: " << fstr.tellg() << std::endl;
 
-				// READ POSITION
-				fstr.read(reinterpret_cast<char*>(&x), 4);
-				fstr.read(reinterpret_cast<char*>(&y), 4);
-				fstr.read(reinterpret_cast<char*>(&z), 4);
-				Eigen::Vector3d position(x, y, z);
+				int frameCount = 0;
+				fstr.read(reinterpret_cast<char*>(&frameCount), sizeof(int));
+				Animator animator;
+				std::cout << "Frames: " << frameCount << std::endl;
 
-				// READ ROTATION
-				fstr.read(reinterpret_cast<char*>(&x), 4);
-				fstr.read(reinterpret_cast<char*>(&y), 4);
-				fstr.read(reinterpret_cast<char*>(&z), 4);
-				Eigen::Vector3d rotation(x, y, z);
+				for (int i = 0; i < frameCount; i++) {
+					// READ POSITION
+					fstr.read(reinterpret_cast<char*>(&x), 4);
+					fstr.read(reinterpret_cast<char*>(&y), 4);
+					fstr.read(reinterpret_cast<char*>(&z), 4);
+					Eigen::Vector3d position(x, y, z);
 
-				// READ SCALE
-				fstr.read(reinterpret_cast<char*>(&x), 4);
-				fstr.read(reinterpret_cast<char*>(&y), 4);
-				fstr.read(reinterpret_cast<char*>(&z), 4);
-				Eigen::Vector3d scale(x, y, z);
+					// READ ROTATION
+					fstr.read(reinterpret_cast<char*>(&x), 4);
+					fstr.read(reinterpret_cast<char*>(&y), 4);
+					fstr.read(reinterpret_cast<char*>(&z), 4);
+					Eigen::Vector3d rotation(x, y, z);
 
-				std::cout << "After Position Read: " << fstr.tellg() << std::endl;
-				std::cout << "Difference Position Read: " << (fstr.tellg() - diff) << std::endl;
+					// READ SCALE
+					fstr.read(reinterpret_cast<char*>(&x), 4);
+					fstr.read(reinterpret_cast<char*>(&y), 4);
+					fstr.read(reinterpret_cast<char*>(&z), 4);
+					Eigen::Vector3d scale(x, y, z);
 
-				_Transform transform(position, rotation, scale);
+					animator.addFrame(position, rotation, scale);
+
+					//std::cout << "After Position Read: " << fstr.tellg() << std::endl;
+					//std::cout << "Difference Position Read: " << (fstr.tellg() - diff) << std::endl;
+				}
+
+				
+
+				//_Transform transform(position, rotation, scale);
 
 				int triangleCount = 0;
 				fstr.read(reinterpret_cast<char*>(&triangleCount), sizeof(int));
@@ -166,7 +177,7 @@ public:
 				SDL_Color col = { r, g, b };
 				Material m = Material(col, metallic, gloss);
 
-				Mesh mesh(__verts, verticeCount, __triangles, triangleCount, transform, m);
+				Mesh mesh(__verts, verticeCount, __triangles, triangleCount, animator, m);
 				//meshes[i] = mesh;
 				meshes.push_back(mesh);
 

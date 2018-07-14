@@ -84,6 +84,7 @@ private:
 
 public:
 	static SDL_Color** render(Scene* scene) {
+		std::cout << "Camera Position: " << scene->camera.transform.position << std::endl;
 		std::cout << "Get Width: " << scene->camera.width << std::endl;
 		std::cout << "Get Height: " << scene->camera.height << std::endl;
 

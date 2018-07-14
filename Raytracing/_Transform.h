@@ -74,4 +74,15 @@ public:
 	Eigen::Vector3d translate(Eigen::Vector3d vector) {
 		return (rotationMatrix * vector.cwiseProduct(scale)) + position;
 	}
+
+	void Rotate(Eigen::Vector3d rotation) {
+		this->rotation *= Eigen::AngleAxisd(rotation.y() * (M_PI) / 180, Eigen::Vector3d::UnitY())
+						* Eigen::AngleAxisd(rotation.x() * (M_PI) / 180, Eigen::Vector3d::UnitX())
+						* Eigen::AngleAxisd(rotation.z() * (M_PI) / 180, Eigen::Vector3d::UnitZ());
+		this->rotationMatrix = this->rotation.toRotationMatrix();
+	}
+
+	void RecalculateMatrix() {
+		this->rotationMatrix = this->rotation.toRotationMatrix();
+	}
 };

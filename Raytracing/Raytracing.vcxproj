@@ -135,6 +135,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Animator.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Core.h" />
     <ClInclude Include="e_colors.h" />
