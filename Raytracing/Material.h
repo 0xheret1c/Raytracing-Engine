@@ -25,7 +25,7 @@ public:
 		}
 		else {
 			hasGloss = true;
-			amount = gloss * 25;
+			amount = gloss * 10;
 			angle = gloss * 5;
 		}
 	}
