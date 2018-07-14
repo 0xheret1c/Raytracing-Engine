@@ -3,7 +3,7 @@
 //class Camera;
 
 #include <Eigen/Core>
-
+#include <vector>
 #include "RaycastHit.h"
 #include "Mesh.h"
 #include "Light.h"
