@@ -54,7 +54,7 @@ void menu()
 		density = std::stoi(Menu::inputPrompt(message, "  DENSITY: "));
 		message = header + "  Set bounces: (Will greatly increase rendering time. Recommended: 0-3)";
 		bounces = std::stoi(Menu::inputPrompt(message, "  BOUNCES: "));
-		message = header + "  Set animation-start-frame: (Set to 1 for no animation.)";
+		message = header + "  Set animation-start-frame: (Set to 0 for no animation.)";
 		animationStartFrame = std::stoi(Menu::inputPrompt(message, "  ANIMATION-START-FRAME: "));
 		message = header + "  Set animation-end-frame: (Set to 1 for no animation.)";
 		animationEndFrame = std::stoi(Menu::inputPrompt(message, "  ANIMATION-END-FRAME: "));
