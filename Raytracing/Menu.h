@@ -60,7 +60,7 @@ private:
 public:
 	static int menu(std::string message,std::string* elements, size_t elementsc,size_t delayMS)
 	{
-		system("clear");
+		system("cls");
 		bool end = false;
 		int selectionPos = 0;
 		showConsoleCursor(false);
@@ -89,7 +89,7 @@ public:
 	{
 		showConsoleCursor(true);
 		std::cout << "\r\n";
-		system("clear");
+		system("cls");
 		std::cout << message << std::endl;
 		std::cout << label;
 		std::string ret = "";
