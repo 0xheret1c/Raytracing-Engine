@@ -148,6 +148,8 @@
     <ClInclude Include="Ray.h" />
     <ClInclude Include="RaycastHit.h" />
     <ClInclude Include="Renderer.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="resource1.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="_Transform.h" />
     <ClInclude Include="Utils.h" />
@@ -155,6 +157,12 @@
   <ItemGroup>
     <ClCompile Include="GFXOutput.h" />
     <ClCompile Include="main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Raytracing.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="vision.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
