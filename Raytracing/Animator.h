@@ -20,6 +20,10 @@ public:
 		this->frameCount++;
 	}
 
+	_Transform getFrame() {
+		return _Transform(positions[curFrame], rotations[curFrame], scales[curFrame]);
+	}
+
 	_Transform getFrame(int frame) {
 		frame = frame % this->frameCount;
 		return _Transform(positions[frame], rotations[frame], scales[frame]);
@@ -29,5 +33,10 @@ public:
 		this->curFrame++;
 		this->curFrame = this->curFrame % this->frameCount;
 		return _Transform(positions[this->curFrame], rotations[this->curFrame], scales[this->curFrame]);
+	}
+
+	void setFrame(int frame) {
+		this->curFrame = frame;
+		this->curFrame = this->curFrame % this->frameCount;
 	}
 };

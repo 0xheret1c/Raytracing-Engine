@@ -80,9 +80,19 @@ int main(int argc, char* argv[])
 	menu();
 	GFXOutput out = GFXOutput(WIDTH, HEIGHT);
 	Scene scene = Importer::importScene(sceneToRender, WIDTH, HEIGHT, density, bounces);
-	SDL_Color** screen = Renderer::render(&scene);
-	out.setPixels(screen);
-	out.initSDL();
+	int rendered = animationStartFrame;
+
+	scene.setFrame(animationStartFrame);
+
+	while (rendered < animationEndFrame) {
+		SDL_Color** screen = Renderer::render(&scene);
+		out.setPixels(screen);
+		out.initSDL();
+		rendered++;
+		scene.update();
+	}
+
+	
 
 	return 0;
 }
