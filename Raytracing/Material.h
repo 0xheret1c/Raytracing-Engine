@@ -12,6 +12,7 @@ public:
 	double gloss = 0;
 	double angle = 0;
 	unsigned int amount = 0;
+
 	bool hasGloss = false;
 	SDL_Color color;
 
@@ -25,7 +26,7 @@ public:
 		}
 		else {
 			hasGloss = true;
-			amount = gloss * 10;
+			amount = gloss * 25;
 			angle = gloss * 5;
 		}
 	}
