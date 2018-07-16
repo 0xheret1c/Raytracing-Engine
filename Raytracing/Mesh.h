@@ -10,6 +10,8 @@ class RaycastHit;
 #include "Ray.h"
 #include "Material.h"
 #include "BoundingBox.h"
+#include "Triangle.h"
+#include "KDNode.h"
 
 #define CULLING
 
@@ -25,6 +27,8 @@ private:
 	double radius;*/
 	
 	BoundingBox boundingBox;
+	KDNode* node;
+	std::vector<Triangle> triangles;
 
 	/*bool checkSphereInterception(Ray ray)
 	{
@@ -62,11 +66,22 @@ private:
 	}*/
 
 	void calculateBounds() {
-		boundingBox = BoundingBox(transform.translate(verts[0]));
+		/*boundingBox = BoundingBox(transform.translate(verts[0]));
 
 		for (int i = 1; i < vertCount; i++) {
 			boundingBox.expand(transform.translate(verts[i]));
+		}*/
+
+		std::vector<Triangle*> trianglePointers;
+
+		for (int i = 0; i < triCount; i += 3) {
+			Eigen::Vector3d v0 = transform.translate(verts[tris[i]]);
+			Eigen::Vector3d v1 = transform.translate(verts[tris[i + 1]]);
+			Eigen::Vector3d v2 = transform.translate(verts[tris[i + 2]]);
+			trianglePointers.push_back(new Triangle(v0, v1, v2));
 		}
+
+		node = KDNode::build(trianglePointers, 0);
 	}
 
 public:
@@ -81,7 +96,7 @@ public:
 	Material mat;
 	int vertCount;
 
-	bool intersects(Ray ray, RaycastHit* hit)
+	/*bool intersects(Ray ray, RaycastHit* hit)
 	{
 		if (!boundingBox.intersects(ray))
 		{
@@ -121,6 +136,17 @@ public:
 			hit->mesh = this;
 		}
 		return intersected;
+	}*/
+
+	bool intersects(Ray ray, RaycastHit* hit) {
+		double tmin = INFINITY;
+		if (KDNode::hit(node, ray, tmin, hit)) {
+			//hit->point = ray.origin + tmin * ray.direction;
+			hit->mesh = this;
+			return true;
+		}
+		
+		return false;
 	}
 
 	Mesh()

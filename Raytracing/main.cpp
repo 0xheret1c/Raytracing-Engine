@@ -85,6 +85,7 @@ int main(int argc, char* argv[])
 
 	scene.setFrame(animationStartFrame);
 
+
 	while (rendered < animationEndFrame) {
 		SDL_Color** screen = Renderer::render(&scene);
 		out.setPixels(screen);
