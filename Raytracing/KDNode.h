@@ -94,7 +94,7 @@ public:
 		return node;
 	}
 
-	static bool hit(KDNode* node, Ray& ray, double& tmin, RaycastHit *hit) {
+	static bool hit(KDNode* node, Ray& ray, double& t, double &u, double &v, double& tmin, RaycastHit *hit) {
 		if (node->bbox.intersects(ray)) {
 			//std::cout << "HIT BOUNDING BOX" << std::endl;
 			bool hit_tri = false;
@@ -104,8 +104,8 @@ public:
 				double tmin2 = tmin;
 				RaycastHit hit1;
 				RaycastHit hit2;*/
-				bool hitleft = KDNode::hit(node->left, ray, tmin, hit);
-				bool hitright = KDNode::hit(node->right, ray, tmin, hit);
+				bool hitleft = KDNode::hit(node->left, ray, t, u, v, tmin, hit);
+				bool hitright = KDNode::hit(node->right, ray, t, u, v, tmin, hit);
 
 				//tmin = min(tmin1, tmin2);
 				/*if (tmin1 < tmin2) {
@@ -119,9 +119,6 @@ public:
 			}
 			else {
 				//std::cout << "NO MORE BOXES" << std::endl;
-				double u = 0;
-				double v = 0;
-				double t = 0;
 				int triCount = node->triangles.size();
 				for (int i = 0; i < triCount; i++) {
 					//std::cout << node->triangles[i]->n << std::endl;

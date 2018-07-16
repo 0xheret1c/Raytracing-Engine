@@ -59,7 +59,7 @@ public:
 		Ray ray = Ray(origin, -light.transform.forward(), this);
 		if (intersects(ray, &hit))
 		{
-			return globalIllumination;
+			return Our_math::clamp01((normal.dot(light.transform.forward()) * -1) * globalIllumination);
 		}
 		return Our_math::clamp01((normal.dot(light.transform.forward()) * -1) + globalIllumination);
 	}

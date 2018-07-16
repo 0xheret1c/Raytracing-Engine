@@ -140,7 +140,10 @@ public:
 
 	bool intersects(Ray ray, RaycastHit* hit) {
 		double tmin = INFINITY;
-		if (KDNode::hit(node, ray, tmin, hit)) {
+		double t = 0;
+		double u = 0;
+		double v = 0;
+		if (KDNode::hit(node, ray, t, u, v, tmin, hit)) {
 			//hit->point = ray.origin + tmin * ray.direction;
 			hit->mesh = this;
 			return true;
