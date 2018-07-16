@@ -59,6 +59,7 @@ private:
 	}
 	static void drawMenu(std::string message, std::string* elements,size_t elementsc, size_t selectionPos)
 	{
+		showConsoleCursor(false);
 		setCursorPos(0, 0);
 		std::string cursor   = ">> ";
 		std::string noCursor = "   ";
@@ -110,8 +111,8 @@ private:
 public:
 	static int menu(std::string message,std::string* elements, size_t elementsc,size_t delayMS)
 	{
-		showConsoleCursor(false);
 		system("cls");
+
 		bool end = false;
 		int selectionPos = 0;
 
