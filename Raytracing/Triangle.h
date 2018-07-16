@@ -1,6 +1,4 @@
-#pragma once
-#include "Core.h"
-#include "Ray.h"
+
 
 class Triangle
 {
@@ -22,14 +20,14 @@ public:
 		Eigen::Vector3d v0v2 = v2 - v0;
 		Eigen::Vector3d pvec = dir.cross(v0v2);
 		double det = v0v1.dot(pvec);
-#ifdef CULLING
-		// if the determinant is negative the triangle is backfacing
-		// if the determinant is close to 0, the ray misses the triangle
-		if (det < epsilon) return false;
-#else
-		// ray and triangle are parallel if det is close to 0
-		if (fabs(det) < epsilon) return false;
-#endif
+		#ifdef CULLING
+				// if the determinant is negative the triangle is backfacing
+				// if the determinant is close to 0, the ray misses the triangle
+				if (det < epsilon) return false;
+		#else
+				// ray and triangle are parallel if det is close to 0
+				if (fabs(det) < epsilon) return false;
+		#endif
 		double invDet = 1 / det;
 
 		Eigen::Vector3d tvec = orig - v0;
@@ -54,21 +52,24 @@ public:
 		v0 = _v0;
 		v1 = _v1;
 		v2 = _v2;
-
+		n = (v1 - v0).cross(v2 - v0).normalized();
 	}
 	Triangle()
 	{
 		v0 = Eigen::Vector3d(0, 0, 1);
 		v1 = Eigen::Vector3d(0, 0, 2);
 		v2 = Eigen::Vector3d(0, 0, 3);
-		
+		n = (v1 - v0).cross(v2 - v0).normalized();
 	}
 
-	Eigen::Vector3d get_center() {
-		return (v0 + v1 + v2) / 3.0;
+	Eigen::Vector3d get_midpoint() {
+		return (v0 + v1 + v2) * (1.0/3.0);
 	}
 
-	Eigen::Vector3d get_boundingbox() {
-
+	BoundingBox get_bounding_box() {
+		BoundingBox bbox = BoundingBox(v0);
+		bbox.expand(v1);
+		bbox.expand(v2);
+		return bbox;
 	}
 };

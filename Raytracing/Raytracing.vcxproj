@@ -136,10 +136,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Animator.h" />
+    <ClInclude Include="BoundingBox.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Core.h" />
     <ClInclude Include="e_colors.h" />
     <ClInclude Include="Importer.h" />
+    <ClInclude Include="KDNode.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="Menu.h" />
@@ -152,6 +154,7 @@
     <ClInclude Include="resource.h" />
     <ClInclude Include="resource1.h" />
     <ClInclude Include="Scene.h" />
+    <ClInclude Include="Triangle.h" />
     <ClInclude Include="_Transform.h" />
     <ClInclude Include="Utils.h" />
   </ItemGroup>
