@@ -34,7 +34,7 @@ private:
 					color += calculateGloss(scene, nRay, bounces + 1, hit.mesh->mat) * hit.mesh->mat.reflectiveness;
 				}
 				else {
-					color += traceRay(scene, nRay, bounces + 1) * hit.mesh->mat.reflectiveness * intensity;
+					color += traceRay(scene, nRay, bounces + 1) * hit.mesh->mat.reflectiveness;
 				}
 			}
 		}
