@@ -29,7 +29,7 @@ private:
 				color = color * (1.0 - hit.mesh->mat.reflectiveness);
 				color += traceRay(scene, nRay, bounces + 1, hit.triangle) * hit.mesh->mat.reflectiveness;*/
 				Ray nRay = Ray(hit.point + hit.n * (epsilon * 10000), reflection.normalized(), scene);
-				color = color * (1.0 - (hit.mesh->mat.reflectiveness * intensity));
+				color = color * (1.0 - (hit.mesh->mat.reflectiveness));
 				if (hit.mesh->mat.hasGloss) {
 					color += calculateGloss(scene, nRay, bounces + 1, hit.mesh->mat) * hit.mesh->mat.reflectiveness;
 				}
