@@ -9,6 +9,7 @@ class RaycastHit;
 #include "_Transform.h"
 #include "Ray.h"
 #include "Material.h"
+#include "BoundingBox.h"
 
 #define CULLING
 
@@ -18,13 +19,14 @@ class Mesh
 {
 private:
 	//Ray-sphere intersection
-	Eigen::Vector3d min;
+	/*Eigen::Vector3d min;
 	Eigen::Vector3d max;
 	Eigen::Vector3d center;
-	double radius;
-	//--
+	double radius;*/
+	
+	BoundingBox boundingBox;
 
-	bool checkSphereInterception(Ray ray)
+	/*bool checkSphereInterception(Ray ray)
 	{
 	
 		Eigen::Vector3d e = center - ray.origin;
@@ -57,6 +59,14 @@ private:
 		}
 		radius = (max - min).norm() / 2.0;
 		center = (max + min) / 2.0;
+	}*/
+
+	void calculateBounds() {
+		boundingBox = BoundingBox(transform.translate(verts[0]));
+
+		for (int i = 1; i < vertCount; i++) {
+			boundingBox.expand(transform.translate(verts[i]));
+		}
 	}
 
 public:
@@ -73,7 +83,7 @@ public:
 
 	bool intersects(Ray ray, RaycastHit* hit)
 	{
-		if (!checkSphereInterception(ray))
+		if (!boundingBox.intersects(ray))
 		{
 			return false;
 		}
@@ -115,8 +125,8 @@ public:
 
 	Mesh()
 	{
-		min = Eigen::Vector3d(-INFINITY, -INFINITY, -INFINITY);
-		max = Eigen::Vector3d(+INFINITY, +INFINITY, +INFINITY);
+		//min = Eigen::Vector3d(-INFINITY, -INFINITY, -INFINITY);
+		//max = Eigen::Vector3d(+INFINITY, +INFINITY, +INFINITY);
 		calculateBounds();
 	}
 
@@ -126,8 +136,8 @@ public:
 		color = c;
 		verts = _verts;
 		transform = _transform;
-		max = Eigen::Vector3d(-INFINITY, -INFINITY, -INFINITY);
-		min = Eigen::Vector3d(+INFINITY, +INFINITY, +INFINITY);
+		//max = Eigen::Vector3d(-INFINITY, -INFINITY, -INFINITY);
+		//min = Eigen::Vector3d(+INFINITY, +INFINITY, +INFINITY);
 		tris = _triangles;
 		triCount = _triangleCount;
 		_vertscount = _vertscount;
@@ -139,8 +149,8 @@ public:
 		color = material.color;
 		verts = _verts;
 		transform = _transform;
-		max = Eigen::Vector3d(-INFINITY, -INFINITY, -INFINITY);
-		min = Eigen::Vector3d(+INFINITY, +INFINITY, +INFINITY);
+		//max = Eigen::Vector3d(-INFINITY, -INFINITY, -INFINITY);
+		//min = Eigen::Vector3d(+INFINITY, +INFINITY, +INFINITY);
 		tris = _triangles;
 		triCount = _triangleCount;
 		vertCount = _vertCount;
@@ -154,8 +164,8 @@ public:
 		verts = _verts;
 		animator = _animator;
 		transform = animator.getFrame(0);
-		max = Eigen::Vector3d(-INFINITY, -INFINITY, -INFINITY);
-		min = Eigen::Vector3d(+INFINITY, +INFINITY, +INFINITY);
+		//max = Eigen::Vector3d(-INFINITY, -INFINITY, -INFINITY);
+		//min = Eigen::Vector3d(+INFINITY, +INFINITY, +INFINITY);
 		tris = _triangles;
 		triCount = _triangleCount;
 		vertCount = _vertCount;
