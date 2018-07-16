@@ -3,7 +3,6 @@
 #include <Eigen\Core>
 #include "_Transform.h"
 #include "Ray.h"
-#include "Triangle.h"
 #include "RaycastHit.h"
 
 

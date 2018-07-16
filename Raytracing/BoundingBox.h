@@ -26,6 +26,11 @@ public:
 		maxPoint[2] = max(pos.z(), maxPoint.z());
 	}
 
+	void expand(BoundingBox box) {
+		this->expand(box.minPoint);
+		this->expand(box.maxPoint);
+	}
+
 	bool intersects(Ray &ray) {
 		double tx1 = (minPoint.x() - ray.origin.x()) * ray.n_inv.x();
 		double tx2 = (maxPoint.x() - ray.origin.x()) * ray.n_inv.x();
@@ -46,5 +51,25 @@ public:
 		tmax = min(tmax, max(tz1, tz2));
 
 		return tmax >= tmin && tmax >= 0.0;
+	}
+
+	int longest_axis() {
+		double x = abs(maxPoint.x() - minPoint.x());
+		double y = abs(maxPoint.y() - minPoint.y());
+		double z = abs(maxPoint.z() - minPoint.z());
+
+		if (x >= y && x >= z) {
+			return 0;
+		}
+
+		if (y >= x && y >= z) {
+			return 1;
+		}
+
+		if (z >= x && z >= y) {
+			return 2;
+		}
+
+		return 0;
 	}
 };
