@@ -23,10 +23,11 @@ std::string sceneToRender;
 std::string sceneName = "DEFAULT";
 using namespace Eigen;
 
+
 void menu()
 {
-	std::string icon = "  **************************************************\r\n                   `-/osyso/-`                 \r\n                `-+hmMMMNNNMMMmh+-`            \r\n             `:sdMMMMd+:::::+dMMMMds-`         \r\n         `-+ymMMMMMN/`/syyys/`/NMMMMMmy/.`     \r\n    `.:+ydNMMMMMMMMs oyyyyyyyo sMMMMMMMMNdy+:.`\r\n    `.:+ydNMMMMMMMMs oyyyyyyyo sMMMMMMMMMNds/.`\r\n         `-+hmMMMMMN/`+syyys+`/NMMMMMMmy/.`    \r\n             .:smMMMMh/::-::/hMMMMNho-`        \r\n                `-ohmMMNNmNNMMNds/.            \r\n                    `-/osyso/-.`               \r\n\r\n  ************************************************** ";
-	std::string header = icon + "\r\n";
+
+
 	std::string message;
 	std::vector<std::string> fileNames = Importer::getFileNames(".\\Scenes");
 	std::string* elements = &fileNames[0];
@@ -35,9 +36,9 @@ void menu()
 	int selection = 0;
 	do
 	{
-		message = header + "  Select the scene you want to render.\r\n  Press arrow up and down to navigate and enter to confirm.\r\n  ";
+		message = "  Select the scene you want to render.\r\n  Press arrow up and down to navigate and enter to confirm.\r\n  ";
 		selection = Menu::menu(message, elements, elementsc, 200);
-		message = header + "  Do you want to render \"" + elements[selection] + "\"?\r\n";
+		message = "  Do you want to render \"" + elements[selection] + "\"?\r\n";
 		areYouSure = Menu::yesOrNo(message,200);
 	}
 	while(areYouSure != 1);
@@ -47,20 +48,25 @@ void menu()
 	areYouSure = 0;
 	do
 	{
-		message = header + "  Set window-width:";
+		std::string tmp = "";
+		message = "  Set window-width:";
 		WIDTH = std::stoi(Menu::inputPrompt(message, "  WIDTH: "));
-		message = header + "  Set window-height:";
+		message = "  Set window-height:";
 		HEIGHT = std::stoi(Menu::inputPrompt(message, "  HEIGHT: "));
-		message = header + "  Set density: (Will greatly increase rendering time. Recommended: 1-2)";
+
+		message = "  Set density: (Will greatly increase rendering time. Recommended: 1-2)";
 		density = std::stoi(Menu::inputPrompt(message, "  DENSITY: "));
-		message = header + "  Set bounces: (Will greatly increase rendering time. Recommended: 0-3)";
+
+		message = "  Set bounces: (Will greatly increase rendering time. Recommended: 0-3)";
 		bounces = std::stoi(Menu::inputPrompt(message, "  BOUNCES: "));
-		message = header + "  Set animation-start-frame: (Set to 0 for no animation.)";
+
+		message = "  Set animation-start-frame: (Set to 0 for no animation.)";
 		animationStartFrame = std::stoi(Menu::inputPrompt(message, "  ANIMATION-START-FRAME: "));
-		message = header + "  Set animation-end-frame: (Set to 1 for no animation.)";
+
+		message = "  Set animation-end-frame: (Set to 1 for no animation.)";
 		animationEndFrame = std::stoi(Menu::inputPrompt(message, "  ANIMATION-END-FRAME: "));
 
-		message = header + "  Are the following correct? If you continue, the render sequence will start,\r\n  this might take some time."+ 
+		message = tmp + "  Are the following correct? If you continue, the render sequence will start,\r\n  this might take some time."+ 
 		  "\r\n\r\n  SCENE:................... " + sceneToRender
 			+ "\r\n  WIDTH:................... " + std::to_string(WIDTH)
 			+ "\r\n  HEIGHT:.................. " + std::to_string(HEIGHT)

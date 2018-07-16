@@ -18,6 +18,12 @@ public:
 #endif // DEBUG
 	}
 
+	static void setConsoleColor(int val)
+	{
+		HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+		SetConsoleTextAttribute(hConsole, val);
+	}
+
 	static void setCursorPos(int x, int y)
 	{
 		COORD p = { x, y };
