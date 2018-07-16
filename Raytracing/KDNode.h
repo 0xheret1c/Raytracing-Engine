@@ -41,10 +41,12 @@ public:
 			node->bbox.expand(tris[i]->get_bounding_box());
 		}
 
-		Eigen::Vector3d midpt = Eigen::Vector3d(0, 0, 0);
+		/*Eigen::Vector3d midpt = Eigen::Vector3d(0, 0, 0);
 		for (int i = 0; i < triCount; i++) {
-			midpt += (tris[i]->get_midpoint() * (1.0 / tris.size()));
-		}
+			midpt += (tris[i]->get_midpoint() * (1.0 / triCount));
+		}*/
+
+		Eigen::Vector3d midpt = node->bbox.midPoint();
 
 		std::vector<Triangle*> left_tris;
 		std::vector<Triangle*> right_tris;

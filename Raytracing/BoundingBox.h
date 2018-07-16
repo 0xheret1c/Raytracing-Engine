@@ -72,4 +72,8 @@ public:
 
 		return 0;
 	}
+	
+	Eigen::Vector3d midPoint() {
+		return (minPoint + maxPoint) / 2.0;
+	}
 };
