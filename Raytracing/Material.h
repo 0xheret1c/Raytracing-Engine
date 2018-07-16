@@ -12,6 +12,7 @@ public:
 	double gloss = 0;
 	double angle = 0;
 	unsigned int amount = 0;
+
 	bool hasGloss = false;
 	SDL_Color color;
 

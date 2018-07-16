@@ -145,7 +145,6 @@ public:
 
 		printLogo();
 		std::cout << message << std::endl;
-		Utils::setConsoleColor(12);
 		std::cout << label;
 		std::string ret = "";
 		std::cin >> ret;
@@ -153,7 +152,6 @@ public:
 		{
 			ret == "0";
 		}
-		Utils::setConsoleColor(15);
 		return ret;
 	}
 
