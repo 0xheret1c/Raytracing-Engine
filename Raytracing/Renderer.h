@@ -1,4 +1,6 @@
 #pragma once
+#include <thread>
+#include <future>
 
 class Renderer
 {
@@ -83,15 +85,17 @@ private:
 	}*/
 
 public:
-	static SDL_Color** render(Scene* scene) {
-		std::cout << "Camera Position: " << scene->camera.transform.position << std::endl;
-		std::cout << "Get Width: " << scene->camera.width << std::endl;
-		std::cout << "Get Height: " << scene->camera.height << std::endl;
+
+
+	static void render(SDL_Color** returnArray, Scene* scene, int WIDTH, int HEIGHT, int OffsetX, int OffsetY) {
+		//std::cout << "Camera Position: " << scene->camera.transform.position << std::endl;
+		//std::cout << "Get Width: " << scene->camera.width << std::endl;
+		//std::cout << "Get Height: " << scene->camera.height << std::endl;
 
 		//Debug
-		std::cout << "Started tracing... this might take a while!" << std::endl;
+		//std::cout << "Started tracing... this might take a while!" << std::endl;
 		const clock_t begin_time = clock();
-		size_t pixelToTrace = scene->camera.height * scene->camera.width;
+		size_t pixelToTrace = HEIGHT * WIDTH;
 		size_t tracedPixel = 0;
 		size_t lastPercent = 0;
 
@@ -100,12 +104,15 @@ public:
 		double fovX = scene->camera.fov * ((double)scene->camera.width / (double)scene->camera.height);
 		double fovY = scene->camera.fov;
 
-		SDL_Color** returnArray;
-		returnArray = new SDL_Color*[scene->camera.width];
-		for (size_t x = 0; x < scene->camera.width; x++)
+		int densitysqr = scene->camera.density * scene->camera.density;
+		//std::future<Eigen::Vector3f>* threads = new std::future<Eigen::Vector3f>[threadCount];
+
+		//SDL_Color** returnArray;
+		//returnArray = new SDL_Color*[scene->camera.width];
+		for (size_t x = OffsetX; x < OffsetX + WIDTH; x++)
 		{
-			returnArray[x] = new SDL_Color[scene->camera.height];
-			for (size_t y = 0; y < scene->camera.height; y++)
+			//returnArray[x] = new SDL_Color[scene->camera.height];
+			for (size_t y = OffsetY; y < OffsetY + HEIGHT; y++)
 			{
 				returnArray[x][scene->camera.height - y - 1] = SDL_Color();
 				returnArray[x][scene->camera.height - y - 1].r = 0;
@@ -117,6 +124,11 @@ public:
 				double g = 0;
 				double b = 0;
 				double a = 0;
+
+				
+
+				//std::future<int> ret = std::async(&func);
+				//int i = ret.get();
 
 				for (size_t z = 0; z < scene->camera.density * scene->camera.density; z++)
 				{
@@ -146,11 +158,21 @@ public:
 
 					Ray ray = Ray(scene->camera.transform.position, direction.normalized(), scene);
 
+					//threads[z] = std::async(&traceRay, scene, ray, 0);
+
 					Eigen::Vector3f col = traceRay(scene, ray, 0);
 					r += col[0];
 					g += col[1];
 					b += col[2];
 				}
+
+				/*for (int i = 0; i < threadCount; i++) {
+					Eigen::Vector3f col = threads[i].get();
+					r += col[0];
+					g += col[1];
+					b += col[2];
+				}*/
+
 				r /= (scene->camera.density * scene->camera.density);
 				g /= (scene->camera.density * scene->camera.density);
 				b /= (scene->camera.density * scene->camera.density);
@@ -167,7 +189,7 @@ public:
 			}
 
 			//Debug
-			size_t percent = (size_t)(((float)tracedPixel / (float)pixelToTrace) * 100);
+			/*size_t percent = (size_t)(((float)tracedPixel / (float)pixelToTrace) * 100);
 			if (percent % 1 == 0 && percent != lastPercent)
 			{
 				float timePassedSecs = float(clock() - begin_time) / CLOCKS_PER_SEC;
@@ -175,13 +197,55 @@ public:
 				float timeRemaining = (100 - percent) * (timePassedSecs / (percent));
 				std::cout << "Traced " << percent << "% "
 					<< tracedPixel << "/" << pixelToTrace << " pixels traced. "
-					<< tracedPixel * (scene->camera.density * scene->camera.density) << "/" << pixelToTrace * (scene->camera.density * scene->camera.density) << " rays casted."
+					<< tracedPixel * (densitysqr) << "/" << pixelToTrace * (densitysqr) << " rays casted."
 					<< " Est. Time Remaining: " << timeRemaining << " seconds."
 					<< std::endl;
-			}
+			}*/
 		}
-		float timePassedSecs = float(clock() - begin_time) / CLOCKS_PER_SEC;
-		std::cout << "Trame finished in " << timePassedSecs << " seconds / " << 1 / timePassedSecs << " FPS." << std::endl;
+		/*float timePassedSecs = float(clock() - begin_time) / CLOCKS_PER_SEC;
+		std::cout << "Trame finished in " << timePassedSecs << " seconds / " << 1 / timePassedSecs << " FPS." << std::endl;*/
+
+	}
+
+	static SDL_Color** initArray(Scene *scene) {
+		SDL_Color** returnArray;
+		
+
+		returnArray = new SDL_Color*[scene->camera.width];
+		for (size_t x = 0; x < scene->camera.width; x++)
+		{
+			returnArray[x] = new SDL_Color[scene->camera.height];
+		}
+
 		return returnArray;
+	}
+
+	static void renderThreaded(Scene* scene, SDL_Color** returnArray, GFXOutput* out) {
+		std::cout << "Started tracing... this might take a while!" << std::endl;
+		const clock_t begin_time = clock();
+
+		int threadCount = 2;
+		std::thread* threads = new std::thread[threadCount];
+
+		for (int i = 0; i < threadCount; i++) {
+			threads[i] = std::thread(&render, returnArray, scene, scene->camera.width / threadCount, scene->camera.height, (scene->camera.width / threadCount) * i, 0);
+		}
+
+		for (int i = 0; i < threadCount; i++) {
+			threads[i].join();
+			//out->printScreen();
+			float timePassedSecs = float(clock() - begin_time) / CLOCKS_PER_SEC;
+			std::cout << "Thread " << i << " finished in " << timePassedSecs << " seconds / " << 1 / timePassedSecs << " FPS." << std::endl;
+		}
+
+		/*std::thread t1 = std::thread(&render, returnArray, scene, scene->camera.width, scene->camera.height, 0, 0);
+		//std::thread t2 = std::thread(&render, returnArray, scene, scene->camera.width, scene->camera.height / 2, 0, scene->camera.height / 2);
+		t1.join();
+		//t2.join();*/
+
+		float timePassedSecs = float(clock() - begin_time) / CLOCKS_PER_SEC;
+		std::cout << "Full Trace finished in " << timePassedSecs << " seconds / " << 1 / timePassedSecs << " FPS." << std::endl;
+
+		//return returnArray;
 	}
 };

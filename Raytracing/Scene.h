@@ -77,24 +77,14 @@ public:
 
 	bool intersects(Ray ray, RaycastHit* hit)
 	{
-		size_t length = meshCount;
-
-		
 		bool intersected = false;
-		double closest = INFINITY;
 
-		for (size_t i = 0; i < length; i++)
-		{
-			RaycastHit closestHit;
-			if(meshes[i].intersects(ray,&closestHit))
-			{
-				double distance = (closestHit.point - ray.origin).norm();
-				if(distance < closest)
-				{
-					*hit = closestHit;
-					closest = distance;
-					intersected = true;
-				}
+		double t = 0;
+		double tmin = INFINITY;
+
+		for (int i = 0; i < meshCount; i++) {
+			if (meshes[i].intersects(ray, hit, t, tmin)) {
+				intersected = true;
 			}
 		}
 

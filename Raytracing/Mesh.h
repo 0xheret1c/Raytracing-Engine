@@ -138,17 +138,13 @@ public:
 		return intersected;
 	}*/
 
-	bool intersects(Ray ray, RaycastHit* hit) {
-		double tmin = INFINITY;
-		double t = 0;
+	bool intersects(Ray ray, RaycastHit* hit, double& t, double& tmin) {
 		double u = 0;
 		double v = 0;
 		if (KDNode::hit(node, ray, t, u, v, tmin, hit)) {
-			//hit->point = ray.origin + tmin * ray.direction;
 			hit->mesh = this;
 			return true;
 		}
-		
 		return false;
 	}
 

@@ -23,11 +23,8 @@ std::string sceneToRender;
 std::string sceneName = "DEFAULT";
 using namespace Eigen;
 
-
 void menu()
 {
-
-
 	std::string message;
 	std::vector<std::string> fileNames = Importer::getFileNames(".\\Scenes");
 	std::string* elements = &fileNames[0];
@@ -85,17 +82,21 @@ int main(int argc, char* argv[])
 {
 	
 	menu();
+
 	GFXOutput out = GFXOutput(WIDTH, HEIGHT);
 	Scene scene = Importer::importScene(sceneToRender, WIDTH, HEIGHT, density, bounces);
 	int rendered = animationStartFrame;
 
 	scene.setFrame(animationStartFrame);
-
+	
 
 	while (rendered < animationEndFrame) {
-		SDL_Color** screen = Renderer::render(&scene);
-		out.setPixels(screen);
-		out.initSDL();
+		
+		SDL_Color** screen = Renderer::initArray(&scene);
+		Renderer::renderThreaded(&scene, screen, &out);
+		//out.setPixels(screen);
+		out.initSDL(screen);
+		
 
 		rendered++;
 		std::string frameNumber = "";

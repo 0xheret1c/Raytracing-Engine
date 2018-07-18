@@ -31,8 +31,9 @@ private:
 	}
 
 public:
-	void initSDL()
+	void initSDL(SDL_Color** _screen)
 	{
+		screen = _screen;
 		Utils::LOG("Initializing SDL...");
 		SDL_Init(SDL_INIT_VIDEO);
 		Utils::LOG("Creating window and renderer...");
