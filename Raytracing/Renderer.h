@@ -7,12 +7,13 @@ class Renderer
 private:
 	static Eigen::Vector3f traceRay(Scene* scene, Ray ray, size_t bounces)
 	{
+		//std::cout << "Trace Ray" << std::endl;
 		double epsilon = std::numeric_limits<double>::epsilon();
 		Eigen::Vector3f color(0, 0, 0);
 		double angle = (-(acos(ray.direction.dot(Eigen::Vector3d::UnitY())) / (M_PI / 2.0)));
 		angle = abs(angle);
 		angle = Our_math::clamp01(angle);
-		color = Eigen::Vector3f(255, 255, 255) - angle * (Eigen::Vector3f(255, 255, 255) - Eigen::Vector3f(0x19, 0x2c, 0xb7));
+		color = Eigen::Vector3f(1, 1, 1) - angle * (Eigen::Vector3f(1, 1, 1) - Eigen::Vector3f(0x19 / 255.0, 0x2c / 255.0, 0xb7 / 255.0));
 		if (bounces > scene->camera.maxBounces) {
 			return color;
 		}
@@ -21,9 +22,10 @@ private:
 		if (scene->intersects(ray, &hit))
 		{
 			double intensity = Our_math::clamp01(scene->getIllumination(hit.point, hit.n));
-			color[0] = hit.mesh->color.r * intensity;
-			color[1] = hit.mesh->color.g * intensity;
-			color[2] = hit.mesh->color.b * intensity;
+			//color[0] = hit.mesh->color.r * intensity;
+			//color[1] = hit.mesh->color.g * intensity;
+			//color[2] = hit.mesh->color.b * intensity;
+			color = hit.color * intensity;
 
 			if (bounces <= scene->camera.maxBounces) {
 				Eigen::Vector3d reflection = ray.direction.normalized() - (2.0 * (ray.direction.normalized().dot(hit.n) * hit.n));
@@ -177,6 +179,10 @@ public:
 				g /= (scene->camera.density * scene->camera.density);
 				b /= (scene->camera.density * scene->camera.density);
 
+				r *= 255.0;
+				g *= 255.0;
+				b *= 255.0;
+
 				/*returnArray[x][height - y - 1].r = (Uint8)(Our_math::clamp01(r) * 0xFF);
 				returnArray[x][height - y - 1].g = (Uint8)(Our_math::clamp01(g) * 0xFF);
 				returnArray[x][height - y - 1].b = (Uint8)(Our_math::clamp01(b) * 0xFF);*/
@@ -189,7 +195,7 @@ public:
 			}
 
 			//Debug
-			/*size_t percent = (size_t)(((float)tracedPixel / (float)pixelToTrace) * 100);
+			size_t percent = (size_t)(((float)tracedPixel / (float)pixelToTrace) * 100);
 			if (percent % 1 == 0 && percent != lastPercent)
 			{
 				float timePassedSecs = float(clock() - begin_time) / CLOCKS_PER_SEC;
@@ -200,7 +206,7 @@ public:
 					<< tracedPixel * (densitysqr) << "/" << pixelToTrace * (densitysqr) << " rays casted."
 					<< " Est. Time Remaining: " << timeRemaining << " seconds."
 					<< std::endl;
-			}*/
+			}
 		}
 		/*float timePassedSecs = float(clock() - begin_time) / CLOCKS_PER_SEC;
 		std::cout << "Trame finished in " << timePassedSecs << " seconds / " << 1 / timePassedSecs << " FPS." << std::endl;*/
@@ -224,7 +230,7 @@ public:
 		std::cout << "Started tracing... this might take a while!" << std::endl;
 		const clock_t begin_time = clock();
 
-		int threadCount = 2;
+		int threadCount = 4;
 		std::thread* threads = new std::thread[threadCount];
 
 		for (int i = 0; i < threadCount; i++) {

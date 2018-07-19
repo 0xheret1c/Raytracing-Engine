@@ -8,6 +8,7 @@ class RaycastHit;
 #include <fstream>	// Importing meshs from filesystem.
 #include "_Transform.h"
 #include "Ray.h"
+#include "Texture.h"
 #include "Material.h"
 #include "BoundingBox.h"
 #include "Triangle.h"
@@ -78,7 +79,7 @@ private:
 			Eigen::Vector3d v0 = transform.translate(verts[tris[i]]);
 			Eigen::Vector3d v1 = transform.translate(verts[tris[i + 1]]);
 			Eigen::Vector3d v2 = transform.translate(verts[tris[i + 2]]);
-			trianglePointers.push_back(new Triangle(v0, v1, v2));
+			trianglePointers.push_back(new Triangle(v0, v1, v2, uv[tris[i]], uv[tris[i+1]], uv[tris[i+2]]));
 		}
 
 		node = KDNode::build(trianglePointers, 0);
@@ -89,12 +90,19 @@ public:
 
 	_Transform transform;
 	Animator animator;
+
 	Eigen::Vector3d* verts;
+	int vertCount;
+
 	int* tris;
 	int triCount;
-	SDL_Color color;
+
+	Eigen::Vector2d* uv;
+	int uvCount;
+
 	Material mat;
-	int vertCount;
+	Texture texture;
+	
 
 	/*bool intersects(Ray ray, RaycastHit* hit)
 	{
@@ -141,8 +149,21 @@ public:
 	bool intersects(Ray ray, RaycastHit* hit, double& t, double& tmin) {
 		double u = 0;
 		double v = 0;
-		if (KDNode::hit(node, ray, t, u, v, tmin, hit)) {
+		double umin = 0;
+		double vmin = 0;
+		if (KDNode::hit(node, ray, t, u, v, umin, vmin, tmin, hit)) {
 			hit->mesh = this;
+			//std::cout << "Getting UV pos" << std::endl;
+
+			//Eigen::Vector2d uvPos = triangle->getUV(umin, vmin);
+			Eigen::Vector2d uvPos = hit->uv0;
+			uvPos += (hit->uv1 - hit->uv0) * umin;
+			uvPos += (hit->uv2 - hit->uv0) * vmin;
+
+			//std::cout << "U: " << uvPos.x() << std::endl;
+			//std::cout << "V: " << uvPos.y() << std::endl;
+			Eigen::Vector3f color = this->mat.color.cwiseProduct(texture.getPixel(uvPos[0], uvPos[1]));
+			hit->color = color;
 			return true;
 		}
 		return false;
@@ -155,23 +176,9 @@ public:
 		calculateBounds();
 	}
 
-	Mesh(Eigen::Vector3d* _verts,int _vertscount, int * _triangles, int _triangleCount, _Transform _transform, SDL_Color c)
-	{
-		mat = Material();
-		color = c;
-		verts = _verts;
-		transform = _transform;
-		//max = Eigen::Vector3d(-INFINITY, -INFINITY, -INFINITY);
-		//min = Eigen::Vector3d(+INFINITY, +INFINITY, +INFINITY);
-		tris = _triangles;
-		triCount = _triangleCount;
-		_vertscount = _vertscount;
-		calculateBounds();
-	}
-	Mesh(Eigen::Vector3d* _verts,int _vertCount, int * _triangles, int _triangleCount, _Transform _transform, Material material)
+	Mesh(Eigen::Vector3d* _verts,int _vertCount, Eigen::Vector2d* _uv, int _uvCount, int * _triangles, int _triangleCount, _Transform _transform, Material material, Texture _texture)
 	{
 		mat = material;
-		color = material.color;
 		verts = _verts;
 		transform = _transform;
 		//max = Eigen::Vector3d(-INFINITY, -INFINITY, -INFINITY);
@@ -179,13 +186,18 @@ public:
 		tris = _triangles;
 		triCount = _triangleCount;
 		vertCount = _vertCount;
+
+		uv = _uv;
+		uvCount = _uvCount;
+
+		texture = _texture;
+
 		calculateBounds();
 	}
 
-	Mesh(Eigen::Vector3d* _verts, int _vertCount, int * _triangles, int _triangleCount, Animator _animator, Material material)
+	Mesh(Eigen::Vector3d* _verts, int _vertCount, Eigen::Vector2d* _uv, int _uvCount, int * _triangles, int _triangleCount, Animator _animator, Material material, Texture _texture)
 	{
 		mat = material;
-		color = material.color;
 		verts = _verts;
 		animator = _animator;
 		transform = animator.getFrame(0);
@@ -193,6 +205,12 @@ public:
 		//min = Eigen::Vector3d(+INFINITY, +INFINITY, +INFINITY);
 		tris = _triangles;
 		triCount = _triangleCount;
+
+		uv = _uv;
+		uvCount = _uvCount;
+
+		texture = _texture;
+
 		vertCount = _vertCount;
 		calculateBounds();
 	}

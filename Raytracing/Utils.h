@@ -88,9 +88,9 @@ public:
 	}
 
 	static Eigen::Vector3f clampColor(Eigen::Vector3f input) {
-		input[0] = input[0] < 0 ? 0 : (input[0] > 255 ? 255 : input[0]);
-		input[1] = input[1] < 0 ? 0 : (input[1] > 255 ? 255 : input[1]);
-		input[2] = input[2] < 0 ? 0 : (input[2] > 255 ? 255 : input[2]);
+		input[0] = input[0] < 0.0f ? 0 : (input[0] > 1.0f ? 1.0f : input[0]);
+		input[1] = input[1] < 0.0f ? 0 : (input[1] > 1.0f ? 1.0f : input[1]);
+		input[2] = input[2] < 0.0f ? 0 : (input[2] > 1.0f ? 1.0f : input[2]);
 		return input;
 	}
 

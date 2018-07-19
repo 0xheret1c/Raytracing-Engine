@@ -27,6 +27,7 @@
     <ClInclude Include="BoundingBox.h" />
     <ClInclude Include="KDNode.h" />
     <ClInclude Include="Triangle.h" />
+    <ClInclude Include="Texture.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Raytracing.rc" />

@@ -154,6 +154,7 @@
     <ClInclude Include="resource.h" />
     <ClInclude Include="resource1.h" />
     <ClInclude Include="Scene.h" />
+    <ClInclude Include="Texture.h" />
     <ClInclude Include="Triangle.h" />
     <ClInclude Include="_Transform.h" />
     <ClInclude Include="Utils.h" />

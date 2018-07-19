@@ -5,7 +5,7 @@
 #include <iostream>
 #include "./Core.h"
 #include "Light.h"
-#include "Primitive.h"
+//#include "Primitive.h"
 #include "Material.h"
 #include "e_colors.h"
 #include "Renderer.h"

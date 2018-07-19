@@ -8,6 +8,10 @@ private:
 	Eigen::Vector3d v2;
 
 public:
+
+	Eigen::Vector2d uv0;
+	Eigen::Vector2d uv1;
+	Eigen::Vector2d uv2;
 	//EIGEN_MAKE_ALIGNED_OPERATOR_NEW;
 	Eigen::Vector3d n;
 
@@ -47,19 +51,40 @@ public:
 		return false;
 	}
 
-	Triangle(Eigen::Vector3d _v0, Eigen::Vector3d _v1, Eigen::Vector3d _v2)
+	Triangle(Eigen::Vector3d _v0, Eigen::Vector3d _v1, Eigen::Vector3d _v2, Eigen::Vector2d _uv0, Eigen::Vector2d _uv1, Eigen::Vector2d _uv2)
 	{
 		v0 = _v0;
 		v1 = _v1;
 		v2 = _v2;
+
+		uv0 = _uv0;
+		uv1 = _uv1;
+		uv2 = _uv2;
+
 		n = (v1 - v0).cross(v2 - v0).normalized();
 	}
+
 	Triangle()
 	{
 		v0 = Eigen::Vector3d(0, 0, 1);
 		v1 = Eigen::Vector3d(0, 0, 2);
 		v2 = Eigen::Vector3d(0, 0, 3);
+
+		/*uv0 = Eigen::Vector2d(0, 0);
+		uv1 = Eigen::Vector2d(0, 0);
+		uv2 = Eigen::Vector2d(0, 0);*/
+
 		n = (v1 - v0).cross(v2 - v0).normalized();
+	}
+
+	Eigen::Vector2d getUV(double u, double v) {
+		/*Eigen::Vector2d pos = uv0;
+		pos += (uv1 - uv0) * u;
+		pos += (uv2 - uv0) * v;*/
+		std::cout << "UV: " << this->uv0 << std::endl;
+		return uv0;
+
+		//return Eigen::Vector2d(uv0 + (uv0 - uv1) * u, uv0 + (uv0 - uv2) * v);
 	}
 
 	Eigen::Vector3d get_midpoint() {

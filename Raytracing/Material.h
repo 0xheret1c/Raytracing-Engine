@@ -14,9 +14,9 @@ public:
 	unsigned int amount = 0;
 
 	bool hasGloss = false;
-	SDL_Color color;
+	Eigen::Vector3f color;
 
-	Material(SDL_Color _color, double _reflectiveness, double _gloss)
+	Material(Eigen::Vector3f _color, double _reflectiveness, double _gloss)
 	{
 		color = _color;
 		reflectiveness = _reflectiveness;
@@ -30,14 +30,14 @@ public:
 			angle = gloss * 5;
 		}
 	}
-	Material(SDL_Color _color, double _reflectiveness)
+	Material(Eigen::Vector3f _color, double _reflectiveness)
 	{
 		color = _color;
 		reflectiveness = _reflectiveness;
 	}
 	Material()
 	{
-		color = Utils::getColor(e_Colors::magenta);
+		//color = Utils::getColor(e_Colors::magenta);
 	}
 
 	static Material importFromRTMAT();

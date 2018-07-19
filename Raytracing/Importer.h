@@ -173,23 +173,55 @@ public:
 					//std::cout << __verts[vert].x() << ", " << __verts[vert].y() << ", " << __verts[vert].z() << std::endl;
 				}
 
-				int r = 0;
-				int g = 0;
-				int b = 0;
+				int uvCount = 0;
+				fstr.read(reinterpret_cast<char*>(&uvCount), sizeof(int));
+				Eigen::Vector2d* __uv = new Eigen::Vector2d[uvCount];
+				std::cout << "Uv: " << uvCount << std::endl;
+				
+				for (int uv = 0; uv < uvCount; uv++) {
+					fstr.read(reinterpret_cast<char*>(&x), sizeof(float));
+					fstr.read(reinterpret_cast<char*>(&y), sizeof(float));
+					__uv[uv] = Eigen::Vector2d(x, y);
+				}
+
+				float r = 0;
+				float g = 0;
+				float b = 0;
 				float metallic = 0;
 				float gloss = 0;
-				fstr.read(reinterpret_cast<char*>(&r), sizeof(int));
-				fstr.read(reinterpret_cast<char*>(&g), sizeof(int));
-				fstr.read(reinterpret_cast<char*>(&b), sizeof(int));
+				fstr.read(reinterpret_cast<char*>(&r), sizeof(float));
+				fstr.read(reinterpret_cast<char*>(&g), sizeof(float));
+				fstr.read(reinterpret_cast<char*>(&b), sizeof(float));
 				fstr.read(reinterpret_cast<char*>(&metallic), sizeof(float));
 				fstr.read(reinterpret_cast<char*>(&gloss), sizeof(float));
 
 				std::cout << "Gloss: " << gloss << std::endl;
 
-				SDL_Color col = { r, g, b };
+				int texWidth = 0;
+				int texHeight = 0;
+				fstr.read(reinterpret_cast<char*>(&texWidth), sizeof(int));
+				fstr.read(reinterpret_cast<char*>(&texHeight), sizeof(int));
+
+				std::cout << "Texture Width: " << texWidth << std::endl;
+				std::cout << "Texture Height: " << texHeight << std::endl;
+
+				Eigen::Vector3f** texture_color_map = new Eigen::Vector3f*[texWidth];
+				for (int w = 0; w < texWidth; w++) {
+					texture_color_map[w] = new Eigen::Vector3f[texHeight];
+					for (int h = 0; h < texHeight; h++) {
+						fstr.read(reinterpret_cast<char*>(&x), sizeof(float));
+						fstr.read(reinterpret_cast<char*>(&y), sizeof(float));
+						fstr.read(reinterpret_cast<char*>(&z), sizeof(float));
+						texture_color_map[w][h] = Eigen::Vector3f(x, y, z);
+					}
+				}
+				Texture tex = Texture(texWidth, texHeight, texture_color_map);
+
+				Eigen::Vector3f col = Eigen::Vector3f(r, g, b);
+				std::cout << "color: {" << r << ", " << g << ", " << b << "}" << std::endl;
 				Material m = Material(col, metallic, gloss);
 
-				Mesh mesh(__verts, verticeCount, __triangles, triangleCount, animator, m);
+				Mesh mesh(__verts, verticeCount, __uv, uvCount, __triangles, triangleCount, animator, m, tex);
 				//meshes[i] = mesh;
 				meshes.push_back(mesh);
 

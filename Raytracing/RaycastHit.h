@@ -15,15 +15,17 @@ public:
 	Eigen::Vector3d point;
 	Eigen::Vector3d n;
 	double intensity = 0;
-	SDL_Color color;
+	Eigen::Vector3f color;
+
+	Eigen::Vector2d uv0;
+	Eigen::Vector2d uv1;
+	Eigen::Vector2d uv2;
 
 	RaycastHit()
 	{
-		color.a = 0xFF;
-		color.r = 0x00;
-		color.g = 0x00;
-		color.b = 0x00;
+		color = Eigen::Vector3f(0, 0, 0);
 	}
+
 	RaycastHit(Mesh* _mesh, Eigen::Vector3d _point, Eigen::Vector3d _n)
 	{
 		mesh = _mesh;
@@ -31,9 +33,6 @@ public:
 		point = _point;
 		//triangleObject = *triangle;
 		n = _n;
-		color.a = 0xFF;
-		color.r = 0x00;
-		color.g = 0x00;
-		color.b = 0x00;
+		color = Eigen::Vector3f(0, 0, 0);
 	}
 };
