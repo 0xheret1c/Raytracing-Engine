@@ -17,7 +17,7 @@ private:
 	std::vector<Mesh> meshes;
 	std::vector<Light> lights;
 public:
-	double globalIllumination = 0.45;
+	double globalIllumination = 0.2;
 	//EIGEN_MAKE_ALIGNED_OPERATOR_NEW;
 
 	Camera camera;
@@ -59,9 +59,10 @@ public:
 		Ray ray = Ray(origin, -light.transform.forward(), this);
 		if (intersects(ray, &hit))
 		{
-			return Our_math::clamp01((normal.dot(light.transform.forward()) * -1) * globalIllumination);
+			return (1.0 - Our_math::clamp01(normal.dot(light.transform.forward()))) * globalIllumination;
 		}
-		return Our_math::clamp01((normal.dot(light.transform.forward()) * -1) + globalIllumination);
+
+		return Our_math::clamp01(normal.dot(-light.transform.forward())) * (1.0 - globalIllumination) + globalIllumination;
 	}
 
 	double getIllumination(Eigen::Vector3d point, Eigen::Vector3d normal)

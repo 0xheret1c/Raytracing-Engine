@@ -96,8 +96,17 @@ public:
 		return node;
 	}
 
-	static bool hit(KDNode* node, Ray& ray, double& t, double &u, double &v, double &umin, double &vmin, double& tmin, RaycastHit *hit) {
+	static bool hit(KDNode* node, Ray& ray, double& t, double &u, double &v, double &umin, double &vmin, double& tmin, double &minCheck, RaycastHit *hit) {
 		if (node->bbox.intersects(ray)) {
+			//std::cout << t << std::endl;
+			/*Eigen::Vector3d direction = (node->bbox.midPoint() - ray.origin);
+			direction += direction.normalized();
+			double distance = direction.dot(ray.direction);
+			if (distance > tmin) {
+				return false;
+			}*/
+
+			//tmin = distance;
 			//std::cout << "HIT BOUNDING BOX" << std::endl;
 			bool hit_tri = false;
 			
@@ -106,8 +115,8 @@ public:
 				double tmin2 = tmin;
 				RaycastHit hit1;
 				RaycastHit hit2;*/
-				bool hitleft = KDNode::hit(node->left, ray, t, u, v, umin, vmin, tmin, hit);
-				bool hitright = KDNode::hit(node->right, ray, t, u, v, umin, vmin, tmin, hit);
+				bool hitleft = KDNode::hit(node->left, ray, t, u, v, umin, vmin, tmin, minCheck, hit);
+				bool hitright = KDNode::hit(node->right, ray, t, u, v, umin, vmin, tmin, minCheck, hit);
 
 				//tmin = min(tmin1, tmin2);
 				/*if (tmin1 < tmin2) {
@@ -129,9 +138,16 @@ public:
 							hit_tri = true;
 							tmin = t;
 							hit->point = ray.origin + t * ray.direction;
-							hit->n = node->triangles[i]->n;
 							umin = u;
 							vmin = v;
+							//hit->n = node->triangles[i]->n;
+
+							//hit->n = node->triangles[i]->getNormal(umin, vmin);
+
+							hit->n0 = node->triangles[i]->n0;
+							hit->n1 = node->triangles[i]->n1;
+							hit->n2 = node->triangles[i]->n2;
+
 							hit->uv0 = node->triangles[i]->uv0;
 							hit->uv1 = node->triangles[i]->uv1;
 							hit->uv2 = node->triangles[i]->uv2;

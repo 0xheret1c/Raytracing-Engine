@@ -6,6 +6,7 @@ private:
 public:
 	Eigen::Vector3d minPoint;
 	Eigen::Vector3d maxPoint;
+	double radius = 0;
 
 	BoundingBox() {
 
@@ -14,6 +15,7 @@ public:
 	BoundingBox(Eigen::Vector3d origin) {
 		minPoint = origin;
 		maxPoint = origin;
+		radius = 0;
 	}
 
 	void expand(Eigen::Vector3d &pos) {
@@ -24,6 +26,8 @@ public:
 		maxPoint[0] = max(pos.x(), maxPoint.x());
 		maxPoint[1] = max(pos.y(), maxPoint.y());
 		maxPoint[2] = max(pos.z(), maxPoint.z());
+
+		radius = (midPoint() - maxPoint).norm();
 	}
 
 	void expand(BoundingBox box) {

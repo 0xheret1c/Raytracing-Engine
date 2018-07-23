@@ -172,6 +172,21 @@ public:
 					__verts[vert] = Eigen::Vector3d(x, y, z);
 					//std::cout << __verts[vert].x() << ", " << __verts[vert].y() << ", " << __verts[vert].z() << std::endl;
 				}
+				
+				//Get Normals
+				int normalCount = 0;
+				fstr.read(reinterpret_cast<char*>(&normalCount), sizeof(int));
+				Eigen::Vector3d* __normals = new Eigen::Vector3d[normalCount];
+				std::cout << "Vertices: " << normalCount << std::endl;
+
+				for (int norm = 0; norm < normalCount; norm++)
+				{
+					fstr.read(reinterpret_cast<char*>(&x), sizeof(float));
+					fstr.read(reinterpret_cast<char*>(&y), sizeof(float));
+					fstr.read(reinterpret_cast<char*>(&z), sizeof(float));
+					__normals[norm] = Eigen::Vector3d(x, y, z);
+					//std::cout << __verts[vert].x() << ", " << __verts[vert].y() << ", " << __verts[vert].z() << std::endl;
+				}
 
 				int uvCount = 0;
 				fstr.read(reinterpret_cast<char*>(&uvCount), sizeof(int));
@@ -221,7 +236,7 @@ public:
 				std::cout << "color: {" << r << ", " << g << ", " << b << "}" << std::endl;
 				Material m = Material(col, metallic, gloss);
 
-				Mesh mesh(__verts, verticeCount, __uv, uvCount, __triangles, triangleCount, animator, m, tex);
+				Mesh mesh(__verts, verticeCount, __normals, normalCount, __uv, uvCount, __triangles, triangleCount, animator, m, tex);
 				//meshes[i] = mesh;
 				meshes.push_back(mesh);
 

@@ -75,6 +75,10 @@ public:
 		return (rotationMatrix * vector.cwiseProduct(scale)) + position;
 	}
 
+	Eigen::Vector3d rotate(Eigen::Vector3d vector) {
+		return rotationMatrix * vector;
+	}
+
 	void Rotate(Eigen::Vector3d rotation) {
 		this->rotation *= Eigen::AngleAxisd(rotation.y() * (M_PI) / 180, Eigen::Vector3d::UnitY())
 						* Eigen::AngleAxisd(rotation.x() * (M_PI) / 180, Eigen::Vector3d::UnitX())

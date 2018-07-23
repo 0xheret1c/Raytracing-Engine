@@ -79,7 +79,12 @@ private:
 			Eigen::Vector3d v0 = transform.translate(verts[tris[i]]);
 			Eigen::Vector3d v1 = transform.translate(verts[tris[i + 1]]);
 			Eigen::Vector3d v2 = transform.translate(verts[tris[i + 2]]);
-			trianglePointers.push_back(new Triangle(v0, v1, v2, uv[tris[i]], uv[tris[i+1]], uv[tris[i+2]]));
+
+			Eigen::Vector3d n0 = transform.rotate(normals[tris[i]]);
+			Eigen::Vector3d n1 = transform.rotate(normals[tris[i+1]]);
+			Eigen::Vector3d n2 = transform.rotate(normals[tris[i+2]]);
+
+			trianglePointers.push_back(new Triangle(v0, v1, v2, uv[tris[i]], uv[tris[i+1]], uv[tris[i+2]], n0, n1, n2));
 		}
 
 		node = KDNode::build(trianglePointers, 0);
@@ -96,6 +101,9 @@ public:
 
 	int* tris;
 	int triCount;
+
+	Eigen::Vector3d* normals;
+	int normalCount;
 
 	Eigen::Vector2d* uv;
 	int uvCount;
@@ -151,7 +159,8 @@ public:
 		double v = 0;
 		double umin = 0;
 		double vmin = 0;
-		if (KDNode::hit(node, ray, t, u, v, umin, vmin, tmin, hit)) {
+		double minCheck = INFINITY;
+		if (KDNode::hit(node, ray, t, u, v, umin, vmin, tmin, minCheck, hit)) {
 			hit->mesh = this;
 			//std::cout << "Getting UV pos" << std::endl;
 
@@ -159,11 +168,16 @@ public:
 			Eigen::Vector2d uvPos = hit->uv0;
 			uvPos += (hit->uv1 - hit->uv0) * umin;
 			uvPos += (hit->uv2 - hit->uv0) * vmin;
-
 			//std::cout << "U: " << uvPos.x() << std::endl;
 			//std::cout << "V: " << uvPos.y() << std::endl;
 			Eigen::Vector3f color = this->mat.color.cwiseProduct(texture.getPixel(uvPos[0], uvPos[1]));
+
 			hit->color = color;
+
+			Eigen::Vector3d n = hit->n0;
+			n += (hit->n1 - hit->n0) * umin;
+			n += (hit->n2 - hit->n0) * vmin;
+			hit->n = n.normalized();
 			return true;
 		}
 		return false;
@@ -176,7 +190,7 @@ public:
 		calculateBounds();
 	}
 
-	Mesh(Eigen::Vector3d* _verts,int _vertCount, Eigen::Vector2d* _uv, int _uvCount, int * _triangles, int _triangleCount, _Transform _transform, Material material, Texture _texture)
+	Mesh(Eigen::Vector3d* _verts,int _vertCount, Eigen::Vector3d* _normals, int _normalCount, Eigen::Vector2d* _uv, int _uvCount, int * _triangles, int _triangleCount, _Transform _transform, Material material, Texture _texture)
 	{
 		mat = material;
 		verts = _verts;
@@ -192,10 +206,13 @@ public:
 
 		texture = _texture;
 
+		normals = _normals;
+		normalCount = _normalCount;
+
 		calculateBounds();
 	}
 
-	Mesh(Eigen::Vector3d* _verts, int _vertCount, Eigen::Vector2d* _uv, int _uvCount, int * _triangles, int _triangleCount, Animator _animator, Material material, Texture _texture)
+	Mesh(Eigen::Vector3d* _verts, int _vertCount, Eigen::Vector3d* _normals, int _normalCount, Eigen::Vector2d* _uv, int _uvCount, int * _triangles, int _triangleCount, Animator _animator, Material material, Texture _texture)
 	{
 		mat = material;
 		verts = _verts;
@@ -210,6 +227,9 @@ public:
 		uvCount = _uvCount;
 
 		texture = _texture;
+
+		normals = _normals;
+		normalCount = _normalCount;
 
 		vertCount = _vertCount;
 		calculateBounds();

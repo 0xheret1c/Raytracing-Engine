@@ -21,6 +21,10 @@ public:
 	Eigen::Vector2d uv1;
 	Eigen::Vector2d uv2;
 
+	Eigen::Vector3d n0;
+	Eigen::Vector3d n1;
+	Eigen::Vector3d n2;
+
 	RaycastHit()
 	{
 		color = Eigen::Vector3f(0, 0, 0);

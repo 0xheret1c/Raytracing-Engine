@@ -12,6 +12,11 @@ public:
 	Eigen::Vector2d uv0;
 	Eigen::Vector2d uv1;
 	Eigen::Vector2d uv2;
+
+	Eigen::Vector3d n0;
+	Eigen::Vector3d n1;
+	Eigen::Vector3d n2;
+
 	//EIGEN_MAKE_ALIGNED_OPERATOR_NEW;
 	Eigen::Vector3d n;
 
@@ -51,7 +56,7 @@ public:
 		return false;
 	}
 
-	Triangle(Eigen::Vector3d _v0, Eigen::Vector3d _v1, Eigen::Vector3d _v2, Eigen::Vector2d _uv0, Eigen::Vector2d _uv1, Eigen::Vector2d _uv2)
+	Triangle(Eigen::Vector3d _v0, Eigen::Vector3d _v1, Eigen::Vector3d _v2, Eigen::Vector2d _uv0, Eigen::Vector2d _uv1, Eigen::Vector2d _uv2, Eigen::Vector3d _n0, Eigen::Vector3d _n1, Eigen::Vector3d _n2)
 	{
 		v0 = _v0;
 		v1 = _v1;
@@ -60,6 +65,10 @@ public:
 		uv0 = _uv0;
 		uv1 = _uv1;
 		uv2 = _uv2;
+
+		n0 = _n0;
+		n1 = _n1;
+		n2 = _n2;
 
 		n = (v1 - v0).cross(v2 - v0).normalized();
 	}
@@ -83,6 +92,15 @@ public:
 		pos += (uv2 - uv0) * v;*/
 		std::cout << "UV: " << this->uv0 << std::endl;
 		return uv0;
+
+		//return Eigen::Vector2d(uv0 + (uv0 - uv1) * u, uv0 + (uv0 - uv2) * v);
+	}
+
+	Eigen::Vector3d getNormal(double u, double v) {
+		Eigen::Vector3d pos = n0;
+		pos += (n1 - n0) * u;
+		pos += (n2 - n0) * v;
+		return pos.normalized();
 
 		//return Eigen::Vector2d(uv0 + (uv0 - uv1) * u, uv0 + (uv0 - uv2) * v);
 	}

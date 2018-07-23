@@ -111,11 +111,21 @@ public:
 
 		//SDL_Color** returnArray;
 		//returnArray = new SDL_Color*[scene->camera.width];
+
+		if (OffsetX + WIDTH > scene->camera.width) {
+			WIDTH = scene->camera.width - OffsetX;
+		}
+
+		if (OffsetY + HEIGHT > scene->camera.height) {
+			HEIGHT = scene->camera.height - OffsetY;
+		}
+
 		for (size_t x = OffsetX; x < OffsetX + WIDTH; x++)
 		{
 			//returnArray[x] = new SDL_Color[scene->camera.height];
 			for (size_t y = OffsetY; y < OffsetY + HEIGHT; y++)
 			{
+
 				returnArray[x][scene->camera.height - y - 1] = SDL_Color();
 				returnArray[x][scene->camera.height - y - 1].r = 0;
 				returnArray[x][scene->camera.height - y - 1].g = 0;
@@ -198,14 +208,14 @@ public:
 			size_t percent = (size_t)(((float)tracedPixel / (float)pixelToTrace) * 100);
 			if (percent % 1 == 0 && percent != lastPercent)
 			{
-				float timePassedSecs = float(clock() - begin_time) / CLOCKS_PER_SEC;
+				/*float timePassedSecs = float(clock() - begin_time) / CLOCKS_PER_SEC;
 				lastPercent = percent;
 				float timeRemaining = (100 - percent) * (timePassedSecs / (percent));
 				std::cout << "Traced " << percent << "% "
 					<< tracedPixel << "/" << pixelToTrace << " pixels traced. "
 					<< tracedPixel * (densitysqr) << "/" << pixelToTrace * (densitysqr) << " rays casted."
 					<< " Est. Time Remaining: " << timeRemaining << " seconds."
-					<< std::endl;
+					<< std::endl;*/
 			}
 		}
 		/*float timePassedSecs = float(clock() - begin_time) / CLOCKS_PER_SEC;
@@ -230,18 +240,44 @@ public:
 		std::cout << "Started tracing... this might take a while!" << std::endl;
 		const clock_t begin_time = clock();
 
+		int chunksX = 16;
+		int chunksY = 16;
+
+		size_t lastPercent = 0;
+
 		int threadCount = 4;
+
+		size_t chunksToTrace = chunksX * chunksY * threadCount;
+		size_t tracedChunks = 0;
+
+		int chunkWidth = ((scene->camera.width + chunksX - 1) / chunksX);
+		int chunkHeight = ((scene->camera.height + chunksY - 1) / chunksY);
+
 		std::thread* threads = new std::thread[threadCount];
 
-		for (int i = 0; i < threadCount; i++) {
-			threads[i] = std::thread(&render, returnArray, scene, scene->camera.width / threadCount, scene->camera.height, (scene->camera.width / threadCount) * i, 0);
-		}
+		for (int x = 0; x < chunksX; x++) {
+			for (int y = 0; y < chunksY; y++) {
+				
+				for (int i = 0; i < threadCount; i++) {
+					threads[i] = std::thread(&render, returnArray, scene, (chunkWidth + threadCount - 1) / threadCount, chunkHeight, chunkWidth * x + (((chunkWidth + threadCount - 1) / threadCount) * i), chunkHeight * y);
+				}
 
-		for (int i = 0; i < threadCount; i++) {
-			threads[i].join();
-			//out->printScreen();
-			float timePassedSecs = float(clock() - begin_time) / CLOCKS_PER_SEC;
-			std::cout << "Thread " << i << " finished in " << timePassedSecs << " seconds / " << 1 / timePassedSecs << " FPS." << std::endl;
+				for (int i = 0; i < threadCount; i++) {
+					threads[i].join();
+					tracedChunks++;
+					//out->printScreen();
+					/*float timePassedSecs = float(clock() - begin_time) / CLOCKS_PER_SEC;
+					std::cout << "Thread " << i << " finished in " << timePassedSecs << " seconds / " << 1 / timePassedSecs << " FPS." << std::endl;*/
+					size_t percent = (size_t)(((float)tracedChunks / (float)chunksToTrace) * 100);
+					float timePassedSecs = float(clock() - begin_time) / CLOCKS_PER_SEC;
+					lastPercent = percent;
+					float timeRemaining = (100 - percent) * (timePassedSecs / (percent));
+					std::cout << "Traced " << percent << "% "
+						<< tracedChunks << "/" << chunksToTrace << " chunks traced. "
+						<< " Est. Time Remaining: " << timeRemaining << " seconds."
+						<< std::endl;
+				}
+			}
 		}
 
 		/*std::thread t1 = std::thread(&render, returnArray, scene, scene->camera.width, scene->camera.height, 0, 0);
